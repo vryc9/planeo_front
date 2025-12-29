@@ -1,5 +1,4 @@
 import { HttpContextToken, HttpEventType, HttpInterceptorFn } from '@angular/common/http';
-import { tap } from 'rxjs';
 import { inject } from '@angular/core';
 import { TokenService } from '../service/token.service';
 
@@ -15,3 +14,4 @@ export const authInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   }
   return next(req);
 };
+

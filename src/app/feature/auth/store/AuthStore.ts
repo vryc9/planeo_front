@@ -1,44 +1,58 @@
 import { mapResponse, tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { pipe, switchMap } from 'rxjs';
+import { pipe, switchMap, tap } from 'rxjs';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { withEntities } from '@ngrx/signals/entities';
-import { Login } from '../types/login';
 import { TokenService } from '../service/token.service';
 import { AuthService } from '../service/auth-service.service';
 import { Events, on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { AuthEvent } from './AuthEvent';
+import { User } from '../types/user';
+import { Router, RoutesRecognized } from '@angular/router';
 
 interface AuthState {
-  token : string,
+  userConnected: User | null
   isLoading: boolean,
 }
-
 export const AuthStore = signalStore(
-  { providedIn: 'root' },
-  withState<AuthState>({ token: '', isLoading: false },
-  ),
+  withState<AuthState>({ userConnected: null, isLoading: false }),
   withReducer(
-    on(AuthEvent.authentification, (state) => ({ ...state, isLoading: true })),
-    on(AuthEvent.authentificationSuccess, (state, { token }) => ({ ...state, token, isLoading: false })),
-    on(AuthEvent.authentificationFailure, (state) => ({ ...state, isLoading: false }))
+    on(AuthEvent.authentification, (_) => ({ isLoading: true })),
+    on(AuthEvent.authentificationSuccess, (_) => ({ isLoading: false })),
+    on(AuthEvent.getCurrentUserSuccess, ({ payload }) => ({ userConnected: payload.user }))
   ),
   withEventHandlers(
-    (_, {on} = inject(Events), service = inject(AuthService), tokenService = inject(TokenService), router = inject(Router)) => ({
-      authentification$: on(AuthEvent.authentification).pipe(
-        switchMap(({payload}) => service.login(payload.username, payload.password).pipe(
-          mapResponse({
-            next: (response) => {
-              tokenService.setToken(response.token);
-              router.navigate(['/dashboard']);
-              return AuthEvent.authentificationSuccess({token: response.token});
-            },
-            error: (error) => AuthEvent.authentificationFailure({error}),
-          })
-        ))
-      ),
-    })
+    () => {
+      const events = inject(Events);
+      const service = inject(AuthService);
+      const tokenService = inject(TokenService);
+      const router = inject(Router)
+      return {
+        authentification$: events.on(AuthEvent.authentification).pipe(
+          switchMap(({ payload }) =>
+            service.login(payload.username, payload.password).pipe(
+              mapResponse({
+                next: (response) => {
+                  tokenService.setToken(response.token);
+                  return AuthEvent.authentificationSuccess({ token: response.token });
+                },
+                error: (error) =>
+                  AuthEvent.authentificationFailure({ error }),
+              })
+            )
+          )
+        ),
+        getCurrentUser$: events.on(AuthEvent.authentificationSuccess).pipe(
+          switchMap(() => service.getConnectedUser().pipe(
+            mapResponse({
+              next: (user) => {
+                router.navigate(['dashboard']);
+                return AuthEvent.getCurrentUserSuccess({ user })
+              },
+              error: (error) => AuthEvent.authentificationFailure({ error })
+            })
+          ))
+        )
+      };
+    }
   )
 )
