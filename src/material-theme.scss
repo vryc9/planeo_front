@@ -6,13 +6,6 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
-:root {
-  @include mat.icon-overrides((
-    height: 15px,
-    width : 15px
-  ));
-}
-
 html {
   height: 100%;
   @include mat.theme((
