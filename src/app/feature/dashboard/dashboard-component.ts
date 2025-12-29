@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AuthStore } from '../auth/store/AuthStore';
+import { SidebarComponent } from "./components/sidebar-component/sidebar-component";
 
 @Component({
   selector: 'app-dashboard-component',
-  imports: [],
+  imports: [SidebarComponent],
   templateUrl: './dashboard-component.html',
   styleUrl: './dashboard-component.css',
 })

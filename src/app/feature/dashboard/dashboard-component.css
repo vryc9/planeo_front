@@ -1,0 +1,10 @@
+.dashboard-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidebar {
+  margin-left: 31px;
+  margin-top: 45px;
+  width: 246.5px;
+}

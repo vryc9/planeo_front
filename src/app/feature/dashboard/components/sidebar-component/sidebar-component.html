@@ -1,0 +1,15 @@
+<div class="sidebar-container">
+  @for (menu of menuItems(); track $index) {
+  <div (click)="toggleActive(menu)" [ngClass]="{'isActive' : menu.isActive
+    }" class="menu-items">
+    <div class="items">
+      <span [ngClass]="{
+          'svgActive' : menu.isActive
+        }" class="svgIcon">
+        <mat-icon class="size" [fontIcon]="menu.icon!"></mat-icon>
+      </span>
+      <p>{{menu.text}}</p>
+    </div>
+  </div>
+  }
+</div>
