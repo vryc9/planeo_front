@@ -9,6 +9,7 @@ import { NgComponentOutlet } from '@angular/common';
 import { DashboardViewEnum } from './enum/DashboardViewEnum';
 import { ExpenseComponent } from '../expenses/expense-component';
 import { DashboardComponent } from './components/dashboard-component/dashboard-component';
+import { InvestmentComponent } from '../investment/investment-component';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -22,12 +23,13 @@ export class DashboardContainerComponent {
   readonly dispatch = injectDispatch(DashboardEvents);
 
   private readonly components: Record<DashboardViewEnum, Type<unknown>> = {
-    [DashboardViewEnum.DASHBOARD] : DashboardComponent,
+    [DashboardViewEnum.DASHBOARD]: DashboardComponent,
     [DashboardViewEnum.CALENDAR]: CalendarComponent,
     [DashboardViewEnum.EXPENSE]: ExpenseComponent,
+    [DashboardViewEnum.INVESTMENT]: InvestmentComponent
   };
 
-   readonly currentComponent = () =>
+  readonly currentComponent = () =>
     this.components[this.store.currentView()];
 
 }

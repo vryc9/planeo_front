@@ -32,6 +32,11 @@ export class SidebarComponent {
       view:  DashboardViewEnum.EXPENSE,
       isActive: false,
       icon: "euro"
+    },
+    {
+      view:  DashboardViewEnum.INVESTMENT,
+      isActive: false,
+      icon: "attach_money"
     }
   ]);
 
