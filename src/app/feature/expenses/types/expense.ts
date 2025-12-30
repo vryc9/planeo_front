@@ -1,11 +1,12 @@
 export interface Expense {
-  id: number,
+  id?: number,
   amount: number,
-  Tag: Tag,
+  tag: Tag,
   date: Date,
   label: string
 }
 
 export enum Tag {
-  SOIREE
+  SOIREE,
+  RESTAURANT
 }

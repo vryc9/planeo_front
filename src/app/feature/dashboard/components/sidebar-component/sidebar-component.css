@@ -1,5 +1,5 @@
 .sidebar-container {
-  gap: 24px;
+  gap: 8px;
   display: flex;
   flex-direction: column;
 }
@@ -8,15 +8,23 @@
   width: 219.5px;
   padding: 12px 0;
   border-radius: 15px;
-  color: #A0AEC0;
+  color: #a0aec0;
   cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 1px solid transparent;
+}
+
+.menu-items:hover:not(.isActive) {
+  background-color: #f7fafc;
+  color: #718096;
 }
 
 .isActive {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   font-weight: bold;
   color: black;
   background-color: #ffffff;
+  transform: translateX(5px);
 }
 
 .svgIcon {
@@ -29,6 +37,7 @@
   background-color: #ffffff;
   color: #4fd1c5;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .svgActive {

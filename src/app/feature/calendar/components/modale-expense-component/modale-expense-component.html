@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Créer une dépense</h2>
+<mat-dialog-content class="mat-typography">
+  <form (submit)="onSubmit($event)">
+    <div class="line-form">
+      <div class="input-group">
+        <label class="label">Tag</label>
+        <div class="custom-select-wrapper">
+          <div class="input select-trigger" [class.open]="isOpen()" (click)="toggleDropdown()">
+            <span>{{ selectedLabel() }}</span>
+            <svg class="arrow" width="12" height="12" viewBox="0 0 16 16">
+              <path fill="none" stroke="#343a40" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2 5l6 6 6-6" />
+            </svg>
+          </div>
+          @if (isOpen()) {
+          <div class="options-container">
+            @for (option of tagOptions(); track option.id) {
+            <div class="option-item" (click)="selectOption(option.id, option.label)">
+              {{ option.label }}
+            </div>
+            }
+          </div>
+          }
+        </div>
+        <div></div>
+      </div>
+
+      <div class="input-group">
+        <label class="label">Libellé</label>
+        <input [field]="form.label" autocomplete="off" id="password" class="input" type="string">
+        <div></div>
+      </div>
+
+    </div>
+
+    <div class="line-form">
+      <div class="input-group">
+        <label for="date" class="label">Date</label>
+        <input [field]="form.date" autocomplete="off" id="date" class="input readonly" type="text">
+        <div></div>
+      </div>
+
+      <div class="input-group">
+        <label class="label">Montant</label>
+        <input [field]="form.amount" autocomplete="off" id="amount" class="input" type="number">
+        <div></div>
+      </div>
+
+    </div>
+
+    <mat-dialog-actions class="action" align="end">
+      <button class="btn btn-secondary" matButton mat-dialog-close>Annuler</button>
+      <button class="btn btn-primary" type="submit">Créer</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

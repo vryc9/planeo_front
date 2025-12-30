@@ -1,0 +1,165 @@
+.input {
+  width: 100%; /* Prend 100% des 190px */
+  height: 44px;
+  background-color: #05060f0a;
+  border-radius: 0.5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+
+  /* Ajout important pour que le padding ne s'ajoute pas à la largeur */
+  box-sizing: border-box;
+
+  transition: border-color 0.3s, color 0.3s, background 0.2s;
+}
+
+h2 {
+  text-align: center;
+}
+
+.line-form {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #05060f99;
+  transition: color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
+}
+
+.input-group {
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+}
+
+.input:hover,
+.input:focus,
+.input-group:hover .input {
+  outline: none;
+  border-color: #4fd1c5;
+}
+
+.input-group:hover .label,
+.input:focus {
+  color: #05060fc2;
+}
+
+.btn {
+  padding: 5px 7px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.4s;
+}
+
+.readonly {
+  pointer-events: none;
+}
+
+.action {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary {
+  background-color: #00bfa6;
+  color: #fff;
+}
+
+.btn-secondary {
+  color: #00bfa6;
+  background-color: #fff;
+}
+
+.custom-select-wrapper {
+  width: 100%;
+  position: relative;
+  user-select: none;
+  width: 180px;
+}
+.select-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #05060f;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.select-trigger span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px; /* Petit espace avant la flèche */
+  flex: 1; /* Prend l'espace disponible */
+}
+
+.select-trigger:hover,
+.custom-select-wrapper:hover .select-trigger,
+.select-trigger.open {
+  border-color: #4fd1c5;
+}
+
+.arrow {
+  transition: transform 0.3s;
+}
+.select-trigger.open .arrow {
+  transform: rotate(180deg);
+}
+
+.options-container {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 100;
+  border: 2px solid #000000;
+  border-radius: 12px;
+  padding: 5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+  color: #05060f;
+}
+
+.option-item:hover {
+  background-color: #00bfa6;
+  color: white;
+}
+
+/* Pour Chrome, Safari, Edge, Opera */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Pour Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
