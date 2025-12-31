@@ -29,7 +29,7 @@ export class DashboardContainerComponent {
     [DashboardViewEnum.INVESTMENT]: InvestmentComponent
   };
 
-  readonly currentComponent = () =>
+  currentComponent = () =>
     this.components[this.store.currentView()];
 
 }
