@@ -4,7 +4,12 @@
   overflow: hidden;
   display: flex;
   gap: 47.5px;
-  margin-top: 45px;
+  padding-top: 45px;
+}
+
+.dashboard-content {
+  height: 100%;
+  width: 100%;
 }
 
 .sidebar {
@@ -13,7 +18,7 @@
 }
 
 .dashboard {
- display: flex;
+  display: flex;
   align-items: stretch;
   justify-content: stretch;
   flex: 1;
