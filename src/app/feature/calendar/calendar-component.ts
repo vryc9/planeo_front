@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, signal } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core/index.js';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { createEventId, INITIAL_EVENTS } from './util/event-util';
+import {INITIAL_EVENTS } from './util/event-util';
 import { injectDispatch } from '@ngrx/signals/events';
 import { calendarEvents } from './store/calendarEvent';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -22,7 +22,7 @@ export class CalendarComponent {
   readonly dispatch = injectDispatch(calendarEvents);
   readonly store = inject(CalendarStore);
   calendarOptions = signal<CalendarOptions>({
-    height : '100%',
+    height: '100%',
     expandRows: true,
     plugins: [
       interactionPlugin,
@@ -43,51 +43,39 @@ export class CalendarComponent {
   });
   currentEvents = signal<EventApi[]>([]);
 
-   constructor(private changeDetector: ChangeDetectorRef) {
+  constructor(private changeDetector: ChangeDetectorRef) {
+    effect(() => {
+      const newEvents = this.store.expenses();
+      this.calendarOptions.update(opts => ({
+        ...opts,
+        events: newEvents
+      }));
+    });
   }
 
-
-  handleCalendarToggle() {
+  handleCalendarToggle(): void {
     this.calendarVisible.update((bool) => !bool);
   }
 
-  handleWeekendsToggle() {
+  handleWeekendsToggle(): void {
     this.calendarOptions.update((options) => ({
       ...options,
       weekends: !options.weekends,
     }));
   }
 
-  handleDateSelect({startStr}: DateSelectArg) {
-    this.dispatch.openExpenseModal({startStr});
-
-    // console.log("wewe");
-    // const title = prompt('Please enter a new title for your event');
-    // const calendarApi = selectInfo.view.calendar;
-
-    // calendarApi.unselect();
-
-    // if (title) {
-    //   calendarApi.addEvent({
-    //     id: createEventId(),
-    //     title,
-    //     start: selectInfo.startStr,
-    //     end: selectInfo.endStr,
-    //     allDay: selectInfo.allDay
-    //   });
-    // }
+  handleDateSelect({ startStr }: DateSelectArg): void {
+    this.dispatch.openExpenseModal({ startStr });
   }
 
-  handleEventClick(clickInfo: EventClickArg) {
-    console.log("Clique");
+  handleEventClick(clickInfo: EventClickArg): void {
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
       clickInfo.event.remove();
     }
   }
 
-  handleEvents(events: EventApi[]) {
+  handleEvents(events: EventApi[]): void {
     this.currentEvents.set(events);
-    this.changeDetector.detectChanges(); // workaround for pressionChangedAfterItHasBeenCheckedError
+    this.changeDetector.detectChanges();
   }
-
 }

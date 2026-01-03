@@ -24,6 +24,17 @@ export function withExpenseFeature() {
               )
             )
           ),
+          loadExpense$: events.on(ExpenseEvents.loadExpense).pipe(
+            switchMap(_ =>
+              service.getAllExpense().pipe(
+                mapResponse({
+                  next: (expenses) => ExpenseEvents.loadExpenseSuccess({ expenses }),
+                  error: (error) =>
+                    ExpenseEvents.loadExpenseFailure({ error }),
+                })
+              )
+            )
+          ),
         };
       }
     )

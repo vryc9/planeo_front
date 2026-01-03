@@ -90,5 +90,6 @@ export class ModaleExpenseComponent {
         }
       })
     });
+    this.dialogRef.close();
   }
 }
