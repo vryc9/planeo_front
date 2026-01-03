@@ -2,6 +2,7 @@ import { eventGroup } from "@ngrx/signals/events";
 import { type } from "@ngrx/signals";
 import { Expense } from "../types/expense";
 
+export type SortType = "date" | 'amount' | 'label'
 export const ExpenseEvents = eventGroup({
   source: "[Expense] Expense",
   events: {
@@ -11,5 +12,6 @@ export const ExpenseEvents = eventGroup({
     loadExpense: type<void>(),
     loadExpenseSuccess: type<{ expenses: Expense[] }>(),
     loadExpenseFailure: type<{ error: unknown }>(),
-  }
+    sortExpense: type<{ sortType: SortType }>(),
+  },
 })

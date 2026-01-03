@@ -5,14 +5,22 @@
         <table class="align-items-center mb-0">
           <thead>
             <tr>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Label</th>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Montant</th>
+              <th (click)="sort('label')" style="cursor: pointer;"
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Label</th>
+              <th (click)="sort('amount')" style="cursor: pointer;"
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                Montant
+
+              </th>
               <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Catégorie</th>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Date</th>
+              <th style="cursor: pointer;" (click)="sort('date')"
+                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                Date
+              </th>
             </tr>
           </thead>
           <tbody>
-            @for (expense of store.expenses(); track $index) {
+            @for (expense of store.sortedExpenses(); track $index) {
             <tr>
               <td>
                 <div class="d-flex px-3 py-1">

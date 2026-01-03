@@ -6,7 +6,7 @@ import { ExpenseEvents } from "./expenseEvents";
 import { switchMap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 
-export function withExpenseFeature() {
+export function withExpenseEventsHandler() {
   return signalStoreFeature(
     withEventHandlers(
       () => {
