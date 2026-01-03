@@ -43,7 +43,7 @@ export function withExpenseEventsHandler() {
             switchMap(({ payload }) =>
               service.delete(payload.expense).pipe(
                 mapResponse({
-                  next: (expenses) => ExpenseEvents.deleteExpenseSuccess(),
+                  next: (_) => ExpenseEvents.deleteExpenseSuccess(),
                   error: (error) =>
                     ExpenseEvents.deleteExpenseFailure({ error }),
                 })
