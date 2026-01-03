@@ -1,0 +1,120 @@
+:host {
+  --teal-main: #4fd1c5;
+  --teal-soft: rgba(79, 209, 197, 0.1);
+  --gray-bg: #f8f9fa;
+  --text-dark: #344767;
+  --text-gray: #8392ab;
+  --border-color: #e9ecef;
+
+  display: block;
+  background-color: var(--gray-bg);
+  padding: 30px;
+  min-height: 100vh;
+}
+
+.table-title {
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.list-expense-container {
+  background: #ffffff;
+  box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+  border: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-clip: border-box;
+  padding: 1.5rem;
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+table {
+  width: 100%;
+  margin-bottom: 0rem;
+  color: var(--text-gray);
+  vertical-align: top;
+  border-color: var(--border-color);
+  border-collapse: collapse;
+}
+
+th {
+  font-size: 0.65rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1.5rem;
+  opacity: 0.7;
+  font-weight: 700;
+  color: var(--text-gray);
+}
+
+td {
+  padding: 0.75rem 1.5rem;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease-in-out;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.text-sm { font-size: 0.875rem !important; }
+.text-xs { font-size: 0.75rem !important; }
+.text-xxs { font-size: 0.65rem !important; }
+
+.font-weight-bold { font-weight: 600 !important; }
+.font-weight-bolder { font-weight: 700 !important; }
+
+.text-secondary { color: var(--text-gray) !important; }
+.text-center { text-align: center !important; }
+.ps-4 { padding-left: 1.5rem !important; }
+.mb-0 { margin-bottom: 0 !important; }
+
+.d-flex { display: flex !important; }
+.flex-column { flex-direction: column !important; }
+.justify-content-center { justify-content: center !important; }
+.align-items-center { align-items: center !important; }
+.align-middle { vertical-align: middle !important; }
+.px-3 { padding-right: 1rem !important; padding-left: 1rem !important; }
+.py-1 { padding-top: 0.25rem !important; padding-bottom: 0.25rem !important; }
+
+.badge {
+  display: inline-block;
+  padding: 0.55em 0.9em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.45rem;
+  text-transform: uppercase;
+}
+
+.badge-sm {
+  font-size: 0.65em;
+  padding: 0.45em 0.7em;
+}
+
+.badge-teal {
+  color: var(--teal-main);
+  background-color: var(--teal-soft);
+}
