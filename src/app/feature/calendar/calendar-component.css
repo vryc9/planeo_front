@@ -11,3 +11,46 @@ full-calendar {
   width: 100%;
   height: 100%;
 }
+:host ::ng-deep {
+  --fc-button-bg-color: #4fd1c5;
+  --fc-button-border-color: #4fd1c5;
+  --fc-button-text-color: #ffffff;
+
+  --fc-button-hover-bg-color: #3eb9ae;
+  --fc-button-hover-border-color: #3eb9ae;
+
+  --fc-button-active-bg-color: #319790;
+  --fc-button-active-border-color: #319790;
+
+  --fc-today-bg-color: rgba(79, 209, 197, 0.15);
+
+  --fc-highlight-color: rgba(79, 209, 197, 0.3);
+
+  --fc-now-indicator-color: #4fd1c5;
+
+  --fc-event-bg-color: #4fd1c5;
+  --fc-event-border-color: #4fd1c5;
+  --fc-event-text-color: #ffffff;
+}
+
+:host ::ng-deep .fc-list-event-dot {
+  border-color: #4fd1c5;
+}
+
+:host ::ng-deep .fc-col-header-cell-cushion,
+:host ::ng-deep .fc-daygrid-day-number {
+  color: inherit;
+  text-decoration: none;
+}
+
+:host ::ng-deep .fc-day-today .fc-daygrid-day-number {
+  color: #319790;
+  font-weight: bold;
+}
+
+:host ::ng-deep .fc-button:focus,
+:host ::ng-deep .fc-button-primary:focus,
+:host ::ng-deep .fc-button-primary:not(:disabled):active:focus {
+  box-shadow: none;
+  outline: none;
+}

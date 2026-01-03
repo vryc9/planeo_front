@@ -31,7 +31,6 @@ export class CalendarComponent {
       listPlugin,
     ],
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS,
     weekends: true,
     editable: true,
     selectable: true,
