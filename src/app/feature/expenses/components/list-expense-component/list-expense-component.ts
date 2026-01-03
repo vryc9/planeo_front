@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { ExpenseStore } from '../../store/expenseStore';
+import { Component, input, InputSignal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents, SortType } from '../../store/expenseEvents';
@@ -8,12 +7,12 @@ import { Expense } from '../../types/expense';
 
 @Component({
   selector: 'app-list-expense-component',
-  imports: [DatePipe, MatIconModule],
+  imports: [DatePipe, MatIconModule, ],
   templateUrl: './list-expense-component.html',
   styleUrl: './list-expense-component.css',
 })
 export class ListExpenseComponent {
-  readonly store = inject(ExpenseStore);
+  expenses : InputSignal<Expense[]> = input.required<Expense[]>();
   readonly dispath = injectDispatch(ExpenseEvents);
 
   sort(sortBy: SortType): void {

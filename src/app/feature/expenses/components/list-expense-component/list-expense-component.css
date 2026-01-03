@@ -36,6 +36,8 @@
 .table-responsive {
     display: block;
     width: 100%;
+    max-height: 600px;
+    overflow-y: auto;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
@@ -73,6 +75,14 @@ tbody tr:hover {
 
 tbody tr:last-child td {
   border-bottom: none;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #ffffff;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
 .text-sm { font-size: 0.875rem !important; }

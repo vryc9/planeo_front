@@ -1,10 +1,12 @@
-import { signalStore, withComputed, withHooks, withState } from "@ngrx/signals";
+import { signalStore, withComputed, withHooks, withProps, withState } from "@ngrx/signals";
 import { injectDispatch, on, withReducer } from "@ngrx/signals/events";
 import { ExpenseEvents, SortType } from "./expenseEvents";
 import { withExpenseEventsHandler } from "./withExpenseFeature";
 import { Expense } from "../types/expense";
-import { computed } from "@angular/core";
+import { computed, inject } from "@angular/core";
 import { withExpenseReducer } from "./withExpenseReducer";
+import { AuthStore } from "../../auth/store/AuthStore";
+import { ExpenseResume } from "../types/expenseResume";
 
 export type ExpenseState = {
   expenses: Expense[],
@@ -15,9 +17,38 @@ export type ExpenseState = {
 export type SortDirection = 'asc' | 'desc';
 export const ExpenseStore = signalStore(
   withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc' }),
+  withProps(() => ({
+    authStore: inject(AuthStore)
+  })),
   withExpenseEventsHandler(),
   withExpenseReducer(),
-  withComputed(({ expenses, sortBy, sortDirection }) => ({
+  withComputed(({ expenses, sortBy, sortDirection, authStore }) => ({
+    resumeExpense: computed<ExpenseResume[]>(() => {
+      const { currentBalance, futureBalance } = authStore.userConnected()?.balance!
+      const countExpense: number = expenses().length;
+      return [
+        {
+          data: countExpense,
+          title: "Dépense à venir",
+          icon: 'money'
+        },
+        {
+          data: 0,
+          title: "Dépense récurrente",
+          icon: 'autorenew'
+        },
+        {
+          data: currentBalance,
+          icon: 'account_balance',
+          title: 'Solde actuel'
+        },
+        {
+          data: futureBalance,
+          icon: 'money_off',
+          title: 'Solde à venir'
+        }
+      ]
+    }),
     sortedExpenses: computed(() => {
       const multiplier: 1 | -1 = sortDirection() === 'asc' ? 1 : -1;
       if (!sortBy()) return [...expenses()];

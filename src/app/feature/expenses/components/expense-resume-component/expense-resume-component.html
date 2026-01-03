@@ -1,0 +1,5 @@
+<div class="expense-resume-container">
+  @for (item of expenseResume(); track $index) {
+  <app-resume-expense-card [expenseResume]="item"></app-resume-expense-card>
+  }
+</div>
