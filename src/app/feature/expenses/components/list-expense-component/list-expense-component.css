@@ -118,3 +118,30 @@ tbody tr:last-child td {
   color: var(--teal-main);
   background-color: var(--teal-soft);
 }
+
+.btn-action {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  transition: all 0.2s ease-in-out;
+  color: var(--text-gray);
+}
+
+.btn-action .material-icons-round {
+  font-size: 1.25rem;
+  vertical-align: middle;
+}
+
+.btn-action:hover {
+  transform: scale(1.1);
+}
+
+
+.btn-edit:hover {
+  color: var(--teal-main);
+}
+
+.btn-delete:hover {
+  color: #ea0606;
+}

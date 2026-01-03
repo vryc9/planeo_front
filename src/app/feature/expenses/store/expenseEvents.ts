@@ -13,5 +13,8 @@ export const ExpenseEvents = eventGroup({
     loadExpenseSuccess: type<{ expenses: Expense[] }>(),
     loadExpenseFailure: type<{ error: unknown }>(),
     sortExpense: type<{ sortType: SortType }>(),
+    deleteExpense: type<{ expense: Expense }>(),
+    deleteExpenseSuccess: type<void>(),
+    deleteExpenseFailure: type<{ error: unknown }>(),
   },
 })

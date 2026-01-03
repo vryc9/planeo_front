@@ -17,4 +17,10 @@ export class ExpenseService {
   getAllExpense(): Observable<Expense[]> {
     return this.http.get<Expense[]>(this.URL);
   }
+
+  delete(expense: Expense) {
+    return this.http.delete<void>(this.URL, {
+      body: expense
+    });
+  }
 }

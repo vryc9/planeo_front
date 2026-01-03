@@ -24,13 +24,28 @@ export function withExpenseEventsHandler() {
               )
             )
           ),
-          loadExpense$: events.on(ExpenseEvents.loadExpense).pipe(
-            switchMap(_ =>
-              service.getAllExpense().pipe(
+          loadExpense$: events.on(
+            ExpenseEvents.loadExpense,
+            ExpenseEvents.deleteExpenseSuccess,
+            ExpenseEvents.createExpenseSuccess)
+            .pipe(
+              switchMap(_ =>
+                service.getAllExpense().pipe(
+                  mapResponse({
+                    next: (expenses) => ExpenseEvents.loadExpenseSuccess({ expenses }),
+                    error: (error) =>
+                      ExpenseEvents.loadExpenseFailure({ error }),
+                  })
+                )
+              )
+            ),
+          deleteExpense$: events.on(ExpenseEvents.deleteExpense).pipe(
+            switchMap(({ payload }) =>
+              service.delete(payload.expense).pipe(
                 mapResponse({
-                  next: (expenses) => ExpenseEvents.loadExpenseSuccess({ expenses }),
+                  next: (expenses) => ExpenseEvents.deleteExpenseSuccess(),
                   error: (error) =>
-                    ExpenseEvents.loadExpenseFailure({ error }),
+                    ExpenseEvents.deleteExpenseFailure({ error }),
                 })
               )
             )

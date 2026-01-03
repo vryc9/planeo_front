@@ -17,6 +17,7 @@
                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
                 Date
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -37,6 +38,16 @@
               </td>
               <td class="align-middle text-center">
                 <span class="text-secondary text-xs font-weight-bold">{{expense.date | date :"dd/MM/yyyy"}}</span>
+              </td>
+              <td class="align-middle text-center">
+                <button class="btn-action btn-edit" title="Modifier">
+                  <mat-icon class="size" fontIcon="edit"></mat-icon>
+                </button>
+
+                <button (click)="delete(expense)" class="btn-action btn-delete" title="Supprimer">
+                  <span class="material-icons-round"></span>
+                  <mat-icon class="size" fontIcon="delete"></mat-icon>
+                </button>
               </td>
             </tr>
             }
