@@ -8,6 +8,7 @@ import { Events, on, withEventHandlers, withReducer } from '@ngrx/signals/events
 import { AuthEvent } from './AuthEvent';
 import { User } from '../types/user';
 import { Router, RoutesRecognized } from '@angular/router';
+import { ExpenseEvents } from '../../expenses/store/expenseEvents';
 
 interface AuthState {
   userConnected: User | null

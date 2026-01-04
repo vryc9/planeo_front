@@ -10,9 +10,11 @@ import { AuthStore } from './feature/auth/store/AuthStore';
 import { DashboardStore } from './feature/dashboard/store/DasboardStore';
 import { CalendarStore } from './feature/calendar/store/calendarStore';
 import { ExpenseStore } from './feature/expenses/store/expenseStore';
+import { BalanceStore } from './feature/balance/store/balanceStore';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    BalanceStore,
     AuthStore,
     DashboardStore,
     CalendarStore,

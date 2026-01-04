@@ -86,7 +86,7 @@ export class ModaleExpenseComponent {
           tag: tag!,
           amount,
           date: new Date(date),
-          label
+          label,
         }
       })
     });

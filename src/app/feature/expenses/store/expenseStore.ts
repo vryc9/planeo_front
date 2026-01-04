@@ -7,6 +7,7 @@ import { computed, inject } from "@angular/core";
 import { withExpenseReducer } from "./withExpenseReducer";
 import { AuthStore } from "../../auth/store/AuthStore";
 import { ExpenseResume } from "../types/expenseResume";
+import { BalanceStore } from "../../balance/store/balanceStore";
 
 export type ExpenseState = {
   expenses: Expense[],
@@ -18,13 +19,13 @@ export type SortDirection = 'asc' | 'desc';
 export const ExpenseStore = signalStore(
   withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc' }),
   withProps(() => ({
-    authStore: inject(AuthStore)
+    balanceStore: inject(BalanceStore)
   })),
   withExpenseEventsHandler(),
   withExpenseReducer(),
-  withComputed(({ expenses, sortBy, sortDirection, authStore }) => ({
+  withComputed(({ expenses, sortBy, sortDirection, balanceStore }) => ({
     resumeExpense: computed<ExpenseResume[]>(() => {
-      const { currentBalance, futureBalance } = authStore.userConnected()?.balance!
+      const { currentBalance, futureBalance, pendingExpenses } = balanceStore.balance()!
       const countExpense: number = expenses().length;
       return [
         {
@@ -38,14 +39,19 @@ export const ExpenseStore = signalStore(
           icon: 'autorenew'
         },
         {
-          data: currentBalance,
+          data: `${currentBalance}€`,
           icon: 'account_balance',
           title: 'Solde actuel'
         },
         {
-          data: futureBalance,
+          data: `${futureBalance}€`,
           icon: 'money_off',
           title: 'Solde à venir'
+        },
+        {
+          data: `${pendingExpenses}€`,
+          icon: 'money_off',
+          title: 'Reste à payer'
         }
       ]
     }),
