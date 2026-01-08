@@ -4,6 +4,6 @@ import { eventGroup } from "@ngrx/signals/events";
 export const calendarEvents = eventGroup({
   source : "[Calendar] Calendar",
   events : {
-    openExpenseModal : type<{startStr : string}>()
+    openExpenseModal : type<{startStr? : string, isRecurring : boolean}>()
   }
 })

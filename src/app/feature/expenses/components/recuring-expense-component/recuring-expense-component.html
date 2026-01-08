@@ -1,1 +1,4 @@
-<p>recuring-expense-component works!</p>
+<div class="recurring-expense-container">
+  <button (click)="createRecurringExpense()" >Créer une dépense</button>
+  <app-list-expense-component [onglet]="onglet()" [expenses]="expenses()" ></app-list-expense-component>
+</div>

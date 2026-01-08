@@ -24,10 +24,12 @@ export const CalendarStore = signalStore(
       const dialog = inject(MatDialog)
       return {
         openModale$: events.on(calendarEvents.openExpenseModal).pipe(
+          tap(() => console.log("Je suis la")),
           tap(({ payload }) => dialog.open(ModaleExpenseComponent,
             {
               data: {
-                date: payload.startStr
+                date: payload.startStr ?? '',
+                isRecurring: payload.isRecurring
               }
             }
           ))

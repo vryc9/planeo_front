@@ -35,8 +35,9 @@
 
     <div class="line-form">
       <div class="input-group">
-        <label for="date" class="label">Date</label>
-        <input [field]="form.date" autocomplete="off" id="date" class="input readonly" type="text">
+        <label for="date" class="label">{{dateFormLabel()}}</label>
+        <input [field]="form.date" autocomplete="off" id="date" [ngClass]="{'readonly' : !isRecurring()}" class="input"
+          type="text">
         <div></div>
       </div>
 
@@ -53,4 +54,5 @@
       <button class="btn btn-primary" type="submit">Créer</button>
     </mat-dialog-actions>
   </form>
+
 </mat-dialog-content>

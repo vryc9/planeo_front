@@ -9,7 +9,7 @@ Pouvoir créer une nouvelle dépense.
 Avoir un résumé avec le nombre de dépense à venir, nombre de dépense récurrente, nombre d'argent en cours et à venir -->
 
 <div class="expense-container">
-  <app-expense-resume-component [expenseResume]="store.resumeExpense()" ></app-expense-resume-component>
+  <app-expense-resume-component [expenseResume]="store.resumeExpense()"></app-expense-resume-component>
   <div>
     <mat-tab-group>
       <mat-tab>
@@ -17,7 +17,8 @@ Avoir un résumé avec le nombre de dépense à venir, nombre de dépense récur
           <mat-icon class="example-tab-icon">thumb_up</mat-icon>
           Dépense à venir
         </ng-template>
-        <app-list-expense-component  [expenses]="store.sortedExpenses()"></app-list-expense-component>
+        <app-list-expense-component [onglet]="'incomingExpense'"
+          [expenses]="store.sortedExpenses()"></app-list-expense-component>
       </mat-tab>
 
       <mat-tab>
@@ -25,7 +26,8 @@ Avoir un résumé avec le nombre de dépense à venir, nombre de dépense récur
           <mat-icon class="example-tab-icon">thumb_up</mat-icon>
           Dépense réccurente
         </ng-template>
-        <app-recuring-expense-component></app-recuring-expense-component>
+        <app-recuring-expense-component [onglet]="'recurringExpense'"
+          [expenses]="store.sortedRecurringExpenses()"></app-recuring-expense-component>
       </mat-tab>
     </mat-tab-group>
   </div>

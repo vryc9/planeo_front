@@ -5,6 +5,7 @@ export interface Expense {
   status? : ExpenseStatus
   date: Date,
   label: string
+  recurring : boolean
 }
 
 export enum Tag {

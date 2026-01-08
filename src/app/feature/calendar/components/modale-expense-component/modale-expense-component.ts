@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents } from '../../../expenses/store/expenseEvents';
 import { ExpenseStore } from '../../../expenses/store/expenseStore';
+import { NgClass } from "@angular/common";
 
 interface ExpenseFormData {
   amount: number;
@@ -16,7 +17,7 @@ interface ExpenseFormData {
 
 @Component({
   selector: 'app-modale-expense-component',
-  imports: [MatDialogModule, Field, MatInputModule],
+  imports: [MatDialogModule, Field, MatInputModule, NgClass],
   templateUrl: './modale-expense-component.html',
   styleUrl: './modale-expense-component.css',
 })
@@ -57,14 +58,18 @@ export class ModaleExpenseComponent {
 
   isOpen: WritableSignal<boolean> = signal<boolean>(false);
   selectedLabel: WritableSignal<string> = signal<string>('Sélection un tag');
+  isRecurring: WritableSignal<boolean> = signal<boolean>(false);
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { date: string }) {
+  dateFormLabel: Signal<string> = computed<string>(() => this.isRecurring() ? "Date de prélèvement" : "Date")
+
+  constructor(@Inject(MAT_DIALOG_DATA) { date, isRecurring }: { date: string, isRecurring: boolean }) {
     this.expenseModel.set({
       amount: 0,
       tag: null,
-      date: data.date,
+      date: date,
       label: "",
     })
+    this.isRecurring.set(isRecurring)
   }
 
   toggleDropdown(): void {
@@ -78,15 +83,25 @@ export class ModaleExpenseComponent {
   }
 
   onSubmit(event: Event): void {
+    console.log(this.isRecurring());
     event.preventDefault();
     submit(this.form, async () => {
       const { tag, amount, date, label } = this.expenseModel();
+      console.log({
+        tag: tag!,
+        amount,
+        date: new Date(date),
+        label,
+        isRecurring: this.isRecurring()
+      });
+
       this.dispatch.createExpense({
         expense: {
           tag: tag!,
           amount,
           date: new Date(date),
           label,
+          recurring: this.isRecurring()
         }
       })
     });

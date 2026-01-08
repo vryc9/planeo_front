@@ -5,7 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import {INITIAL_EVENTS } from './util/event-util';
+import { INITIAL_EVENTS } from './util/event-util';
 import { injectDispatch } from '@ngrx/signals/events';
 import { calendarEvents } from './store/calendarEvent';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -64,7 +64,7 @@ export class CalendarComponent {
   }
 
   handleDateSelect({ startStr }: DateSelectArg): void {
-    this.dispatch.openExpenseModal({ startStr });
+    this.dispatch.openExpenseModal({ startStr, isRecurring: false });
   }
 
   handleEventClick(clickInfo: EventClickArg): void {
