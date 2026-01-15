@@ -40,6 +40,7 @@
     "@ngrx/operators": "^21.0.1",
     "@ngrx/signals": "^21.0.1",
     "@ngrx/store": "^21.0.1",
+    "event-source-polyfill": "^1.0.31",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -47,6 +48,7 @@
     "@angular/build": "^21.0.4",
     "@angular/cli": "^21.0.4",
     "@angular/compiler-cli": "^21.0.0",
+    "@types/event-source-polyfill": "^1.0.5",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"

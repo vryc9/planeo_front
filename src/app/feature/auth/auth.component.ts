@@ -3,6 +3,7 @@ import { Field, form } from '@angular/forms/signals';
 import { injectDispatch, provideDispatcher } from '@ngrx/signals/events';
 import { AuthEvent } from './store/AuthEvent';
 import { AuthStore } from './store/AuthStore';
+import { SseStore } from '../sse/store/sseStore';
 
 interface LoginData {
   username: string;
@@ -17,6 +18,7 @@ interface LoginData {
 
 export class AuthComponenent {
   readonly store = inject(AuthStore);
+
   readonly dispatch = injectDispatch(AuthEvent);
 
   loginModel = signal<LoginData>({

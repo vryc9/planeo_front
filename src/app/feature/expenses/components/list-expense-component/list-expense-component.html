@@ -2,57 +2,62 @@
   <div class="list-expense-container">
     <div class="card-body px-0 pb-2">
       <div class="table-responsive">
-        <table class="align-items-center mb-0">
-          <thead>
-            <tr>
-              <th (click)="sort('label')" style="cursor: pointer;"
-                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Label</th>
-              <th (click)="sort('amount')" style="cursor: pointer;"
-                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                Montant
+        @if(!isEmpty()) {
+          <table class="align-items-center mb-0">
+            <thead>
+              <tr>
+                <th (click)="sort('label')" style="cursor: pointer;"
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">Label</th>
+                <th (click)="sort('amount')" style="cursor: pointer;"
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                  Montant
 
-              </th>
-              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Catégorie</th>
-              <th style="cursor: pointer;" (click)="sort('date')"
-                class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
-                {{dateColumnlabel()}}
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (expense of expenses(); track $index) {
-            <tr>
-              <td>
-                <div class="d-flex px-3 py-1">
-                  <div class="d-flex flex-column justify-content-center">
-                    <h6 class="mb-0 text-sm font-weight-bold">{{expense.label}}</h6>
+                </th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Catégorie</th>
+                <th style="cursor: pointer;" (click)="sort('date')"
+                  class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">
+                  {{dateColumnlabel()}}
+                </th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (expense of expenses(); track $index) {
+              <tr>
+                <td>
+                  <div class="d-flex px-3 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm font-weight-bold">{{expense.label}}</h6>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td class="align-middle text-center text-sm">
-                <span class="text-secondary text-xs font-weight-bold">{{expense.amount}} €</span>
-              </td>
-              <td class="align-middle text-center text-sm">
-                <span class="badge badge-sm badge-teal">{{expense.tag}}</span>
-              </td>
-              <td class="align-middle text-center">
-                <span class="text-secondary text-xs font-weight-bold">{{expense.date | date :"dd/MM/yyyy"}}</span>
-              </td>
-              <td class="align-middle text-center">
-                <button class="btn-action btn-edit" title="Modifier">
-                  <mat-icon class="size" fontIcon="edit"></mat-icon>
-                </button>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <span class="text-secondary text-xs font-weight-bold">{{expense.amount}} €</span>
+                </td>
+                <td class="align-middle text-center text-sm">
+                  <span class="badge badge-sm badge-teal">{{expense.tag}}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <span class="text-secondary text-xs font-weight-bold">{{expense.date | date :"dd/MM/yyyy"}}</span>
+                </td>
+                <td class="align-middle text-center">
+                  <button class="btn-action btn-edit" title="Modifier">
+                    <mat-icon class="size" fontIcon="edit"></mat-icon>
+                  </button>
 
-                <button (click)="delete(expense)" class="btn-action btn-delete" title="Supprimer">
-                  <span class="material-icons-round"></span>
-                  <mat-icon class="size" fontIcon="delete"></mat-icon>
-                </button>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
+                  <button (click)="delete(expense)" class="btn-action btn-delete" title="Supprimer">
+                    <span class="material-icons-round"></span>
+                    <mat-icon class="size" fontIcon="delete"></mat-icon>
+                  </button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        }
+        @else {
+          <p>Pas de dépense de prévu</p>
+        }
       </div>
     </div>
   </div>

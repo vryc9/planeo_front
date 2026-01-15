@@ -11,10 +11,12 @@ import { DashboardStore } from './feature/dashboard/store/DasboardStore';
 import { CalendarStore } from './feature/calendar/store/calendarStore';
 import { ExpenseStore } from './feature/expenses/store/expenseStore';
 import { BalanceStore } from './feature/balance/store/balanceStore';
+import { SseStore } from './feature/sse/store/sseStore';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     BalanceStore,
+    SseStore,
     AuthStore,
     DashboardStore,
     CalendarStore,

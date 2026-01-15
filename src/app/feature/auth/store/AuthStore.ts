@@ -9,6 +9,8 @@ import { AuthEvent } from './AuthEvent';
 import { User } from '../types/user';
 import { Router, RoutesRecognized } from '@angular/router';
 import { ExpenseEvents } from '../../expenses/store/expenseEvents';
+import { SseService } from '../../sse/services/sse-service.service';
+import { SseStore } from '../../sse/store/sseStore';
 
 interface AuthState {
   userConnected: User | null
@@ -27,12 +29,15 @@ export const AuthStore = signalStore(
       const service = inject(AuthService);
       const tokenService = inject(TokenService);
       const router = inject(Router)
+      const sse = inject(SseStore)
+
       return {
         authentification$: events.on(AuthEvent.authentification).pipe(
           switchMap(({ payload }) =>
             service.login(payload.username, payload.password).pipe(
               mapResponse({
                 next: (response) => {
+                  console.log("Je suis dans l'authenfication");
                   tokenService.setToken(response.token);
                   return AuthEvent.authentificationSuccess({ token: response.token });
                 },
