@@ -1,6 +1,6 @@
 <div class="dashboard-container">
   <div class="sidebar">
-    <app-sidebar-component [menuItems]="store.menu()" />
+    <app-sidebar-component (changeViewOuput)="changeView($event)" [menuItems]="store.menu()" />
   </div>
 
   <div class="dashboard">

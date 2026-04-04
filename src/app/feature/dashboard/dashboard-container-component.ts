@@ -8,6 +8,9 @@ import { DashboardViewEnum } from './enum/DashboardViewEnum';
 import { ExpenseComponent } from '../expenses/expense-component';
 import { DashboardComponent } from './components/dashboard-component/dashboard-component';
 import { InvestmentComponent } from '../investment/investment-component';
+import { injectDispatch } from '@ngrx/signals/events';
+import { DashboardEvents } from './store/DashboardEvents';
+import { Menu } from './types/menu';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -18,6 +21,9 @@ import { InvestmentComponent } from '../investment/investment-component';
 export class DashboardContainerComponent {
   readonly authStore = inject(AuthStore);
   readonly store = inject(DashboardStore);
+  readonly dispatch = injectDispatch(DashboardEvents);
+
+
   private readonly components: Record<DashboardViewEnum, Type<unknown>> = {
     [DashboardViewEnum.DASHBOARD]: DashboardComponent,
     [DashboardViewEnum.CALENDAR]: CalendarComponent,
@@ -25,5 +31,9 @@ export class DashboardContainerComponent {
     [DashboardViewEnum.INVESTMENT]: InvestmentComponent
   };
   readonly currentComponent = computed(() => this.components[this.store.currentView()]);
+
+  protected changeView(view: DashboardViewEnum): void {
+    this.dispatch.openMenu({ view });
+  }
 }
 

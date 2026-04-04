@@ -1,9 +1,8 @@
 import { MatIconModule } from '@angular/material/icon';
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { injectDispatch } from '@ngrx/signals/events';
-import { DashboardEvents } from '../../store/DashboardEvents';
 import { Menu } from '../../types/menu';
+import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
 @Component({
   selector: 'app-sidebar-component',
   imports: [MatIconModule, CommonModule],
@@ -11,11 +10,11 @@ import { Menu } from '../../types/menu';
   styleUrl: './sidebar-component.css',
 })
 export class SidebarComponent {
-  readonly dispatch = injectDispatch(DashboardEvents);
   readonly menuItems: InputSignal<Menu[]> = input.required<Menu[]>();
+  readonly changeViewOuput: OutputEmitterRef<DashboardViewEnum> = output<DashboardViewEnum>();
 
 
   protected changeView({ view }: Menu): void {
-    this.dispatch.openMenu({ view });
+    this.changeViewOuput.emit(view);
   }
 }
