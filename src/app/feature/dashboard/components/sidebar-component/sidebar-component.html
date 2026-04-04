@@ -20,8 +20,8 @@
     </g>
     <text x="80" y="58" class="planeo-fill planeo-text">laneo</text>
   </svg>
-  @for (menu of menuItems(); track $index) {
-  <div (click)="toggleActive(menu)" [ngClass]="{'isActive' : menu.isActive
+  @for (menu of menuItems(); track menu.view) {
+  <div (click)="changeView(menu)" [ngClass]="{'isActive' : menu.isActive
     }" class="menu-items">
     <div class="items">
       <span [ngClass]="{

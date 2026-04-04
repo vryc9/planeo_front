@@ -1,4 +1,4 @@
-import { Component, inject, Type, } from '@angular/core';
+import { Component, computed, inject, Type, } from '@angular/core';
 import { AuthStore } from '../auth/store/AuthStore';
 import { SidebarComponent } from "./components/sidebar-component/sidebar-component";
 import { DashboardStore } from './store/DasboardStore';
@@ -24,9 +24,6 @@ export class DashboardContainerComponent {
     [DashboardViewEnum.EXPENSE]: ExpenseComponent,
     [DashboardViewEnum.INVESTMENT]: InvestmentComponent
   };
-
-  currentComponent = () =>
-    this.components[this.store.currentView()];
-
+  readonly currentComponent = computed(() => this.components[this.store.currentView()]);
 }
 
