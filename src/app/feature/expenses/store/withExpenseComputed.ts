@@ -12,7 +12,7 @@ export function withExpenseComputed() {
     })),
     withComputed(({ expenses, sortBy, sortDirection, balanceStore }) => ({
       resumeExpense: computed<ExpenseResume[]>(() => {
-        const { currentBalance, futureBalance, pendingExpenses } = balanceStore.balance()!
+        const { currentBalance, futureBalance, pendingExpenses } = balanceStore.balance() ?? {}
         const countExpense: number = expenses().length;
         return [
           {

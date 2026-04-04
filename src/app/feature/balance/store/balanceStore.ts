@@ -1,6 +1,6 @@
-import { Events, on, withEventHandlers, withReducer } from '@ngrx/signals/events';
+import { Events, injectDispatch, on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { Balance } from './../types/balance';
-import { signalStore, withState } from "@ngrx/signals";
+import { signalStore, withHooks, withProps, withState } from "@ngrx/signals";
 import { inject } from '@angular/core';
 import { BalanceService } from '../service/balance-service.service';
 import { switchMap } from 'rxjs';
@@ -9,11 +9,14 @@ import { mapResponse } from '@ngrx/operators';
 import { ExpenseEvents } from '../../expenses/store/expenseEvents';
 
 type BalanceState = {
-  balance: Balance | null
+  balance: Balance | undefined
 }
 
 export const BalanceStore = signalStore(
-  withState<BalanceState>({ balance: null }),
+  withState<BalanceState>({ balance: undefined }),
+  withProps(() => ({
+    dispatch: injectDispatch(BalanceEvents)
+  })),
   withEventHandlers(
     () => {
       const events = inject(Events);
@@ -35,5 +38,10 @@ export const BalanceStore = signalStore(
   ),
   withReducer(
     on(BalanceEvents.loadBalanceSuccess, ({ payload }) => ({ balance: payload.balance }))
-  )
+  ),
+  withHooks(({ dispatch }) => ({
+    onInit() {
+      dispatch.loadBalance();
+    },
+  }))
 )

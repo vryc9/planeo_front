@@ -1,0 +1,20 @@
+<div class="expense-dashboard-container">
+  <div class="expense-header">
+    <h2>Dernières dépenses</h2>
+    <button (click)="this.dispatch.openMenu({open : DashboardViewEnum.EXPENSE})">Voir toute les dépenses</button>
+  </div>
+
+  <div class="expense-list">
+    <div class="expense-items">
+      @for (expense of expenses(); track $index) {
+      <div class="expense-items-header">
+        <h3>{{expense.date | date:'fullDate'}}</h3>
+        <div class="expense-information">
+          <span>{{expense.label}}</span>
+          <span>{{expense.amount}}€</span>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

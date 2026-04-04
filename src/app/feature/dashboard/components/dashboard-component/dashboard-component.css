@@ -1,0 +1,15 @@
+.dashboard-content-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+
+.dashboard-graph-list-expense {
+  display: flex;
+  width: 100%;
+}
+.dashboard-graph-list-expense > * {
+  flex: 1;
+  min-width: 0;
+}

@@ -19,9 +19,9 @@ button {
 button:hover {
   transform: translateY(-4px) translateX(-2px);
   box-shadow: 2px 5px 0 0 #4fd1c5;
-};
+}
 
 button:active {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 #4fd1c5;
-};
+}

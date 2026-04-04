@@ -1,9 +1,7 @@
-import { Component, inject, OnInit, Type, } from '@angular/core';
+import { Component, inject, Type, } from '@angular/core';
 import { AuthStore } from '../auth/store/AuthStore';
 import { SidebarComponent } from "./components/sidebar-component/sidebar-component";
 import { DashboardStore } from './store/DasboardStore';
-import { injectDispatch } from '@ngrx/signals/events';
-import { DashboardEvents } from './store/DashboardEvents';
 import { CalendarComponent } from '../calendar/calendar-component';
 import { NgComponentOutlet } from '@angular/common';
 import { DashboardViewEnum } from './enum/DashboardViewEnum';
@@ -20,8 +18,6 @@ import { InvestmentComponent } from '../investment/investment-component';
 export class DashboardContainerComponent {
   readonly authStore = inject(AuthStore);
   readonly store = inject(DashboardStore);
-  readonly dispatch = injectDispatch(DashboardEvents);
-
   private readonly components: Record<DashboardViewEnum, Type<unknown>> = {
     [DashboardViewEnum.DASHBOARD]: DashboardComponent,
     [DashboardViewEnum.CALENDAR]: CalendarComponent,
@@ -33,3 +29,4 @@ export class DashboardContainerComponent {
     this.components[this.store.currentView()];
 
 }
+

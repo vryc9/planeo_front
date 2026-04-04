@@ -7,6 +7,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "planeo": {
+      "i18n": {
+        "sourceLocale": "fr"
+      },
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -24,10 +27,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/material-theme.scss",
-              "src/styles.css"
-            ]
+            "styles": ["src/material-theme.scss", "src/styles.css"]
           },
           "configurations": {
             "production": {

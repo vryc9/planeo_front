@@ -1,5 +1,13 @@
-<p>dashboard-component works!</p>
+<!-- <p>dashboard-component works!</p>
 Mon solde
 Solde a venir
-Liste des transactions
-graphique avec les dépenses total par mois
+Liste des dépenses à venir
+graphique avec les dépenses total par mois -->
+
+<div class="dashboard-content-container">
+  <app-expense-resume-component [expenseResume]="expensesStore.resumeExpense()"></app-expense-resume-component>
+  <div class="dashboard-graph-list-expense">
+    <app-dashbord-graph-component></app-dashbord-graph-component>
+    <app-dashboard-list-expense [expenses]="expensesStore.expenses()" ></app-dashboard-list-expense>
+  </div>
+</div>

@@ -3,11 +3,7 @@ import { Component, computed, Signal, signal, Type, WritableSignal } from '@angu
 import { CommonModule } from '@angular/common';
 import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from '../../store/DashboardEvents';
-import { signalState } from '@ngrx/signals';
 import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
-import { CalendarComponent } from '../../../calendar/calendar-component';
-import { ExpenseComponent } from '../../../expenses/expense-component';
-import { DashboardStore } from '../../store/DasboardStore';
 import { Menu } from '../../types/menu';
 @Component({
   selector: 'app-sidebar-component',
