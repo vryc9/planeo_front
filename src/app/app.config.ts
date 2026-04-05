@@ -12,6 +12,8 @@ import { CalendarStore } from './feature/calendar/store/calendarStore';
 import { ExpenseStore } from './feature/expenses/store/expenseStore';
 import { BalanceStore } from './feature/balance/store/balanceStore';
 import { SseStore } from './feature/sse/store/sseStore';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { BarController, Colors, Legend } from 'chart.js';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,13 +23,13 @@ export const appConfig: ApplicationConfig = {
     DashboardStore,
     CalendarStore,
     ExpenseStore,
+    provideCharts({ registerables: [BarController, Legend, Colors] }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideStore(),
     provideDispatcher(),
     provideHttpClient(
       withInterceptors([authInterceptorInterceptor])
-    ),
-    // {provide: LOCALE_ID, useValue: 'fr-FR' }
+    ), provideCharts(withDefaultRegisterables()),
   ]
 };

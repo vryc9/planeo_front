@@ -1,9 +1,10 @@
+import { ExpensePerMonth } from './../types/expensePerMount';
 import { inject } from "@angular/core";
 import { signalStoreFeature } from "@ngrx/signals";
 import { Events, withEventHandlers } from "@ngrx/signals/events";
 import { ExpenseService } from "../services/expense-service.service";
-import { ExpenseEvents } from "./expenseEvents";
-import { switchMap } from "rxjs";
+import { ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
+import { switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 
 export function withExpenseEventsHandler() {
@@ -33,6 +34,21 @@ export function withExpenseEventsHandler() {
                 service.getAllExpense().pipe(
                   mapResponse({
                     next: (expenses) => ExpenseEvents.loadExpenseSuccess({ expenses }),
+                    error: (error) =>
+                      ExpenseEvents.loadExpenseFailure({ error }),
+                  })
+                )
+              )
+            ),
+          loadExpensePerMount$: events.on(
+            ExpensePerMountEvent.loadExpensePerMonth)
+            .pipe(
+              tap(() => console.log("Je suis la")
+              ),
+              switchMap(_ =>
+                service.getExpensePerMonth().pipe(
+                  mapResponse({
+                    next: (expenses) => ExpensePerMountEvent.loadExpensePerMonthSuccess({ expenses }),
                     error: (error) =>
                       ExpenseEvents.loadExpenseFailure({ error }),
                   })

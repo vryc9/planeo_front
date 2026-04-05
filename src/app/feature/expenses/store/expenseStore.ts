@@ -9,16 +9,18 @@ import { AuthStore } from "../../auth/store/AuthStore";
 import { ExpenseResume } from "../types/expenseResume";
 import { BalanceStore } from "../../balance/store/balanceStore";
 import { withExpenseComputed } from "./withExpenseComputed";
+import { ExpensePerMonthView as ExpensePerMonthView } from "../types/expensePerMount";
 
 export type ExpenseState = {
   expenses: Expense[],
   sortBy: SortType | null,
   sortDirection: SortDirection
+  expensePerMonth: ExpensePerMonthView[]
 }
 
 export type SortDirection = 'asc' | 'desc';
 export const ExpenseStore = signalStore(
-  withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc' }),
+  withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc', expensePerMonth: [] }),
   withExpenseEventsHandler(),
   withExpenseReducer(),
   withExpenseComputed(),

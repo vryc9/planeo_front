@@ -1,6 +1,7 @@
 import { eventGroup } from "@ngrx/signals/events";
 import { type } from "@ngrx/signals";
 import { Expense } from "../types/expense";
+import { ExpensePerMonth } from "../types/expensePerMount";
 
 export type SortType = "date" | 'amount' | 'label'
 export const ExpenseEvents = eventGroup({
@@ -16,5 +17,15 @@ export const ExpenseEvents = eventGroup({
     deleteExpense: type<{ expense: Expense }>(),
     deleteExpenseSuccess: type<void>(),
     deleteExpenseFailure: type<{ error: unknown }>(),
+  },
+})
+
+
+export const ExpensePerMountEvent = eventGroup({
+  source: "[Expense] Expense per mount source",
+  events: {
+    loadExpensePerMonth: type<void>(),
+    loadExpensePerMonthSuccess: type<{ expenses: ExpensePerMonth[] }>(),
+    loadExpensePerMonthFailure: type<{ error: unknown }>(),
   },
 })

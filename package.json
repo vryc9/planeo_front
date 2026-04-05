@@ -40,8 +40,9 @@
     "@ngrx/operators": "^21.0.1",
     "@ngrx/signals": "^21.0.1",
     "@ngrx/store": "^21.0.1",
-    "@swimlane/ngx-charts": "^23.1.0",
+    "chart.js": "^4.5.1",
     "event-source-polyfill": "^1.0.31",
+    "ng2-charts": "^10.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

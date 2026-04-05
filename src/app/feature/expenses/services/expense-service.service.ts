@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Expense } from '../types/expense';
 import { Observable } from 'rxjs';
+import { ExpensePerMonth } from '../types/expensePerMount';
 
 @Injectable({
   providedIn: 'root',
@@ -23,4 +24,9 @@ export class ExpenseService {
       body: expense
     });
   }
+
+  getExpensePerMonth() : Observable<ExpensePerMonth[]> {
+    return this.http.get<ExpensePerMonth[]>(`${this.URL}/month`);
+  }
+
 }
