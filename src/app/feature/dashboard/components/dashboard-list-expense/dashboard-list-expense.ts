@@ -13,7 +13,7 @@ import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
   styleUrl: './dashboard-list-expense.css',
 })
 export class DashboardListExpense {
-  expenses: InputSignal<Expense[]> = input.required<Expense[]>();
+  readonly expenses: InputSignal<Expense[]> = input.required<Expense[]>();
   readonly dispatch = injectDispatch(DashboardEvents);
   readonly DashboardViewEnum: typeof DashboardViewEnum = DashboardViewEnum
 

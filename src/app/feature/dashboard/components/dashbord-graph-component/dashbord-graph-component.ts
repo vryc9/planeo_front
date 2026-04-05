@@ -1,4 +1,4 @@
-import { Component, computed, input, InputSignal } from '@angular/core';
+import { Component, computed, input, InputSignal, Signal } from '@angular/core';
 import { ExpensePerMonthView } from '../../../expenses/types/expensePerMount';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
@@ -10,7 +10,7 @@ import { BaseChartDirective } from 'ng2-charts';
   styleUrl: './dashbord-graph-component.css',
 })
 export class DashbordGraphComponent {
-  expensesPerMonth : InputSignal<ExpensePerMonthView[]> = input.required<ExpensePerMonthView[]>();
+  expensesPerMonth: InputSignal<ExpensePerMonthView[]> = input.required<ExpensePerMonthView[]>();
 
   private buildGradient(ctx: CanvasRenderingContext2D, chartArea: { top: number; bottom: number }): CanvasGradient {
     const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
