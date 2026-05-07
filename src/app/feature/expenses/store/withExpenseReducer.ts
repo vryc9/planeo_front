@@ -1,13 +1,14 @@
 import { signalStoreFeature, type } from "@ngrx/signals";
 import { ExpenseState } from "./expenseStore";
 import { on, withReducer } from "@ngrx/signals/events";
-import { ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
+import { ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
 
 export function withExpenseReducer() {
   return signalStoreFeature(
     { state: type<ExpenseState>() },
     withReducer(
       on(ExpenseEvents.loadExpenseSuccess, ({ payload }) => ({ expenses: payload.expenses })),
+      on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload : {expenseByTags}}) => ({ expenseByTags })),
       on(ExpensePerMountEvent.loadExpensePerMonthSuccess, ({ payload }) => ({
         expensePerMonth: payload.expenses.map(item => ({
           ...item, month: new Intl.DateTimeFormat('fr-FR', { month: 'long' })

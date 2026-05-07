@@ -1,165 +1,294 @@
-.input {
-  width: 100%; /* Prend 100% des 190px */
-  height: 44px;
-  background-color: #05060f0a;
-  border-radius: 0.5rem;
-  padding: 0 1rem;
-  border: 2px solid transparent;
-  font-size: 1rem;
-
-  /* Ajout important pour que le padding ne s'ajoute pas à la largeur */
-  box-sizing: border-box;
-
-  transition: border-color 0.3s, color 0.3s, background 0.2s;
-}
-
-h2 {
-  text-align: center;
-}
-
-.line-form {
+/* ── Header ───────────────────────────────────────────── */
+.modal-header {
   display: flex;
-  flex-flow: row wrap;
-  gap: 24px;
-  margin-bottom: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 0;
 }
 
-.label {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-size: 0.9rem;
-  font-weight: bold;
-  color: #05060f99;
-  transition: color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(79, 209, 197, 0.1);
+  border: 1.5px solid rgba(79, 209, 197, 0.2);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.modal-subtitle {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin: 2px 0 0 0;
+}
+
+.btn-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-close:hover {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+/* ── Form grid ────────────────────────────────────────── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px 0 4px;
 }
 
 .input-group {
-  width: 190px;
   display: flex;
   flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+}
+
+/* ── Inputs ───────────────────────────────────────────── */
+.input {
+  width: 100%;
+  height: 44px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1f2937;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: #d1d5db;
+  font-weight: 400;
 }
 
 .input:hover,
-.input:focus,
-.input-group:hover .input {
+.input:focus {
   outline: none;
   border-color: #4fd1c5;
-}
-
-.input-group:hover .label,
-.input:focus {
-  color: #05060fc2;
-}
-
-.btn {
-  padding: 5px 7px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  cursor: pointer;
-  border-radius: 10px;
-  border: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  transition: 0.4s;
+  box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.12);
 }
 
 .readonly {
   pointer-events: none;
+  opacity: 0.5;
 }
 
-.action {
+/* Amount input with € prefix */
+.amount-wrapper {
   display: flex;
-  gap: 8px;
-}
-
-.btn-primary {
-  background-color: #00bfa6;
-  color: #fff;
-}
-
-.btn-secondary {
-  color: #00bfa6;
-  background-color: #fff;
-}
-
-.custom-select-wrapper {
-  width: 100%;
-  position: relative;
-  user-select: none;
-  width: 180px;
-}
-.select-trigger {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  box-sizing: border-box;
-  width: 100%;
-  padding: 10px 15px;
-  background-color: #fff;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 1rem;
-  color: #05060f;
-  cursor: pointer;
-  transition: border-color 0.3s;
-}
-
-.select-trigger span {
-  white-space: nowrap;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
   overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 10px; /* Petit espace avant la flèche */
-  flex: 1; /* Prend l'espace disponible */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.select-trigger:hover,
-.custom-select-wrapper:hover .select-trigger,
-.select-trigger.open {
+.amount-wrapper:focus-within {
   border-color: #4fd1c5;
+  box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.12);
 }
 
-.arrow {
-  transition: transform 0.3s;
-}
-.select-trigger.open .arrow {
-  transform: rotate(180deg);
-}
-
-.options-container {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  right: 0;
-  background: white;
-  z-index: 100;
-  border: 2px solid #000000;
-  border-radius: 12px;
-  padding: 5px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  max-height: 200px;
-  overflow-y: auto;
+.currency {
+  padding: 0 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4fd1c5;
+  border-right: 1.5px solid #e5e7eb;
+  background: rgba(79, 209, 197, 0.06);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-.option-item {
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.2s, color 0.2s;
-  color: #05060f;
+.amount-input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding-left: 12px;
 }
 
-.option-item:hover {
-  background-color: #00bfa6;
-  color: white;
+.amount-input:hover,
+.amount-input:focus {
+  border: none;
+  box-shadow: none;
 }
 
-/* Pour Chrome, Safari, Edge, Opera */
+/* Remove number spinners */
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Pour Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+/* ── Custom select ────────────────────────────────────── */
+.custom-select-wrapper {
+  position: relative;
+  user-select: none;
+}
+
+.select-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 44px;
+  padding: 0 14px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.select-trigger span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  color: #9ca3af;
+}
+
+.select-trigger.open span,
+.select-trigger span:not(:empty) {
+  color: #1f2937;
+}
+
+.select-trigger:hover,
+.select-trigger.open {
+  border-color: #4fd1c5;
+  box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.12);
+}
+
+.arrow {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.select-trigger.open .arrow {
+  transform: rotate(180deg);
+}
+
+.options-container {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  z-index: 200;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.option-item {
+  padding: 10px 12px;
+  cursor: pointer;
+  border-radius: 7px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.option-item:hover {
+  background: rgba(79, 209, 197, 0.1);
+  color: #4fd1c5;
+}
+
+/* ── Actions ──────────────────────────────────────────── */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 24px;
+}
+
+.btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-cancel {
+  background: #f1f5f9;
+  color: #6b7280;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn-submit {
+  background: #4fd1c5;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 209, 197, 0.35);
+}
+
+.btn-submit:hover {
+  background: #38bdb2;
+  box-shadow: 0 6px 16px rgba(79, 209, 197, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-submit:active {
+  background: #2eada2;
+  transform: translateY(0);
 }

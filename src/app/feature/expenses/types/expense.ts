@@ -10,7 +10,9 @@ export interface Expense {
 
 export enum Tag {
   SOIREE,
-  RESTAURANT
+  RESTAURANT,
+  ANNIVERSAIRE,
+  CINEMA,
 }
 
 export enum ExpenseStatus {

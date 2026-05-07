@@ -11,6 +11,8 @@ import { Router, RoutesRecognized } from '@angular/router';
 import { ExpenseEvents } from '../../expenses/store/expenseEvents';
 import { SseService } from '../../sse/services/sse-service.service';
 import { SseStore } from '../../sse/store/sseStore';
+import { BalanceStore } from '../../balance/store/balanceStore';
+import { BalanceService } from '../../balance/service/balance-service.service';
 
 interface AuthState {
   userConnected: User | null
@@ -18,13 +20,16 @@ interface AuthState {
 }
 export const AuthStore = signalStore(
   withState<AuthState>({ userConnected: null, isLoading: false }),
+  withProps(() => ({
+    balanceService : inject(BalanceService),
+  })),
   withReducer(
     on(AuthEvent.authentification, (_) => ({ isLoading: true })),
     on(AuthEvent.authentificationSuccess, (_) => ({ isLoading: false })),
     on(AuthEvent.getCurrentUserSuccess, ({ payload }) => ({ userConnected: payload.user }))
   ),
   withEventHandlers(
-    () => {
+    ({balanceService}) => {
       const events = inject(Events);
       const service = inject(AuthService);
       const tokenService = inject(TokenService);
@@ -36,10 +41,10 @@ export const AuthStore = signalStore(
           switchMap(({ payload }) =>
             service.login(payload.username, payload.password).pipe(
               mapResponse({
-                next: (response) => {
+                next: ({accessToken}) => {
                   console.log("Je suis dans l'authenfication");
-                  tokenService.setToken(response.token);
-                  return AuthEvent.authentificationSuccess({ token: response.token });
+                  tokenService.setToken(accessToken);
+                  return AuthEvent.authentificationSuccess({ token: accessToken });
                 },
                 error: (error) =>
                   AuthEvent.authentificationFailure({ error }),
@@ -47,16 +52,15 @@ export const AuthStore = signalStore(
             )
           )
         ),
-        getCurrentUser$: events.on(AuthEvent.authentificationSuccess).pipe(
-          switchMap(() => service.getConnectedUser().pipe(
-            mapResponse({
-              next: (user) => {
-                router.navigate(['dashboard']);
-                return AuthEvent.getCurrentUserSuccess({ user })
-              },
-              error: (error) => AuthEvent.authentificationFailure({ error })
-            })
-          ))
+        redirect$ : events.on(AuthEvent.authentificationSuccess).pipe(
+          switchMap(_ =>
+            balanceService.balanceIsExistingForUser().pipe(
+              mapResponse({
+                next : (bool) => bool ? router.navigate(['/dashboard']) : router.navigate(['/balance']),
+                error : (e) => console.error(e)
+              })
+            )
+          )
         )
       };
     }

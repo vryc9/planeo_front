@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { User } from '../types/user';
 
 @Injectable({
@@ -8,21 +9,17 @@ import { User } from '../types/user';
 })
 export class AuthService {
 
-  private readonly URL2: string = 'http://localhost:8080/api/auth/login';
-  private readonly URL_USER : string = 'http://localhost:8080/api/user/me'
+  private readonly baseUrl = environment.apiUrl;
+  private readonly http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {
-  }
-  login(username: string, password: string): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(this.URL2, {
+  login(username: string, password: string): Observable<{ accessToken: string, refreshToken : string }> {
+    return this.http.post<{ accessToken : string, refreshToken : string }>(`${this.baseUrl}/auth/login`, {
       username,
       password
     });
   }
 
-  getConnectedUser() : Observable<User> {
-    return this.http.get<User>(this.URL_USER);
+  getConnectedUser(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/user/me`);
   }
-
-
 }

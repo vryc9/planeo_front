@@ -1,58 +1,75 @@
-<h2 mat-dialog-title>Créer une dépense</h2>
-<mat-dialog-content class="mat-typography">
-  <form (submit)="onSubmit($event)">
-    <div class="line-form">
+<form (submit)="onSubmit($event)">
+
+  <div class="modal-header">
+    <div class="modal-title-row">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#4fd1c5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="3"/>
+          <path d="M2 10h20"/>
+          <circle cx="17" cy="15" r="1.5" fill="#4fd1c5" stroke="none"/>
+        </svg>
+      </div>
+      <div>
+        <h2 class="modal-title">Nouvelle dépense</h2>
+        <p class="modal-subtitle">{{ isRecurring() ? 'Dépense récurrente' : 'Dépense ponctuelle' }}</p>
+      </div>
+    </div>
+    <button type="button" mat-dialog-close class="btn-close" aria-label="Fermer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <mat-dialog-content>
+    <div class="form-grid">
+
       <div class="input-group">
         <label class="label">Tag</label>
         <div class="custom-select-wrapper">
-          <div class="input select-trigger" [class.open]="isOpen()" (click)="toggleDropdown()">
+          <div class="select-trigger" [class.open]="isOpen()" (click)="toggleDropdown()">
             <span>{{ selectedLabel() }}</span>
             <svg class="arrow" width="12" height="12" viewBox="0 0 16 16">
-              <path fill="none" stroke="#343a40" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M2 5l6 6 6-6" />
+              <path fill="none" stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 5l6 6 6-6"/>
             </svg>
           </div>
           @if (isOpen()) {
-          <div class="options-container">
-            @for (option of tagOptions(); track option.id) {
-            <div class="option-item" (click)="selectOption(option.id, option.label)">
-              {{ option.label }}
+            <div class="options-container">
+              @for (option of tagOptions(); track option.id) {
+                <div class="option-item" (click)="selectOption(option.id, option.label)">
+                  {{ option.label }}
+                </div>
+              }
             </div>
-            }
-          </div>
           }
         </div>
-        <div></div>
       </div>
 
       <div class="input-group">
         <label class="label">Libellé</label>
-        <input [field]="form.label" autocomplete="off" id="password" class="input" type="string">
-        <div></div>
+        <input [field]="form.label" autocomplete="off" class="input" type="text" placeholder="Ex: Netflix">
       </div>
 
-    </div>
-
-    <div class="line-form">
       <div class="input-group">
-        <label for="date" class="label">{{dateFormLabel()}}</label>
-        <input [field]="form.date" autocomplete="off" id="date" [ngClass]="{'readonly' : !isRecurring()}" class="input"
-          type="text">
-        <div></div>
+        <label class="label">{{dateFormLabel()}}</label>
+        <input [field]="form.date" autocomplete="off" [ngClass]="{'readonly': !isRecurring()}" class="input" type="text" placeholder="JJ/MM/AAAA">
       </div>
 
       <div class="input-group">
         <label class="label">Montant</label>
-        <input [field]="form.amount" autocomplete="off" id="amount" class="input" type="number">
-        <div></div>
+        <div class="amount-wrapper">
+          <span class="currency">€</span>
+          <input [field]="form.amount" autocomplete="off" class="input amount-input" type="number" placeholder="0.00">
+        </div>
       </div>
 
     </div>
+  </mat-dialog-content>
 
-    <mat-dialog-actions class="action" align="end">
-      <button class="btn btn-secondary" matButton mat-dialog-close>Annuler</button>
-      <button class="btn btn-primary" type="submit">Créer</button>
-    </mat-dialog-actions>
-  </form>
+  <mat-dialog-actions class="modal-actions">
+    <button type="button" mat-dialog-close class="btn btn-cancel">Annuler</button>
+    <button type="submit" class="btn btn-submit">Créer la dépense</button>
+  </mat-dialog-actions>
 
-</mat-dialog-content>
+</form>

@@ -4,6 +4,11 @@
   gap: 24px;
 }
 
+.dashboard-stats-row {
+  display: flex;
+  gap: 16px;
+}
+
 
 .dashboard-graph-list-expense {
   display: flex;
@@ -14,3 +19,4 @@
   flex: 1;
   min-width: 0;
 }
+

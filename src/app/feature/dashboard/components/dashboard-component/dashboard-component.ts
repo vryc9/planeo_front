@@ -1,17 +1,16 @@
-import { Component, inject, OnInit, computed, ElementRef, viewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ExpenseStore } from '../../../expenses/store/expenseStore';
-import { ExpenseResumeComponent } from "../../../expenses/components/expense-resume-component/expense-resume-component";
 import { DashbordGraphComponent } from "../dashbord-graph-component/dashbord-graph-component";
 import { DashboardListExpense } from "../dashboard-list-expense/dashboard-list-expense";
+import { DashboardTagsGraphComponent } from "../dashboard-tags-graph-component/dashboard-tags-graph-component";
+import { DashboardResumeCard } from "../dashboard-resume-card/dashboard-resume-card";
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpensePerMountEvent } from '../../../expenses/store/expenseEvents';
-import { BaseChartDirective } from 'ng2-charts';
-import { ChartData, ChartOptions, Chart } from 'chart.js';
 import { DashboardStore } from '../../store/DasboardStore';
 
 @Component({
   selector: 'app-dashboard-component',
-  imports: [ExpenseResumeComponent, DashbordGraphComponent, DashboardListExpense],
+  imports: [DashbordGraphComponent, DashboardListExpense, DashboardTagsGraphComponent, DashboardResumeCard],
   templateUrl: './dashboard-component.html',
   styleUrl: './dashboard-component.css',
 })

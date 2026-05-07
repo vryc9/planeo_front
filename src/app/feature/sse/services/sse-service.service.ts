@@ -5,6 +5,7 @@ import { EventSourcePolyfill } from 'event-source-polyfill';
 import { TokenService } from '../../auth/service/token.service';
 import { MessageEventEnum } from '../enum/messageEvent';
 import { injectDispatch } from '@ngrx/signals/events';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +15,13 @@ export class SseService {
   private tokenService = inject(TokenService);
   readonly dispatch = injectDispatch(BalanceEvents);
 
-  getServerSentEvent(userId: number): Observable<MessageEvent> {
+  getServerSentEvent(): Observable<MessageEvent> {
     return new Observable(observer => {
 
       const token = this.tokenService.getToken();
       console.log(token);
 
-      const url = `http://localhost:8080/api/sse/${userId}`;
+      const url = `${environment.apiUrl}/api/sse`;
 
       const eventSource = new EventSourcePolyfill(url, {
         headers: {

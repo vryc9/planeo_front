@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="card">
+
+    <div class="icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#4FD1C5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="3" />
+        <path d="M2 10h20" />
+        <circle cx="17" cy="15" r="1.5" fill="#4FD1C5" stroke="none" />
+      </svg>
+    </div>
+
+    <div class="header">
+      <h1 class="title">Bienvenue sur Planeo</h1>
+      <p class="subtitle">Entrez votre solde actuel pour commencer à suivre vos finances.</p>
+    </div>
+
+    <div class="input-group">
+      <label class="label" for="balance">Solde actuel</label>
+      <div class="input-wrapper">
+        <span class="currency">€</span>
+        <input
+          [field]="form.currentBalance"
+          autocomplete="off"
+          id="balance"
+          class="input"
+          type="number"
+          placeholder="0.00"
+        />
+      </div>
+    </div>
+
+    <button (click)="submit()" class="btn">
+      Commencer
+    </button>
+
+  </div>
+</div>

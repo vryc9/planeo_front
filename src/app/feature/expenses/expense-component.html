@@ -1,34 +1,50 @@
-<!-- <p>expense-component works!</p>
-systement d'onglet avec :
-- Dépense à venir,
-- Dépense récurrente
+<div class="expense-page">
 
-Pour chaque dépense pouvoir la supprimer et la modifier.
-Pouvoir créer une nouvelle dépense.
-
-Avoir un résumé avec le nombre de dépense à venir, nombre de dépense récurrente, nombre d'argent en cours et à venir -->
-
-<div class="expense-container">
-  <app-expense-resume-component [expenseResume]="store.resumeExpense()"></app-expense-resume-component>
-  <div>
-    <mat-tab-group>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-          Dépense à venir
-        </ng-template>
-        <app-list-expense-component [onglet]="'incomingExpense'"
-          [expenses]="store.sortedExpenses()"></app-list-expense-component>
-      </mat-tab>
-
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="example-tab-icon">thumb_up</mat-icon>
-          Dépense réccurente
-        </ng-template>
-        <app-recuring-expense-component [onglet]="'recurringExpense'"
-          [expenses]="store.sortedRecurringExpenses()"></app-recuring-expense-component>
-      </mat-tab>
-    </mat-tab-group>
+  <div class="page-header">
+    <div>
+      <h2 class="page-title">Dépenses</h2>
+      <p class="page-subtitle">Gérez vos dépenses et abonnements</p>
+    </div>
+    <button (click)="createExpense()" class="btn-create">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Nouvelle dépense
+    </button>
   </div>
+
+  <app-expense-resume-component [expenseResume]="store.resumeExpense()"/>
+
+  <div class="list-section">
+    <div class="segmented-control">
+      <button
+        class="segment"
+        [class.active]="activeTab() === 'incoming'"
+        (click)="setTab('incoming')"
+      >
+        À venir
+      </button>
+      <button
+        class="segment"
+        [class.active]="activeTab() === 'recurring'"
+        (click)="setTab('recurring')"
+      >
+        Récurrentes
+      </button>
+    </div>
+
+    @if (activeTab() === 'incoming') {
+      <app-list-expense-component
+        [onglet]="'incomingExpense'"
+        [expenses]="store.sortedExpenses()"
+      />
+    } @else {
+      <app-list-expense-component
+        [onglet]="'recurringExpense'"
+        [expenses]="store.sortedRecurringExpenses()"
+      />
+    }
+  </div>
+
 </div>

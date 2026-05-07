@@ -1,14 +1,9 @@
-<div class="expense-resume-card">
-    <div class="card-icon" >
-      <span class="svgIcon">
-        <mat-icon class="size" [fontIcon]="expenseResume().icon"></mat-icon>
-      </span>
-    </div>
-    <div class="card-content">
-      <h3>{{expenseResume().title}}</h3>
-      <hr class="separator">
-      <h3>{{expenseResume().data}}</h3>
-    </div>
+<div class="resume-card">
+  <div class="card-icon">
+    <mat-icon class="icon-size" [fontIcon]="expenseResume().icon"/>
   </div>
-
-
+  <div class="card-body">
+    <p class="card-label">{{expenseResume().title}}</p>
+    <p class="card-value">{{expenseResume().data}}</p>
+  </div>
+</div>

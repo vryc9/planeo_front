@@ -3,7 +3,7 @@ import { inject } from "@angular/core";
 import { signalStoreFeature } from "@ngrx/signals";
 import { Events, withEventHandlers } from "@ngrx/signals/events";
 import { ExpenseService } from "../services/expense-service.service";
-import { ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
+import { ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
 import { switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 
@@ -51,6 +51,17 @@ export function withExpenseEventsHandler() {
                     next: (expenses) => ExpensePerMountEvent.loadExpensePerMonthSuccess({ expenses }),
                     error: (error) =>
                       ExpenseEvents.loadExpenseFailure({ error }),
+                  })
+                )
+              )
+            ),
+            loadExpenseByTags$: events.on(ExpensePerMountEvent.loadExpensePerMonth)
+            .pipe(
+              switchMap(_ =>
+                service.getExpenseByTags().pipe(
+                  mapResponse({
+                    next: (expenseByTags) => ExpenseByTagsEvents.loadExpenseBytagsSuccess({ expenseByTags }),
+                    error: (error) => ExpenseByTagsEvents.loadExpenseByTagsFailure({ error }),
                   })
                 )
               )

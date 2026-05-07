@@ -1,7 +1,12 @@
 <div class="dashboard-content-container">
-  <app-expense-resume-component [expenseResume]="expensesStore.resumeExpense()"></app-expense-resume-component>
+  <div class="dashboard-stats-row">
+    @for (item of expensesStore.resumeExpense(); track $index) {
+      <app-dashboard-resume-card [expenseResume]="item"></app-dashboard-resume-card>
+    }
+  </div>
   <div class="dashboard-graph-list-expense">
     <app-dashbord-graph-component [expensesPerMonth]="expensesStore.expensePerMonth()" ></app-dashbord-graph-component>
     <app-dashboard-list-expense [expenses]="dashboardStore.expenses()"></app-dashboard-list-expense>
   </div>
+  <app-dashboard-tags-graph-component [expenseByTags]="expensesStore.expenseByTags()"></app-dashboard-tags-graph-component>
 </div>

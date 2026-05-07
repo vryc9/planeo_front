@@ -29,7 +29,9 @@ export class ModaleExpenseComponent {
 
   tagLabels: WritableSignal<Record<Tag, string>> = signal({
     [Tag.SOIREE]: "Soirée",
-    [Tag.RESTAURANT]: "Restaurant"
+    [Tag.RESTAURANT]: "Restaurant",
+    [Tag.CINEMA] : "Cinéma",
+    [Tag.ANNIVERSAIRE] : "Anniversaire"
   });
 
   tagOptions: Signal<{

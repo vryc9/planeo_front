@@ -18,7 +18,6 @@ interface LoginData {
 
 export class AuthComponenent {
   readonly store = inject(AuthStore);
-
   readonly dispatch = injectDispatch(AuthEvent);
 
   loginModel = signal<LoginData>({
