@@ -13,4 +13,18 @@ export const SseStore = signalStore(
     service: inject(SseService),
     events: inject(Events),
   })),
+  withEventHandlers(({events, service}) => {
+    return {
+      connectToSse$ : events.on(AuthEvent.authentificationSuccess).pipe(
+        switchMap(({payload : {token}}) =>
+          service.getServerSentEvent().pipe(
+            mapResponse({
+              next : (_) => SseEvent.subscribeSucces(),
+              error : (error) => SseEvent.subscribeFailure({error})
+            })
+          )
+        )
+      )
+    }
+  })
 )

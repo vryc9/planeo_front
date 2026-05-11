@@ -6,6 +6,7 @@ import { ExpenseService } from "../services/expense-service.service";
 import { ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
 import { switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
+import { SseEvent } from '../../sse/store/withSseEvent';
 
 export function withExpenseEventsHandler() {
   return signalStoreFeature(
@@ -28,6 +29,7 @@ export function withExpenseEventsHandler() {
           loadExpense$: events.on(
             ExpenseEvents.loadExpense,
             ExpenseEvents.deleteExpenseSuccess,
+            SseEvent.subscribeSucces,
             ExpenseEvents.createExpenseSuccess)
             .pipe(
               switchMap(_ =>

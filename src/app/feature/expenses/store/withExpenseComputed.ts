@@ -3,6 +3,7 @@ import { ExpenseState } from "./expenseStore";
 import { computed, inject } from "@angular/core";
 import { BalanceStore } from "../../balance/store/balanceStore";
 import { ExpenseResume } from "../types/expenseResume";
+import { Expense, ExpenseStatus } from "../types/expense";
 
 export function withExpenseComputed() {
   return signalStoreFeature(
@@ -13,7 +14,8 @@ export function withExpenseComputed() {
     withComputed(({ expenses, sortBy, sortDirection, balanceStore }) => ({
       resumeExpense: computed<ExpenseResume[]>(() => {
         const { currentBalance, futureBalance, pendingExpenses } = balanceStore.balance() ?? {}
-        const countExpense: number = expenses().length;
+        const expenseFilterByPending : Expense[] = [...expenses()].filter(({status}) => status === ExpenseStatus.PENDING )
+        const countExpense: number = expenseFilterByPending.length;
         return [
           {
             data: countExpense,
@@ -45,7 +47,7 @@ export function withExpenseComputed() {
       sortedExpenses: computed(() => {
         const multiplier: 1 | -1 = sortDirection() === 'asc' ? 1 : -1;
         if (!sortBy()) return [...expenses()];
-        return [...expenses()].filter(({ recurring }) => !recurring).toSorted((a, b) => {
+        return [...expenses()].filter(({ recurring, status}) => !recurring && status == ExpenseStatus.PENDING).toSorted((a, b) => {
           switch (sortBy()) {
             case 'amount':
               return (a.amount - b.amount) * multiplier;

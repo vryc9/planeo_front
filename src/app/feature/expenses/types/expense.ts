@@ -16,6 +16,6 @@ export enum Tag {
 }
 
 export enum ExpenseStatus {
-  PENDING,
-  PROCESSED
+  PENDING = "PENDING",
+  PROCESSED = "PROCESSED"
 }
