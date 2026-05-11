@@ -1,17 +1,21 @@
 import { ExpensePerMonth } from './../types/expensePerMount';
 import { inject } from "@angular/core";
-import { signalStoreFeature } from "@ngrx/signals";
-import { Events, withEventHandlers } from "@ngrx/signals/events";
+import { signalStoreFeature, withProps } from "@ngrx/signals";
+import { Events, injectDispatch, withEventHandlers } from "@ngrx/signals/events";
 import { ExpenseService } from "../services/expense-service.service";
 import { ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
 import { switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 import { SseEvent } from '../../sse/store/withSseEvent';
+import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 
 export function withExpenseEventsHandler() {
   return signalStoreFeature(
+    withProps(() => ({
+    toast : injectDispatch(ToastEvents)
+  })),
     withEventHandlers(
-      () => {
+      ({toast}) => {
         const events = inject(Events);
         const service = inject(ExpenseService);
         return {
@@ -19,7 +23,10 @@ export function withExpenseEventsHandler() {
             switchMap(({ payload }) =>
               service.createExpense(payload.expense).pipe(
                 mapResponse({
-                  next: (expense) => ExpenseEvents.createExpenseSuccess({ expense }),
+                  next: (expense) => {
+                    toast.show({description : "La dépense a bien été créée", title : "Creation de la dépense", variant : "success"})
+                    return ExpenseEvents.createExpenseSuccess({ expense })
+                  },
                   error: (error) =>
                     ExpenseEvents.createExpenseFailure({ error }),
                 })

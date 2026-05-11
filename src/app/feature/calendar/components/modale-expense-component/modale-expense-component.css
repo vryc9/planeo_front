@@ -167,6 +167,10 @@ input[type=number] {
 }
 
 /* ── Custom select ────────────────────────────────────── */
+:host ::ng-deep mat-dialog-content {
+  overflow: visible;
+}
+
 .custom-select-wrapper {
   position: relative;
   user-select: none;
