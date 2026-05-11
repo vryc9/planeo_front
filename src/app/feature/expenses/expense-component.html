@@ -32,6 +32,13 @@
       >
         Récurrentes
       </button>
+      <button
+        class="segment"
+        [class.active]="activeTab() === 'processed'"
+        (click)="setTab('processed')"
+      >
+        Dépense passées
+      </button>
     </div>
 
     @if (activeTab() === 'incoming') {
@@ -39,7 +46,12 @@
         [onglet]="'incomingExpense'"
         [expenses]="store.sortedExpenses()"
       />
-    } @else {
+    }
+    @else if (activeTab() === 'processed') {
+    <app-list-expense-component [onglet]="'incomingExpense'" [expenses]="store.filterExpenseByProcessingStatus()" />
+    }
+
+    @else {
       <app-list-expense-component
         [onglet]="'recurringExpense'"
         [expenses]="store.sortedRecurringExpenses()"

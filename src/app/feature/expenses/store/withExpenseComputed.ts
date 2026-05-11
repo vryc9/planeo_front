@@ -75,7 +75,23 @@ export function withExpenseComputed() {
               return 0;
           }
         });
-      })
+      }),
+      filterExpenseByProcessingStatus: computed(() => {
+        const multiplier: 1 | -1 = sortDirection() === 'asc' ? 1 : -1;
+        if (!sortBy()) return [...expenses()];
+        return [...expenses()].filter(({ recurring, status}) => !recurring && status == ExpenseStatus.PROCESSED).toSorted((a, b) => {
+          switch (sortBy()) {
+            case 'amount':
+              return (a.amount - b.amount) * multiplier;
+            case 'date':
+              return (new Date(a.date).getTime() - new Date(b.date).getTime()) * multiplier;
+            case 'label':
+              return a.label.localeCompare(b.label) * multiplier;
+            default:
+              return 0;
+          }
+        });
+      }),
     })),
   )
 }

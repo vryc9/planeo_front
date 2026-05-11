@@ -5,7 +5,7 @@ import { ExpenseStore } from './store/expenseStore';
 import { injectDispatch } from '@ngrx/signals/events';
 import { calendarEvents } from '../calendar/store/calendarEvent';
 
-type TabType = 'incoming' | 'recurring';
+type TabType = 'incoming' | 'recurring' | 'processed' ;
 
 @Component({
   selector: 'app-expense-component',
