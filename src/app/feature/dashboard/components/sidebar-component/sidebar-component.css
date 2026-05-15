@@ -1,7 +1,14 @@
 .sidebar-container {
-  gap: 8px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
 }
 
 .menu-items {
@@ -57,4 +64,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ── User section ─────────────────────────────────────── */
+.user-section {
+  padding-bottom: 8px;
+}
+
+.user-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 12px 8px 16px;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 8px;
+}
+
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(79, 209, 197, 0.12);
+  color: #4fd1c5;
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0;
+}
+
+.user-name {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #374151;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
 }

@@ -14,9 +14,13 @@
   display: flex;
   width: 100%;
   gap: 20px;
+  height: 420px;
 }
 .dashboard-graph-list-expense > * {
   flex: 1;
   min-width: 0;
+  height: 100%;
+  display: block;
+  box-sizing: border-box;
 }
 

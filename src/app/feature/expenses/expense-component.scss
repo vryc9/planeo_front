@@ -54,7 +54,55 @@
 .list-section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+}
+
+/* ── Search bar ───────────────────────────────────────────── */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0 16px;
+  gap: 10px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+
+  &:focus-within {
+    background: #ffffff;
+    border-color: #4fd1c5;
+    box-shadow: 0 0 0 4px rgba(79, 209, 197, 0.12);
+
+    .search-icon {
+      color: #4fd1c5;
+      transform: scale(1.15) rotate(-8deg);
+    }
+  }
+}
+
+.search-icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: #cbd5e1;
+  transition: color 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1f2937;
+  padding: 12px 0;
+
+  &::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+  }
 }
 
 .segmented-control {

@@ -1,5 +1,6 @@
 import { Component, input, InputSignal } from '@angular/core';
-import { Expense } from '../../../expenses/types/expense';
+import { NgClass } from '@angular/common';
+import { Expense, Tag } from '../../../expenses/types/expense';
 import { MatIconModule } from '@angular/material/icon';
 import { DatePipe } from '@angular/common';
 import { injectDispatch } from '@ngrx/signals/events';
@@ -8,16 +9,26 @@ import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
 
 @Component({
   selector: 'app-dashboard-list-expense',
-  imports: [MatIconModule, DatePipe],
+  imports: [MatIconModule, DatePipe, NgClass],
   templateUrl: './dashboard-list-expense.html',
   styleUrl: './dashboard-list-expense.css',
 })
 export class DashboardListExpense {
   readonly expenses: InputSignal<Expense[]> = input.required<Expense[]>();
   readonly dispatch = injectDispatch(DashboardEvents);
-  readonly DashboardViewEnum: typeof DashboardViewEnum = DashboardViewEnum
+  readonly DashboardViewEnum: typeof DashboardViewEnum = DashboardViewEnum;
 
   displayExpenseComponent(): void {
     this.dispatch.openMenu({ view: DashboardViewEnum.EXPENSE });
+  }
+
+  tagIcon(tag: Tag): string {
+    const icons: Record<Tag, string> = {
+      [Tag.SOIREE]: 'nightlife',
+      [Tag.RESTAURANT]: 'restaurant',
+      [Tag.ANNIVERSAIRE]: 'cake',
+      [Tag.CINEMA]: 'movie',
+    };
+    return icons[tag] ?? 'receipt';
   }
 }

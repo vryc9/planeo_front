@@ -12,17 +12,21 @@ import { withExpenseComputed } from "./withExpenseComputed";
 import { ExpensePerMonthView as ExpensePerMonthView } from "../types/expensePerMount";
 import { ExpenseByTags } from "../types/expenseByTags";
 
+export type TabType = 'incoming' | 'recurring' | 'processed' ;
+
+
 export type ExpenseState = {
   expenses: Expense[],
   sortBy: SortType | null,
   sortDirection: SortDirection
   expensePerMonth: ExpensePerMonthView[],
-  expenseByTags : ExpenseByTags[]
+  expenseByTags : ExpenseByTags[],
+  activeTab : TabType
 }
 
 export type SortDirection = 'asc' | 'desc';
 export const ExpenseStore = signalStore(
-  withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc', expensePerMonth: [], expenseByTags : []}),
+  withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc', expensePerMonth: [], expenseByTags : [], activeTab : 'incoming'}),
   withExpenseEventsHandler(),
   withExpenseReducer(),
   withExpenseComputed(),

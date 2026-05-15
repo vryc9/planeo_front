@@ -14,4 +14,8 @@ export class TokenService {
   getToken(): string | null {
     return sessionStorage.getItem('access_token');
   }
+
+  removeToken(): void {
+    sessionStorage.removeItem('access_token');
+  }
 }

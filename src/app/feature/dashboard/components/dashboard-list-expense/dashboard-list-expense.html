@@ -1,20 +1,50 @@
 <div class="expense-dashboard-container">
   <div class="expense-header">
-    <h2>Dernières dépenses planifiées</h2>
-    <button (click)="displayExpenseComponent()">Voir toute les dépenses</button>
+    <div class="expense-title">
+      <h2>Dernières dépenses</h2>
+      <span class="expense-count">{{ expenses().length }} planifiées</span>
+    </div>
+    <button class="btn-see-all" (click)="displayExpenseComponent()">
+      <mat-icon class="btn-icon">arrow_forward</mat-icon>
+      Tout voir
+    </button>
   </div>
 
   <div class="expense-list">
-    <div class="expense-items">
-      @for (expense of expenses(); track $index) {
-      <div class="expense-items-header">
-        <h3>{{expense.date | date:'fullDate'}}</h3>
-        <div class="expense-information">
-          <span>{{expense.label}}</span>
-          <span>{{expense.amount}}€</span>
+    @for (expense of expenses(); track $index) {
+    <div class="expense-row">
+      <div class="expense-icon" [ngClass]="'tag-' + expense.tag">
+        <mat-icon>{{ tagIcon(expense.tag) }}</mat-icon>
+      </div>
+
+      <div class="expense-meta">
+        <span class="expense-label">{{ expense.label }}</span>
+        <span class="expense-date">{{ expense.date | date: 'dd MMM yyyy' }}</span>
+      </div>
+
+      <div class="expense-right">
+        <span class="expense-amount">-{{ expense.amount }}€</span>
+        <div class="expense-badges">
+          @if (expense.recurring) {
+          <span class="badge badge-recurring">
+            <mat-icon class="badge-icon">repeat</mat-icon>
+          </span>
+          }
+          @if (expense.status) {
+          <span class="badge" [ngClass]="'badge-' + expense.status.toLowerCase()">
+            {{ expense.status === 'PROCESSED' ? 'Réglée' : 'En attente' }}
+          </span>
+          }
         </div>
       </div>
-      }
     </div>
+    }
+
+    @if (expenses().length === 0) {
+    <div class="expense-empty">
+      <mat-icon class="empty-icon">receipt_long</mat-icon>
+      <p>Aucune dépense planifiée</p>
+    </div>
+    }
   </div>
 </div>

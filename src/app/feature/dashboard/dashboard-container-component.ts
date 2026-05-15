@@ -10,6 +10,7 @@ import { DashboardComponent } from './components/dashboard-component/dashboard-c
 import { InvestmentComponent } from '../investment/investment-component';
 import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from './store/DashboardEvents';
+import { AuthEvent } from '../auth/store/AuthEvent';
 import { Menu } from './types/menu';
 
 @Component({
@@ -22,7 +23,7 @@ export class DashboardContainerComponent {
   readonly authStore = inject(AuthStore);
   readonly store = inject(DashboardStore);
   readonly dispatch = injectDispatch(DashboardEvents);
-
+  private readonly authDispatch = injectDispatch(AuthEvent);
 
   private readonly components: Record<DashboardViewEnum, Type<unknown>> = {
     [DashboardViewEnum.DASHBOARD]: DashboardComponent,
@@ -34,6 +35,10 @@ export class DashboardContainerComponent {
 
   protected changeView(view: DashboardViewEnum): void {
     this.dispatch.openMenu({ view });
+  }
+
+  protected logout(): void {
+    this.authDispatch.logout();
   }
 }
 

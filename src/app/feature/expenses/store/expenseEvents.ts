@@ -3,6 +3,7 @@ import { type } from "@ngrx/signals";
 import { Expense } from "../types/expense";
 import { ExpensePerMonth } from "../types/expensePerMount";
 import { ExpenseByTags } from "../types/expenseByTags";
+import { TabType } from "./expenseStore";
 
 export type SortType = "date" | 'amount' | 'label'
 export const ExpenseEvents = eventGroup({
@@ -37,4 +38,11 @@ export const ExpensePerMountEvent = eventGroup({
     loadExpensePerMonthSuccess: type<{ expenses: ExpensePerMonth[] }>(),
     loadExpensePerMonthFailure: type<{ error: unknown }>(),
   },
+})
+
+export const ExpenseTabEvents = eventGroup({
+  source : "[Expense] Changement de tab",
+  events : {
+    changeTab : type<{tab : TabType}>()
+  }
 })

@@ -1,46 +1,207 @@
 .expense-dashboard-container {
   background-color: #ffffff;
   border-radius: 15px;
-  padding: 30px 20px 30px 20px;
+  padding: 24px 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
-
-.expense-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-button {
-  background-color: white;
-  color: black;
-  border-radius: 10em;
-  font-size: 17px;
-  font-weight: 600;
-  padding: 10px 20px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  border: 2px solid #4fd1c5;
-}
-
-.expense-items {
   display: flex;
   flex-direction: column;
-  gap: 24.5px;
-  margin-top: 22.5px;
+  gap: 20px;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.expense-information {
+/* ── Header ─────────────────────────────────────────────── */
+.expense-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.expense-items-header {
+.expense-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.expense-title h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.expense-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #a0aec0;
+}
+
+.btn-see-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  color: #4fd1c5;
+  border: 1.5px solid #4fd1c5;
+  border-radius: 10em;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-see-all:hover {
+  background: #4fd1c5;
+  color: #ffffff;
+}
+
+.btn-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* ── List ────────────────────────────────────────────────── */
+.expense-list {
   display: flex;
   flex-direction: column;
-  gap: 4.5px;
+  gap: 2px;
+  overflow-y: auto;
+}
 
-  span {
-    color: #a0aec0;
-  }
+/* ── Row ─────────────────────────────────────────────────── */
+.expense-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+  cursor: default;
+}
+
+.expense-row:hover {
+  background: #f8fffe;
+}
+
+/* ── Tag icon ────────────────────────────────────────────── */
+.expense-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.expense-icon mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.tag-0 { background: rgba(167, 139, 250, 0.15); color: #7c3aed; }
+.tag-1 { background: rgba(251, 146, 60, 0.15);  color: #ea6c0a; }
+.tag-2 { background: rgba(251, 113, 133, 0.15); color: #e11d48; }
+.tag-3 { background: rgba(56, 189, 248, 0.15);  color: #0284c7; }
+
+/* ── Meta ────────────────────────────────────────────────── */
+.expense-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.expense-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1a202c;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expense-date {
+  font-size: 0.72rem;
+  color: #a0aec0;
+}
+
+/* ── Right ───────────────────────────────────────────────── */
+.expense-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.expense-amount {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+/* ── Badges ──────────────────────────────────────────────── */
+.expense-badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10em;
+  letter-spacing: 0.02em;
+}
+
+.badge-pending {
+  background: rgba(251, 191, 36, 0.15);
+  color: #b45309;
+}
+
+.badge-processed {
+  background: rgba(52, 211, 153, 0.15);
+  color: #059669;
+}
+
+.badge-recurring {
+  background: rgba(79, 209, 197, 0.12);
+  color: #4fd1c5;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+}
+
+.badge-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.expense-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 0;
+  color: #a0aec0;
+}
+
+.empty-icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.expense-empty p {
+  font-size: 0.85rem;
+  margin: 0;
 }

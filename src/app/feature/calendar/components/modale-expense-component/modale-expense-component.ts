@@ -1,7 +1,7 @@
 import { Component, computed, Inject, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { email, Field, form, min, required, submit } from '@angular/forms/signals';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Expense, Tag } from '../../../expenses/types/expense';
+import { Expense, ExpenseStatus, Tag } from '../../../expenses/types/expense';
 import { MatInputModule } from '@angular/material/input';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents } from '../../../expenses/store/expenseEvents';
@@ -85,7 +85,6 @@ export class ModaleExpenseComponent {
   }
 
   onSubmit(event: Event): void {
-    console.log(this.isRecurring());
     event.preventDefault();
     submit(this.form, async () => {
       const { tag, amount, date, label } = this.expenseModel();
@@ -101,6 +100,7 @@ export class ModaleExpenseComponent {
         expense: {
           tag: tag!,
           amount,
+          status : ExpenseStatus.PENDING,
           date: new Date(date),
           label,
           recurring: this.isRecurring()
