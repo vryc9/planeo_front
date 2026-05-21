@@ -1,5 +1,5 @@
 import { EventInput } from '@fullcalendar/core';
-import { Expense } from '../../expenses/types/expense';
+import { ExpenseDTO } from '../../../types/generated';
 
 let eventGuid = 0;
 const TODAY_STR = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
@@ -29,6 +29,6 @@ export function createEventId() {
 }
 
 
-export function convertExpenseToCalendarItem(label: string, date: Date): EventInput {
-  return { title: label, start: date };
+export function convertExpenseToCalendarItem(expense: ExpenseDTO): EventInput {
+  return { title: expense.label, start: expense.date, extendedProps: { expense } };
 }

@@ -1,10 +1,10 @@
 import { Component, inject, Inject, input, InputSignal, effect } from '@angular/core';
 import { ListExpenseComponent } from "../list-expense-component/list-expense-component";
-import { Expense } from '../../types/expense';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents } from '../../store/expenseEvents';
 import { calendarEvents } from '../../../calendar/store/calendarEvent';
 import { CalendarStore } from '../../../calendar/store/calendarStore';
+import { ExpenseDTO } from '../../../../types/generated';
 
 @Component({
   selector: 'app-recuring-expense-component',
@@ -13,7 +13,7 @@ import { CalendarStore } from '../../../calendar/store/calendarStore';
   styleUrl: './recuring-expense-component.css',
 })
 export class RecurringExpenseComponent {
-  expenses: InputSignal<Expense[]> = input.required<Expense[]>();
+  expenses: InputSignal<ExpenseDTO[]> = input.required<ExpenseDTO[]>();
   onglet: InputSignal<string> = input.required<string>();
   readonly dispatch = injectDispatch(calendarEvents)
   readonly store = inject(CalendarStore);

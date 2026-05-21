@@ -1,5 +1,4 @@
 import { Events, injectDispatch, on, withEventHandlers, withReducer } from '@ngrx/signals/events';
-import { Balance } from './../types/balance';
 import { signalStore, withHooks, withProps, withState } from "@ngrx/signals";
 import { inject } from '@angular/core';
 import { BalanceService } from '../service/balance-service.service';
@@ -10,9 +9,10 @@ import { ExpenseEvents } from '../../expenses/store/expenseEvents';
 import { AuthEvent } from '../../auth/store/AuthEvent';
 import { Router } from '@angular/router';
 import { AuthStore } from '../../auth/store/AuthStore';
+import { BalanceDTO, BalanceResponseDTO } from '../../../types/generated';
 
 type BalanceState = {
-  balance: Balance | undefined
+  balance: BalanceResponseDTO | undefined
 }
 
 export const BalanceStore = signalStore(

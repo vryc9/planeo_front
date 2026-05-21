@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Balance } from '../types/balance';
 import { environment } from '../../../../environments/environment';
+import { BalanceDTO, BalanceResponseDTO } from '../../../types/generated';
 
 @Injectable({
   providedIn: 'root',
@@ -14,16 +14,16 @@ export class BalanceService {
   constructor() {
   }
 
-  get() : Observable<Balance> {
-    return this.http.get<Balance>(this.baseUrl);
+  get() : Observable<BalanceResponseDTO> {
+    return this.http.get<BalanceResponseDTO>(this.baseUrl);
   }
 
   balanceIsExistingForUser() : Observable<boolean> {
     return this.http.get<boolean>(this.baseUrl + '/exist');
   }
 
-  create(balance : Balance) : Observable<Balance>{
-    return this.http.post<Balance>(this.baseUrl, balance);
+  create(balance : BalanceDTO) : Observable<BalanceResponseDTO>{
+    return this.http.post<BalanceResponseDTO>(this.baseUrl, balance);
   }
 
 }

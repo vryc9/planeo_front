@@ -5,8 +5,8 @@ import { ExpenseStore, TabType } from './store/expenseStore';
 import { injectDispatch } from '@ngrx/signals/events';
 import { calendarEvents } from '../calendar/store/calendarEvent';
 import { ExpenseTabEvents } from './store/expenseEvents';
-import { Expense } from './types/expense';
 import { debouncedSignal } from './utils/debounce';
+import { ExpenseDTO } from '../../types/generated';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -24,7 +24,7 @@ export class ExpenseComponent {
   private readonly searchQuery : WritableSignal<string> = signal('');
   private readonly debouncedQuery  : Signal<string> = debouncedSignal(this.searchQuery, SEARCH_DEBOUNCE_MS, '');
 
-  protected readonly filteredExpenses: Signal<Expense[]> = computed<Expense[]>(() => {
+  protected readonly filteredExpenses: Signal<ExpenseDTO[]> = computed<ExpenseDTO[]>(() => {
     const query = this.debouncedQuery().toLowerCase().trim();
     const expenses = this.store.expenseToDisplayInTab();
     if (!query) return expenses;

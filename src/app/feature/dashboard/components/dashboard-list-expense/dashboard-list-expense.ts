@@ -1,11 +1,11 @@
 import { Component, input, InputSignal } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { Expense, Tag } from '../../../expenses/types/expense';
 import { MatIconModule } from '@angular/material/icon';
 import { DatePipe } from '@angular/common';
 import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from '../../store/DashboardEvents';
 import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
+import { ExpenseDTO, Tag } from '../../../../types/generated';
 
 @Component({
   selector: 'app-dashboard-list-expense',
@@ -14,7 +14,7 @@ import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
   styleUrl: './dashboard-list-expense.css',
 })
 export class DashboardListExpense {
-  readonly expenses: InputSignal<Expense[]> = input.required<Expense[]>();
+  readonly expenses: InputSignal<ExpenseDTO[]> = input.required<ExpenseDTO[]>();
   readonly dispatch = injectDispatch(DashboardEvents);
   readonly DashboardViewEnum: typeof DashboardViewEnum = DashboardViewEnum;
 

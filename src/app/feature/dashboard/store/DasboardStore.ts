@@ -5,8 +5,7 @@ import { DashboardViewEnum } from "../enum/DashboardViewEnum";
 import { Menu } from "../types/menu";
 import { computed, inject } from "@angular/core";
 import { ExpenseStore } from "../../expenses/store/expenseStore";
-import { ExpensePerMonthView } from "../../expenses/types/expensePerMount";
-import { Expense } from "../../expenses/types/expense";
+import { ExpenseDTO } from "../../../types/generated";
 
 interface DashboardState {
   currentView: DashboardViewEnum;
@@ -29,7 +28,7 @@ export const DashboardStore = signalStore(
     menu: computed(() =>
       MENU_CONFIG.map(item => ({ ...item, isActive: item.view === currentView() }))
     ),
-    expenses: computed<Expense[]>(() => expenses().slice(0, 5))
+    expenses: computed<ExpenseDTO[]>(() => expenses().slice(0, 5))
   })),
   withReducer(
     on(DashboardEvents.openMenu, ({ payload: { view } }) => ({ currentView: view }))

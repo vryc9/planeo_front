@@ -1,4 +1,3 @@
-import { Balance } from './../../types/balance';
 import { Component, inject, signal } from '@angular/core';
 import { Field, form } from '@angular/forms/signals';
 import { injectDispatch } from '@ngrx/signals/events';

@@ -8,8 +8,10 @@ import listPlugin from '@fullcalendar/list';
 import { INITIAL_EVENTS } from './util/event-util';
 import { injectDispatch } from '@ngrx/signals/events';
 import { calendarEvents } from './store/calendarEvent';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CalendarStore } from './store/calendarStore';
+import { ExpenseDetailModalComponent } from './components/expense-detail-modal/expense-detail-modal';
+import { ExpenseDTO } from '../../types/generated';
 @Component({
   selector: 'app-calendar-component',
   imports: [FullCalendarModule, MatDialogModule],
@@ -21,6 +23,7 @@ export class CalendarComponent {
   calendarVisible = signal(true);
   readonly dispatch = injectDispatch(calendarEvents);
   readonly store = inject(CalendarStore);
+  readonly dialog = inject(MatDialog);
   calendarOptions = signal<CalendarOptions>({
     height: '100%',
     expandRows: true,
@@ -68,9 +71,13 @@ export class CalendarComponent {
   }
 
   handleEventClick(clickInfo: EventClickArg): void {
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-      clickInfo.event.remove();
-    }
+    const expense = clickInfo.event.extendedProps['expense'] as ExpenseDTO | undefined;
+    if (!expense) return;
+    this.dialog.open(ExpenseDetailModalComponent, {
+      data: { expense },
+      width: '440px',
+      panelClass: 'expense-detail-panel',
+    });
   }
 
   handleEvents(events: EventApi[]): void {

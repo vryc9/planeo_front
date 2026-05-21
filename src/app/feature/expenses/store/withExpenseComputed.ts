@@ -3,7 +3,7 @@ import { ExpenseState, TabType } from "./expenseStore";
 import { computed, inject, linkedSignal } from "@angular/core";
 import { BalanceStore } from "../../balance/store/balanceStore";
 import { ExpenseResume } from "../types/expenseResume";
-import { Expense, ExpenseStatus } from "../types/expense";
+import { ExpenseDTO, ExpenseStatus } from "../../../types/generated";
 
 export function withExpenseComputed() {
   return signalStoreFeature(
@@ -14,7 +14,7 @@ export function withExpenseComputed() {
     withComputed(({ expenses, sortBy, sortDirection, balanceStore }) => ({
       resumeExpense: computed<ExpenseResume[]>(() => {
         const { currentBalance, futureBalance, pendingExpense } = balanceStore.balance() ?? {}
-        const expenseFilterByPending: Expense[] = [...expenses()].filter(({ status }) => status === ExpenseStatus.PENDING)
+        const expenseFilterByPending: ExpenseDTO[] = [...expenses()].filter(({ status }) => status === ExpenseStatus.PENDING)
         const countExpense: number = expenseFilterByPending.length;
         return [
           {
@@ -94,7 +94,7 @@ export function withExpenseComputed() {
       }),
     })),
     withLinkedState(({ activeTab, sortedExpenses, filterExpenseByProcessingStatus, sortedRecurringExpenses }) => ({
-      expenseToDisplayInTab: linkedSignal<TabType, Expense[]>({
+      expenseToDisplayInTab: linkedSignal<TabType, ExpenseDTO[]>({
         source: activeTab,
         computation: (tab) => ({
           incoming: sortedExpenses(),

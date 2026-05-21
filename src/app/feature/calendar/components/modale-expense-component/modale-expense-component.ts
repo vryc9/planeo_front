@@ -1,12 +1,12 @@
 import { Component, computed, Inject, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { email, Field, form, min, required, submit } from '@angular/forms/signals';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { Expense, ExpenseStatus, Tag } from '../../../expenses/types/expense';
 import { MatInputModule } from '@angular/material/input';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents } from '../../../expenses/store/expenseEvents';
 import { ExpenseStore } from '../../../expenses/store/expenseStore';
 import { NgClass } from "@angular/common";
+import { ExpenseStatus, Tag } from '../../../../types/generated';
 
 interface ExpenseFormData {
   amount: number;
@@ -39,7 +39,7 @@ export class ModaleExpenseComponent {
     label: string;
   }[]> = computed(() => {
     return Object.entries(this.tagLabels()).map(([key, value]) => ({
-      id: Number(key) as Tag,
+      id: key as Tag,
       label: value
     }));
   });
@@ -101,7 +101,7 @@ export class ModaleExpenseComponent {
           tag: tag!,
           amount,
           status : ExpenseStatus.PENDING,
-          date: new Date(date),
+          date: new Date(date).toISOString(),
           label,
           recurring: this.isRecurring()
         }

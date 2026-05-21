@@ -12,7 +12,7 @@ export function withExpenseReducer() {
       on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload : {expenseByTags}}) => ({ expenseByTags })),
       on(ExpensePerMountEvent.loadExpensePerMonthSuccess, ({ payload }) => ({
         expensePerMonth: payload.expenses.map(item => ({
-          ...item, month: new Intl.DateTimeFormat('fr-FR', { month: 'long' })
+          ...item, month:  new Intl.DateTimeFormat('fr-FR', { month: 'long' })
             .format(new Date(2024, item.month - 1))
         }))
       })),

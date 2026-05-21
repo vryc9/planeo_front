@@ -1,12 +1,12 @@
 import { type } from "@ngrx/signals";
 import { eventGroup } from "@ngrx/signals/events";
-import { Balance } from "../types/balance";
+import { BalanceDTO, BalanceResponseDTO } from "../../../types/generated";
 
 export const BalanceEvents = eventGroup({
   source: "[Balance] Balance",
   events: {
     loadBalance: type<void>(),
-    loadBalanceSuccess: type<{ balance: Balance }>(),
+    loadBalanceSuccess: type<{ balance: BalanceResponseDTO }>(),
     loadBalanceFailure: type<{ error: unknown }>()
   }
 })
@@ -15,8 +15,8 @@ export const BalanceEvents = eventGroup({
 export const BalanceCreateEvents = eventGroup({
   source : "[Balance] Création du solde",
   events : {
-    createBalance : type<{balance : Balance}>(),
-    createBalanceSuccess : type<{balance : Balance}>(),
+    createBalance : type<{balance : BalanceDTO}>(),
+    createBalanceSuccess : type<{balance : BalanceResponseDTO}>(),
     createBalanceFailure : type<{error : unknown}>()
   }
 })

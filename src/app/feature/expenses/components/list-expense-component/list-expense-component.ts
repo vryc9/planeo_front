@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents, SortType } from '../../store/expenseEvents';
 import { MatIconModule } from '@angular/material/icon';
-import { Expense } from '../../types/expense';
+import { ExpenseDTO } from '../../../../types/generated';
 
 @Component({
   selector: 'app-list-expense-component',
@@ -12,7 +12,7 @@ import { Expense } from '../../types/expense';
   styleUrl: './list-expense-component.css',
 })
 export class ListExpenseComponent {
-  readonly expenses: InputSignal<Expense[]> = input.required<Expense[]>();
+  readonly expenses: InputSignal<ExpenseDTO[]> = input.required<ExpenseDTO[]>();
   readonly onglet: InputSignal<string> = input.required<string>();
   readonly dateColumnlabel: Signal<string> = computed<string>(() => this.onglet() !== "incomingExpense" ? "Date de prélèvement" : "Date")
   readonly dispath = injectDispatch(ExpenseEvents);
@@ -22,7 +22,7 @@ export class ListExpenseComponent {
     this.dispath.sortExpense({ sortType: sortBy })
   }
 
-  delete(expense: Expense): void {
+  delete(expense: ExpenseDTO): void {
     this.dispath.deleteExpense({ expense })
   }
 }

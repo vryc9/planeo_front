@@ -1,4 +1,3 @@
-import { ExpensePerMonth } from './../types/expensePerMount';
 import { inject } from "@angular/core";
 import { signalStoreFeature, withProps } from "@ngrx/signals";
 import { Events, injectDispatch, withEventHandlers } from "@ngrx/signals/events";

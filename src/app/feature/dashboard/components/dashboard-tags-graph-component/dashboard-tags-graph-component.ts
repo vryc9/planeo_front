@@ -1,25 +1,21 @@
-import { Component, computed, input, InputSignal } from '@angular/core';
-import { ExpenseByTags } from '../../../expenses/types/expenseByTags';
-import { Tag } from '../../../expenses/types/expense';
+import { Component, computed, input, InputSignal, Signal } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { ExpenseByTagDTO, Tag } from '../../../../types/generated';
+import { JsonPipe } from '@angular/common';
+import { toTagLabel } from '../../../../shared/utils/tags-utils';
 
 @Component({
   selector: 'app-dashboard-tags-graph-component',
-  imports: [BaseChartDirective],
+  imports: [BaseChartDirective, JsonPipe],
   templateUrl: './dashboard-tags-graph-component.html',
   styleUrl: './dashboard-tags-graph-component.css',
 })
 export class DashboardTagsGraphComponent {
-  readonly expenseByTags: InputSignal<ExpenseByTags[]> = input.required<ExpenseByTags[]>();
-
-  private readonly tagLabels: Record<number, string> = {
-    [Tag.SOIREE]: 'Soirée',
-    [Tag.RESTAURANT]: 'Restaurant',
-  };
+  readonly expenseByTags: InputSignal<ExpenseByTagDTO[]> = input.required<ExpenseByTagDTO[]>();
 
   readonly chartData = computed<ChartData<'bar'>>(() => ({
-    labels: this.expenseByTags().map(e => this.tagLabels[e.tag] ?? e.tag.toString()),
+  labels: this.expenseByTags().map(({tag}) => toTagLabel(tag)),
     datasets: [
       {
         data: this.expenseByTags().map(e => e.total),

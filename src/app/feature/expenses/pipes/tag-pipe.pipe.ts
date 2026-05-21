@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Tag } from '../types/expense';
 
 @Pipe({
   name: 'tagPipe',

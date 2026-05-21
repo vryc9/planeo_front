@@ -38,7 +38,7 @@ export const CalendarStore = signalStore(
     }
   ),
   withReducer(
-    on(ExpenseEvents.loadExpenseSuccess, ({ payload }) => ({ expenses: payload.expenses.map(({ label, date }) => convertExpenseToCalendarItem(label, date)) })),
+    on(ExpenseEvents.loadExpenseSuccess, ({ payload }) => ({ expenses: payload.expenses.map(expense => convertExpenseToCalendarItem(expense)) })),
   ),
   withHooks({
     onInit(_) {

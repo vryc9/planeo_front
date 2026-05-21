@@ -1,9 +1,8 @@
-import { Balance } from "../../balance/types/balance";
-import { Expense } from "../../expenses/types/expense";
+import { BalanceResponseDTO, ExpenseDTO } from "../../../types/generated";
 
 export interface User {
   id : number,
   username: string,
-  expenses: Expense[],
-  balance: Balance
+  expenses: ExpenseDTO[],
+  balance: BalanceResponseDTO
 }

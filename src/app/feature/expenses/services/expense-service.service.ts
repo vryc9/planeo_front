@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Expense } from '../types/expense';
 import { Observable } from 'rxjs';
-import { ExpensePerMonth } from '../types/expensePerMount';
 import { environment } from '../../../../environments/environment';
-import { ExpenseByTags } from '../types/expenseByTags';
+import { ExpenseByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from '../../../types/generated';
 
 @Injectable({
   providedIn: 'root',
@@ -14,26 +12,26 @@ export class ExpenseService {
 
   readonly http = inject(HttpClient);
 
-  createExpense(expense: Expense): Observable<Expense> {
-    return this.http.post<Expense>(this.baseUrl, expense)
+  createExpense(expense: ExpenseCreateRequestDTO): Observable<ExpenseDTO> {
+    return this.http.post<ExpenseDTO>(this.baseUrl, expense)
   }
 
-  getAllExpense(): Observable<Expense[]> {
-    return this.http.get<Expense[]>(this.baseUrl);
+  getAllExpense(): Observable<ExpenseDTO[]> {
+    return this.http.get<ExpenseDTO[]>(this.baseUrl);
   }
 
-  delete(expense: Expense) {
+  delete(expense: ExpenseDTO) {
     return this.http.delete<void>(this.baseUrl, {
       body: expense
     });
   }
 
-  getExpensePerMonth() : Observable<ExpensePerMonth[]> {
-    return this.http.get<ExpensePerMonth[]>(`${this.baseUrl}/month`);
+  getExpensePerMonth() : Observable<ExpensePerMonthDTO[]> {
+    return this.http.get<ExpensePerMonthDTO[]>(`${this.baseUrl}/month`);
   }
 
-  getExpenseByTags() : Observable<ExpenseByTags[]>{
-    return this.http.get<ExpenseByTags[]>(`${this.baseUrl}/tags`);
+  getExpenseByTags() : Observable<ExpenseByTagDTO[]>{
+    return this.http.get<ExpenseByTagDTO[]>(`${this.baseUrl}/tags`);
   }
 
 }
