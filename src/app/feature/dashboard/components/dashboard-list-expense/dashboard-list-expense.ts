@@ -6,6 +6,7 @@ import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from '../../store/DashboardEvents';
 import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
 import { ExpenseDTO, Tag } from '../../../../types/generated';
+import { toTagLabel } from '../../../../shared/utils/tags-utils';
 
 @Component({
   selector: 'app-dashboard-list-expense',
@@ -23,12 +24,13 @@ export class DashboardListExpense {
   }
 
   tagIcon(tag: Tag): string {
-    const icons: Record<Tag, string> = {
+    console.log(tag);
+    const icons: Record<string, string> = {
       [Tag.SOIREE]: 'nightlife',
       [Tag.RESTAURANT]: 'restaurant',
       [Tag.ANNIVERSAIRE]: 'cake',
       [Tag.CINEMA]: 'movie',
     };
-    return icons[tag] ?? 'receipt';
+    return icons[toTagLabel(tag)] ?? 'receipt';
   }
 }
