@@ -1,13 +1,12 @@
-import { Component, computed, input, InputSignal, Signal } from '@angular/core';
+import { Component, computed, input, InputSignal } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { ExpenseByTagDTO, Tag } from '../../../../types/generated';
-import { JsonPipe } from '@angular/common';
+import { ExpenseByTagDTO } from '../../../../types/generated';
 import { toTagLabel } from '../../../../shared/utils/tags-utils';
 
 @Component({
   selector: 'app-dashboard-tags-graph-component',
-  imports: [BaseChartDirective, JsonPipe],
+  imports: [BaseChartDirective],
   templateUrl: './dashboard-tags-graph-component.html',
   styleUrl: './dashboard-tags-graph-component.css',
 })

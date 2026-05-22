@@ -7,11 +7,10 @@ import { DashboardResumeCard } from "../dashboard-resume-card/dashboard-resume-c
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpensePerMountEvent } from '../../../expenses/store/expenseEvents';
 import { DashboardStore } from '../../store/DasboardStore';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-component',
-  imports: [DashbordGraphComponent, DashboardListExpense, DashboardTagsGraphComponent, DashboardResumeCard, JsonPipe],
+  imports: [DashbordGraphComponent, DashboardListExpense, DashboardTagsGraphComponent, DashboardResumeCard],
   templateUrl: './dashboard-component.html',
   styleUrl: './dashboard-component.css',
 })
