@@ -1,0 +1,243 @@
+/* ── Header ───────────────────────────────────────────── */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 24px 0;
+}
+
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(79, 209, 197, 0.1);
+  border: 1.5px solid rgba(79, 209, 197, 0.2);
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.modal-subtitle {
+  font-size: 0.78rem;
+  color: #9ca3af;
+  margin: 2px 0 0 0;
+}
+
+.btn-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-close:hover {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+/* ── Content ──────────────────────────────────────────── */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 0 4px;
+}
+
+/* ── Highlight banner ─────────────────────────────────── */
+.income-highlight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(79, 209, 197, 0.08);
+  border: 1.5px solid rgba(79, 209, 197, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #0f766e;
+}
+
+.highlight-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(79, 209, 197, 0.15);
+  flex-shrink: 0;
+}
+
+/* ── Input groups ─────────────────────────────────────── */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+}
+
+/* ── Inputs ───────────────────────────────────────────── */
+.input {
+  width: 100%;
+  height: 44px;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1f2937;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.input::placeholder {
+  color: #d1d5db;
+  font-weight: 400;
+}
+
+.input:hover,
+.input:focus {
+  outline: none;
+  border-color: #4fd1c5;
+  box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.12);
+}
+
+/* Amount input with € prefix */
+.amount-wrapper {
+  display: flex;
+  align-items: center;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.amount-wrapper:focus-within {
+  border-color: #4fd1c5;
+  box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.12);
+}
+
+.currency {
+  padding: 0 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4fd1c5;
+  border-right: 1.5px solid #e5e7eb;
+  background: rgba(79, 209, 197, 0.06);
+  height: 44px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.amount-input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  padding-left: 12px;
+}
+
+.amount-input:hover,
+.amount-input:focus {
+  border: none;
+  box-shadow: none;
+}
+
+/* Remove number spinners */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* ── Dialog content overflow ──────────────────────────── */
+:host ::ng-deep mat-dialog-content {
+  overflow: visible;
+}
+
+/* ── Actions ──────────────────────────────────────────── */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 24px;
+}
+
+.btn {
+  height: 40px;
+  padding: 0 20px;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-cancel {
+  background: #f1f5f9;
+  color: #6b7280;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.btn-submit {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #4fd1c5;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 209, 197, 0.35);
+}
+
+.btn-submit:hover {
+  background: #38bdb2;
+  box-shadow: 0 6px 16px rgba(79, 209, 197, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-submit:active {
+  background: #2eada2;
+  transform: translateY(0);
+}

@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------------------
 
 export interface BalanceDTO {
+  id: number;
   currentBalance: number;
   futureBalance: number;
 }

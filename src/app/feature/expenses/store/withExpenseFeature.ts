@@ -11,19 +11,19 @@ import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 export function withExpenseEventsHandler() {
   return signalStoreFeature(
     withProps(() => ({
-    toast : injectDispatch(ToastEvents)
-  })),
+      toast: injectDispatch(ToastEvents),
+      events: inject(Events),
+      service: inject(ExpenseService),
+    })),
     withEventHandlers(
-      ({toast}) => {
-        const events = inject(Events);
-        const service = inject(ExpenseService);
+      ({ toast, events, service }) => {
         return {
           createExpense$: events.on(ExpenseEvents.createExpense).pipe(
             switchMap(({ payload }) =>
               service.createExpense(payload.expense).pipe(
                 mapResponse({
                   next: (expense) => {
-                    toast.show({description : "La dépense a bien été créée", title : "Creation de la dépense", variant : "success"})
+                    toast.show({ description: "La dépense a bien été créée", title: "Creation de la dépense", variant: "success" })
                     return ExpenseEvents.createExpenseSuccess({ expense })
                   },
                   error: (error) =>
@@ -63,7 +63,7 @@ export function withExpenseEventsHandler() {
                 )
               )
             ),
-            loadExpenseByTags$: events.on(ExpensePerMountEvent.loadExpensePerMonth)
+          loadExpenseByTags$: events.on(ExpensePerMountEvent.loadExpensePerMonth)
             .pipe(
               switchMap(_ =>
                 service.getExpenseByTags().pipe(

@@ -4,7 +4,7 @@ import { ExpenseResumeComponent } from "./components/expense-resume-component/ex
 import { ExpenseStore, TabType } from './store/expenseStore';
 import { injectDispatch } from '@ngrx/signals/events';
 import { calendarEvents } from '../calendar/store/calendarEvent';
-import { ExpenseTabEvents } from './store/expenseEvents';
+import { ExpenseTabEvents, IncomeModal } from './store/expenseEvents';
 import { debouncedSignal } from './utils/debounce';
 import { ExpenseDTO } from '../../types/generated';
 
@@ -20,6 +20,7 @@ export class ExpenseComponent {
   readonly store = inject(ExpenseStore);
   private readonly dispatch = injectDispatch(calendarEvents);
   private readonly dispatchTabEvents = injectDispatch(ExpenseTabEvents);
+  private readonly dispatchIncomEvents  =  injectDispatch(IncomeModal)
 
   private readonly searchQuery : WritableSignal<string> = signal('');
   private readonly debouncedQuery  : Signal<string> = debouncedSignal(this.searchQuery, SEARCH_DEBOUNCE_MS, '');
@@ -37,6 +38,10 @@ export class ExpenseComponent {
 
   createExpense(): void {
     this.dispatch.openExpenseModal({ isRecurring: this.store.activeTab() === 'recurring' });
+  }
+
+  openIncomeModal() : void  {
+    this.dispatchIncomEvents.openIncomeModal();
   }
 
   search(query: string): void {

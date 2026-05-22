@@ -44,3 +44,10 @@ export const ExpenseTabEvents = eventGroup({
     changeTab : type<{tab : TabType}>()
   }
 })
+
+export const IncomeModal = eventGroup({
+  source : "[Expense] Modale d'entrée d'argent",
+  events : {
+    openIncomeModal : type<void>()
+  }
+})

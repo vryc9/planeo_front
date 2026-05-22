@@ -22,6 +22,7 @@ export class CreateBalance {
   submit() {
     this.dispatch.createBalance({
       balance : {
+        id : 1,
         currentBalance : this.form.currentBalance().value(),
         futureBalance : this.form.currentBalance().value(),
       }
