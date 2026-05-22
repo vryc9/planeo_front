@@ -4,6 +4,7 @@ import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents, SortType } from '../../store/expenseEvents';
 import { MatIconModule } from '@angular/material/icon';
 import { ExpenseDTO } from '../../../../types/generated';
+import { TabType } from '../../store/expenseStore';
 
 @Component({
   selector: 'app-list-expense-component',
@@ -13,8 +14,8 @@ import { ExpenseDTO } from '../../../../types/generated';
 })
 export class ListExpenseComponent {
   readonly expenses: InputSignal<ExpenseDTO[]> = input.required<ExpenseDTO[]>();
-  readonly onglet: InputSignal<string> = input.required<string>();
-  readonly dateColumnlabel: Signal<string> = computed<string>(() => this.onglet() !== "incomingExpense" ? "Date de prélèvement" : "Date")
+  readonly onglet: InputSignal<TabType> = input.required<TabType>();
+  readonly dateColumnlabel: Signal<string> = computed<string>(() => this.onglet() !== "incoming" ? "Date de prélèvement" : "Date")
   readonly dispath = injectDispatch(ExpenseEvents);
   readonly isEmpty : Signal<boolean> = computed<boolean>(() => this.expenses().length === 0)
 

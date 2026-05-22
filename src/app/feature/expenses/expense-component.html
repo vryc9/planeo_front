@@ -18,7 +18,6 @@
   <div class="list-section">
   <div class="segmented-control">
     <button class="segment" [class.active]="store.activeTab() === 'incoming'" (click)="setTab('incoming')">À venir</button>
-    <button class="segment" [class.active]="store.activeTab() === 'recurring'" (click)="setTab('recurring')">Récurrentes</button>
     <button class="segment" [class.active]="store.activeTab() === 'processed'" (click)="setTab('processed')">Dépenses passées</button>
   </div>
 
@@ -36,7 +35,7 @@
   </div>
 
   <app-list-expense-component
-    [onglet]="store.activeTab() === 'recurring' ? 'recurringExpense' : 'incomingExpense'"
+    [onglet]="store.activeTab()"
     [expenses]="filteredExpenses()"
   />
 </div>

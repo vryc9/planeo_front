@@ -8,27 +8,31 @@
             <th (click)="sort('amount')" class="sortable center">Montant</th>
             <th class="center">Catégorie</th>
             <th (click)="sort('date')" class="sortable center">{{dateColumnlabel()}}</th>
-            <th class="center">Actions</th>
+            @if(onglet() === 'incoming') {
+              <th class="center">Actions</th>
+            }
           </tr>
         </thead>
         <tbody>
-          @for (expense of expenses(); track $index) {
+          @for (expense of expenses(); track expense.id) {
             <tr>
               <td class="label-cell">{{expense.label}}</td>
               <td class="center amount-cell">{{expense.amount}} €</td>
-              <td class="center amount-cell">{{expense.status}}</td>
               <td class="center">
                 <span class="tag-badge">{{expense.tag}}</span>
               </td>
               <td class="center date-cell">{{expense.date | date:"dd/MM/yyyy"}}</td>
-              <td class="center">
-                <button class="btn-action btn-edit" title="Modifier">
-                  <mat-icon fontIcon="edit"/>
-                </button>
-                <button (click)="delete(expense)" class="btn-action btn-delete" title="Supprimer">
-                  <mat-icon fontIcon="delete"/>
-                </button>
-              </td>
+
+              @if(onglet() === 'incoming') {
+                <td class="center">
+                  <button class="btn-action btn-edit" title="Modifier">
+                    <mat-icon fontIcon="edit"/>
+                  </button>
+                  <button (click)="delete(expense)" class="btn-action btn-delete" title="Supprimer">
+                    <mat-icon fontIcon="delete"/>
+                  </button>
+                </td>
+              }
             </tr>
           }
         </tbody>

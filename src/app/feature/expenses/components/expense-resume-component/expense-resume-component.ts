@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal, OnInit } from '@angular/core';
+import { Component, computed, inject, input, InputSignal, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ResumeExpenseCard } from "../resume-expense-card/resume-expense-card";
 import { ExpenseStore } from '../../store/expenseStore';
@@ -12,4 +12,5 @@ import { ExpenseResume } from '../../types/expenseResume';
 })
 export class ExpenseResumeComponent {
   expenseResume : InputSignal<ExpenseResume[]> = input.required<ExpenseResume[]>();
+
 }
