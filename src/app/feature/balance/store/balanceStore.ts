@@ -13,6 +13,7 @@ import { BalanceDTO, BalanceResponseDTO } from '../../../types/generated';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 import { MatDialog } from '@angular/material/dialog';
 import { ModaleIncomeComponent } from '../../expenses/components/modale-income-component/modale-income-component';
+import { SseEvent } from '../../sse/store/withSseEvent';
 
 type BalanceState = {
   balance: BalanceResponseDTO | undefined

@@ -1,58 +1,51 @@
-import { BalanceEvents } from './../../balance/store/balanceEvents';
-import { inject, Injectable, NgZone } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable, timer } from 'rxjs';
+import { retry } from 'rxjs/operators';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { TokenService } from '../../auth/service/token.service';
 import { MessageEventEnum } from '../enum/messageEvent';
-import { injectDispatch } from '@ngrx/signals/events';
 import { environment } from '../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+export interface SseMessage {
+  type: string;
+  data: string;
+  lastEventId: string;
+}
+
+@Injectable({ providedIn: 'root' })
 export class SseService {
-  private zone = inject(NgZone);
-  private tokenService = inject(TokenService);
-  readonly dispatch = injectDispatch(BalanceEvents);
+  private readonly tokenService = inject(TokenService);
 
-  getServerSentEvent(): Observable<MessageEvent> {
-    return new Observable(observer => {
-
+  getServerSentEvent(): Observable<SseMessage> {
+    return new Observable<SseMessage>(observer => {
       const token = this.tokenService.getToken();
-      console.log(token);
-
       const url = `${environment.apiUrl}/api/sse`;
 
       const eventSource = new EventSourcePolyfill(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        heartbeatTimeout: 120000,
+        headers: { Authorization: `Bearer ${token}` },
+        heartbeatTimeout: 60_000,
       });
 
-      eventSource.onmessage = (event: any) => {
-        this.zone.run(() => {
-          console.log("Message recu dans le front");
-          observer.next(event);
+      const onMessage = (event: { type: string; data: string; lastEventId: string }) =>
+        observer.next({
+          type: event.type,
+          data: event.data,
+          lastEventId: event.lastEventId,
         });
+
+      const onError = (error: any) => {
+        eventSource.close();
+        observer.error(error);
       };
 
-      eventSource.addEventListener(MessageEventEnum.UPDATED_EXPENSE, (event: any) => {
-        this.zone.run(() => {
-          console.log(event.data);
-          observer.next(event);
-          this.dispatch.loadBalance()
-        });
-      });
+      eventSource.onmessage = onMessage as never;
+      eventSource.addEventListener(MessageEventEnum.UPDATED_EXPENSE, onMessage as never);
+      eventSource.onerror = onError as never;
 
-      eventSource.onerror = error => {
-        this.zone.run(() => {
-          console.error("Erreur SSE:", error);
-          observer.error(error);
-        });
+      return () => {
+        eventSource.removeEventListener(MessageEventEnum.UPDATED_EXPENSE, onMessage as never);
+        eventSource.close();
       };
-
-      return () => eventSource.close();
     });
   }
 }

@@ -11,7 +11,7 @@ import { InvestmentComponent } from '../investment/investment-component';
 import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from './store/DashboardEvents';
 import { AuthEvent } from '../auth/store/AuthEvent';
-import { Menu } from './types/menu';
+import { BalanceStore } from '../balance/store/balanceStore';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -23,6 +23,7 @@ export class DashboardContainerComponent {
   readonly authStore = inject(AuthStore);
   readonly store = inject(DashboardStore);
   readonly dispatch = injectDispatch(DashboardEvents);
+  private readonly balanceStore = inject(BalanceStore);
   private readonly authDispatch = injectDispatch(AuthEvent);
 
   private readonly components: Record<DashboardViewEnum, Type<unknown>> = {
