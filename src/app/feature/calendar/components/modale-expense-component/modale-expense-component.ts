@@ -27,18 +27,11 @@ export class ModaleExpenseComponent {
   readonly dispatch = injectDispatch(ExpenseEvents);
   readonly expenseStore = inject(ExpenseStore)
 
-  tagLabels: WritableSignal<Record<Tag, string>> = signal({
-    [Tag.SOIREE]: "Soirée",
-    [Tag.RESTAURANT]: "Restaurant",
-    [Tag.CINEMA] : "Cinéma",
-    [Tag.ANNIVERSAIRE] : "Anniversaire"
-  });
-
   tagOptions: Signal<{
     id: Tag;
     label: string;
   }[]> = computed(() => {
-    return Object.entries(this.tagLabels()).map(([key, value]) => ({
+    return Object.entries(Tag).map(([key, value]) => ({
       id: key as Tag,
       label: value
     }));

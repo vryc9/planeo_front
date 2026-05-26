@@ -8,5 +8,9 @@ export enum Tag {
   SOIREE = 'Soirée',
   RESTAURANT = 'Restaurant',
   ANNIVERSAIRE = 'Anniversaire',
+  COURSE = 'Course',
+  ABONNEMENT = 'Abonnement',
+  TRANSPORT = 'Transport',
+  INVESTISSEMENT = 'Investissement',
   CINEMA = 'Cinéma'
 }

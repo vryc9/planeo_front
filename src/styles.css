@@ -9,3 +9,14 @@
 body {
   background-color: #F8F9FA;
 }
+
+.overflow-visible-dialog .mat-mdc-dialog-container,
+.overflow-visible-dialog .mat-mdc-dialog-surface,
+.overflow-visible-dialog .mdc-dialog__surface {
+  overflow: visible !important;
+}
+
+.overflow-visible-dialog mat-dialog-content,
+.overflow-visible-dialog .mat-mdc-dialog-content {
+  overflow: visible !important;
+}

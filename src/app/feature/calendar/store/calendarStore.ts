@@ -27,6 +27,9 @@ export const CalendarStore = signalStore(
           tap(() => console.log("Je suis la")),
           tap(({ payload }) => dialog.open(ModaleExpenseComponent,
             {
+              width: '700px',
+              maxWidth: '100vw',
+              panelClass: 'overflow-visible-dialog',
               data: {
                 date: payload.startStr ?? '',
                 isRecurring: payload.isRecurring
