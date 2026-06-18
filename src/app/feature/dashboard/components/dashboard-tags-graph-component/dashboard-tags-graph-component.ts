@@ -1,7 +1,7 @@
 import { Component, computed, input, InputSignal } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { ExpenseByTagDTO } from '../../../../types/generated';
+import { ExpenseAmountByTagDTO } from '../../../../types/generated';
 import { toTagLabel } from '../../../../shared/utils/tags-utils';
 
 @Component({
@@ -11,13 +11,13 @@ import { toTagLabel } from '../../../../shared/utils/tags-utils';
   styleUrl: './dashboard-tags-graph-component.css',
 })
 export class DashboardTagsGraphComponent {
-  readonly expenseByTags: InputSignal<ExpenseByTagDTO[]> = input.required<ExpenseByTagDTO[]>();
+  readonly expenseAmountByTags: InputSignal<ExpenseAmountByTagDTO[]> = input.required<ExpenseAmountByTagDTO[]>();
 
   readonly chartData = computed<ChartData<'bar'>>(() => ({
-  labels: this.expenseByTags().map(({tag}) => toTagLabel(tag)),
+  labels: this.expenseAmountByTags().map(({tag}) => toTagLabel(tag)),
     datasets: [
       {
-        data: this.expenseByTags().map(e => e.total),
+        data: this.expenseAmountByTags().map(e => e.total),
         label: 'Dépenses par catégorie',
         backgroundColor: 'rgba(79, 209, 197, 0.54)',
         borderColor: '#4FD1C5',

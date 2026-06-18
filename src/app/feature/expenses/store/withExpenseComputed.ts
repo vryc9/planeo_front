@@ -9,7 +9,7 @@ import {
 import { ExpenseState, TabType } from "./expenseStore"; // ← TabType ajouté
 import { BalanceStore } from "../../balance/store/balanceStore";
 import { ExpenseResume } from "../types/expenseResume";
-import { ExpenseDTO, ExpenseStatus } from "../../../types/generated";
+import { ExpenseDTO, ExpensesByTagsDTO, ExpenseStatus } from "../../../types/generated";
 
 type SortKey = 'amount' | 'date' | 'label';
 type SortDirection = 'asc' | 'desc';
@@ -45,7 +45,7 @@ export function withExpenseComputed() {
       _balanceStore: inject(BalanceStore),
     })),
 
-    withComputed(({ expenses, sortBy, sortDirection, _balanceStore }) => {
+    withComputed(({ expenses, sortBy, sortDirection, activeTab, expensesByTags, _balanceStore }) => {
       const pendingExpenses = computed(() =>
         expenses().filter(({ recurring, status }) =>
           !recurring && status === ExpenseStatus.PENDING
@@ -87,25 +87,28 @@ export function withExpenseComputed() {
         ];
       });
 
+      const expenseDTOList = computed<ExpenseDTO[]>(() => {
+        const map: Record<Exclude<TabType, 'tags'>, ExpenseDTO[]> = {
+          incoming: sortedPending(),
+          processed: sortedProcessed(),
+          recurring: sortedRecurring(),
+        };
+        return map[activeTab() as Exclude<TabType, 'tags'>] ?? [];
+      });
+
+      const expensesByTagList = computed<ExpensesByTagsDTO[]>(() =>
+        activeTab() === 'tags' ? expensesByTags() : []
+      );
+
       return {
         resumeExpense,
         sortedExpenses: sortedPending,
         sortedRecurringExpenses: sortedRecurring,
         filterExpenseByProcessingStatus: sortedProcessed,
+        expenseDTOList,
+        expensesByTagList,
       };
     }),
 
-    withLinkedState(({ activeTab, sortedExpenses, sortedRecurringExpenses, filterExpenseByProcessingStatus }) => ({
-      expenseToDisplayInTab: linkedSignal<TabSource, ExpenseDTO[]>({
-        source: () => ({
-          tab: activeTab(),
-          pending: sortedExpenses(),
-          processed: filterExpenseByProcessingStatus(),
-          recurring: sortedRecurringExpenses(),
-        }),
-        computation: ({ tab, pending, processed, recurring }) =>
-          ({ incoming: pending, processed, recurring })[tab],
-      }),
-    })),
   );
 }

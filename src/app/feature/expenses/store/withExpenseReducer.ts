@@ -1,18 +1,18 @@
 import { signalStoreFeature, type } from "@ngrx/signals";
 import { ExpenseState } from "./expenseStore";
 import { on, withReducer } from "@ngrx/signals/events";
-import { ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
+import { ExpenseAmountByTagsEvents, ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
 
 export function withExpenseReducer() {
   return signalStoreFeature(
     { state: type<ExpenseState>() },
     withReducer(
       on(ExpenseEvents.loadExpenseSuccess, ({ payload }) => ({ expenses: payload.expenses })),
-      on(ExpenseTabEvents.changeTab, ({payload : {tab}}) => ({activeTab : tab})),
-      on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload : {expenseByTags}}) => ({ expenseByTags })),
+      on(ExpenseTabEvents.changeTab, ({ payload: { tab } }) => ({ activeTab: tab })),
+      on(ExpenseAmountByTagsEvents.loadExpenseAmountBytagsSuccess, ({ payload: { expenseAmountByTags } }) => ({ expenseAmountByTags })),
       on(ExpensePerMountEvent.loadExpensePerMonthSuccess, ({ payload }) => ({
         expensePerMonth: payload.expenses.map(item => ({
-          ...item, month:  new Intl.DateTimeFormat('fr-FR', { month: 'long' })
+          ...item, month: new Intl.DateTimeFormat('fr-FR', { month: 'long' })
             .format(new Date(2024, item.month - 1))
         }))
       })),
@@ -23,6 +23,7 @@ export function withExpenseReducer() {
           sortDirection: 'asc'
         }
       }),
+      on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload: { expensesByTags } }) => ({ expensesByTags }))
     ),
   )
 }

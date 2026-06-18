@@ -2,8 +2,8 @@ import { inject } from "@angular/core";
 import { signalStoreFeature, withProps } from "@ngrx/signals";
 import { Events, injectDispatch, withEventHandlers } from "@ngrx/signals/events";
 import { ExpenseService } from "../services/expense-service.service";
-import { ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent } from "./expenseEvents";
-import { switchMap, tap } from "rxjs";
+import { ExpenseAmountByTagsEvents, ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
+import { filter, switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 import { SseEvent } from '../../sse/store/withSseEvent';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
@@ -51,8 +51,6 @@ export function withExpenseEventsHandler() {
           loadExpensePerMount$: events.on(
             ExpensePerMountEvent.loadExpensePerMonth)
             .pipe(
-              tap(() => console.log("Je suis la")
-              ),
               switchMap(_ =>
                 service.getExpensePerMonth().pipe(
                   mapResponse({
@@ -63,13 +61,13 @@ export function withExpenseEventsHandler() {
                 )
               )
             ),
-          loadExpenseByTags$: events.on(ExpensePerMountEvent.loadExpensePerMonth)
+          loadExpenseAmountByTags$: events.on(ExpensePerMountEvent.loadExpensePerMonth)
             .pipe(
               switchMap(_ =>
-                service.getExpenseByTags().pipe(
+                service.getExpenseAmountByTags().pipe(
                   mapResponse({
-                    next: (expenseByTags) => ExpenseByTagsEvents.loadExpenseBytagsSuccess({ expenseByTags }),
-                    error: (error) => ExpenseByTagsEvents.loadExpenseByTagsFailure({ error }),
+                    next: (expenseAmountByTags) => ExpenseAmountByTagsEvents.loadExpenseAmountBytagsSuccess({ expenseAmountByTags }),
+                    error: (error) => ExpenseAmountByTagsEvents.loadExpenseAmountByTagsFailure({ error }),
                   })
                 )
               )
@@ -81,6 +79,17 @@ export function withExpenseEventsHandler() {
                   next: (_) => ExpenseEvents.deleteExpenseSuccess(),
                   error: (error) =>
                     ExpenseEvents.deleteExpenseFailure({ error }),
+                })
+              )
+            )
+          ),
+          loadExpensesByTags: events.on(ExpenseTabEvents.changeTab).pipe(
+            filter(({payload : {tab}}) => tab === 'tags' ),
+            switchMap(_ =>
+              service.getExpensesByTags().pipe(
+                mapResponse({
+                  next: (expensesByTags) => ExpenseByTagsEvents.loadExpenseBytagsSuccess({ expensesByTags }),
+                  error: (error) => ExpenseAmountByTagsEvents.loadExpenseAmountByTagsFailure({ error }),
                 })
               )
             )

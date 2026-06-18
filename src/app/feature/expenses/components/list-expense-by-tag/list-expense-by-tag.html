@@ -1,0 +1,67 @@
+<div class="list-by-tag-container">
+  @if (expensesbyTags().length > 0) {
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Catégorie</th>
+            <th class="center">Dépenses</th>
+            <th class="center">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (group of expensesbyTags(); track group.tag; let i = $index) {
+            <tr class="tag-row" [class.expanded]="isExpanded(i)" (click)="toggle(i)">
+              <td>
+                <div class="tag-row-content">
+                  <span class="chevron-icon" [class.open]="isExpanded(i)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </span>
+                  <span class="tag-badge">{{ group.tag }}</span>
+                </div>
+              </td>
+              <td class="center count-cell">{{ group.expenses.length }}</td>
+              <td class="center amount-cell">{{ totalAmount(group.expenses) }} €</td>
+            </tr>
+            <tr class="expand-row" [class.open]="isExpanded(i)">
+              <td colspan="3" class="expand-cell">
+                <div class="expand-content" [class.open]="isExpanded(i)">
+                  <table class="inner-table">
+                    <thead class="inner-thead">
+                      <tr>
+                        <th class="inner-th">Libellé</th>
+                        <th class="inner-th center">Montant</th>
+                        <th class="inner-th center">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (expense of group.expenses; track expense.id) {
+                        <tr class="inner-row">
+                          <td class="inner-label">{{ expense.label }}</td>
+                          <td class="center inner-amount">{{ expense.amount }} €</td>
+                          <td class="center inner-date">{{ expense.date | date:'dd/MM/yyyy' }}</td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="empty-state">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+      </svg>
+      <p class="empty-text">Aucune dépense par catégorie</p>
+    </div>
+  }
+</div>

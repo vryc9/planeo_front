@@ -1,3 +1,4 @@
+import { provideTaiga } from "@taiga-ui/core";
 import { ApplicationConfig, inject, LOCALE_ID, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -44,5 +45,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([authInterceptorInterceptor])
     ), provideCharts(withDefaultRegisterables()),
-  ]
+        provideTaiga(),
+    ]
 };

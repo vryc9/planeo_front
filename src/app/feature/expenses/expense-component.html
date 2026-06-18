@@ -7,45 +7,50 @@
     </div>
     <div class="header-actions">
       <button (click)="openIncomeModal()" class="btn-income">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="19" x2="12" y2="5"/>
-          <polyline points="5 12 12 5 19 12"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5" />
+          <polyline points="5 12 12 5 19 12" />
         </svg>
         Entrée d'argent
       </button>
       <button (click)="createExpense()" class="btn-create">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <line x1="12" y1="5" x2="12" y2="19"/>
-          <line x1="5" y1="12" x2="19" y2="12"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
         Nouvelle dépense
       </button>
     </div>
   </div>
 
-  <app-expense-resume-component [expenseResume]="store.resumeExpense()"/>
+  <app-expense-resume-component [expenseResume]="store.resumeExpense()" />
   <div class="list-section">
-  <div class="segmented-control">
-    <button class="segment" [class.active]="store.activeTab() === 'incoming'" (click)="setTab('incoming')">À venir</button>
-    <button class="segment" [class.active]="store.activeTab() === 'processed'" (click)="setTab('processed')">Dépenses passées</button>
-  </div>
+    <div class="segmented-control">
+      <button class="segment" [class.active]="store.activeTab() === 'incoming'" (click)="setTab('incoming')">À
+        venir</button>
+      <button class="segment" [class.active]="store.activeTab() === 'processed'" (click)="setTab('processed')">Dépenses
+        passées</button>
+      <button class="segment" [class.active]="store.activeTab() === 'tags'" (click)="setTab('tags')">Dépenses par
+        catégories</button>
+    </div>
 
-  <div class="search-wrapper">
-    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"/>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-    <input
-      class="search-input"
-      type="text"
-      placeholder="Rechercher une dépense..."
-      (input)="search($any($event.target).value)"
-    />
-  </div>
+    <div class="search-wrapper">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input class="search-input" type="text" placeholder="Rechercher une dépense..."
+        (input)="search($any($event.target).value)" />
+    </div>
 
-  <app-list-expense-component
-    [onglet]="store.activeTab()"
-    [expenses]="filteredExpenses()"
-  />
-</div>
+
+    @if (onglet() === 'tags') {
+    <app-list-expense-by-tag [expensesbyTags]="filteredTagExpenses()" />
+    } @else {
+    <app-list-expense-component [expenses]="filteredDTOExpenses()" [onglet]="onglet()" />
+    }
+  </div>
 </div>

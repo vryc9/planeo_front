@@ -1,0 +1,213 @@
+:host {
+  display: block;
+}
+
+.list-by-tag-container {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  max-height: 560px;
+  overflow-y: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #ffffff;
+  padding: 14px 20px;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9ca3af;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+  box-shadow: 0 1px 0 #f1f5f9;
+}
+
+thead th.center {
+  text-align: center;
+}
+
+/* ── Tag group row ───────────────────────────────────────── */
+.tag-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tag-row td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f8fafc;
+  font-size: 0.875rem;
+  color: #374151;
+  vertical-align: middle;
+}
+
+.tag-row:hover td {
+  background: #f8fafc;
+}
+
+.tag-row.expanded td {
+  border-bottom-color: transparent;
+}
+
+.tag-row-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chevron-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.chevron-icon.open {
+  transform: rotate(90deg);
+  color: #4fd1c5;
+}
+
+.tag-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4fd1c5;
+  background: rgba(79, 209, 197, 0.1);
+  border-radius: 20px;
+}
+
+.count-cell {
+  text-align: center;
+  font-weight: 600;
+  color: #6b7280;
+  font-size: 0.8rem;
+}
+
+.amount-cell {
+  text-align: center;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* ── Expand row ──────────────────────────────────────────── */
+.expand-row td {
+  padding: 0;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.expand-row.open td {
+  border-bottom-color: #f1f5f9;
+}
+
+.expand-cell {
+  padding: 0 !important;
+}
+
+.expand-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expand-content.open {
+  max-height: 600px;
+}
+
+/* ── Inner table ─────────────────────────────────────────── */
+.inner-thead .inner-th {
+  padding: 8px 20px;
+  text-align: left;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #b0b8c4;
+  border-bottom: 1px solid #eff2f5;
+  background: #fafbfc;
+  white-space: nowrap;
+}
+
+.inner-thead .inner-th.center {
+  text-align: center;
+}
+
+.inner-thead .inner-th:first-child {
+  padding-left: 44px;
+}
+
+.inner-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fafbfc;
+}
+
+.inner-row td {
+  padding: 10px 20px;
+  font-size: 0.83rem;
+  color: #374151;
+  vertical-align: middle;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.inner-row:last-child td {
+  border-bottom: none;
+}
+
+.inner-row:hover td {
+  background: #f1f5f9;
+  transition: background 0.12s ease;
+}
+
+.inner-label {
+  padding-left: 44px !important;
+  color: #4b5563;
+  font-weight: 500;
+}
+
+.inner-amount {
+  text-align: center;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.inner-date {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.78rem;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 20px;
+  gap: 12px;
+  color: #d1d5db;
+}
+
+.empty-text {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin: 0;
+}

@@ -1,7 +1,9 @@
 import { eventGroup } from "@ngrx/signals/events";
 import { type } from "@ngrx/signals";
 import { TabType } from "./expenseStore";
-import { ExpenseByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from "../../../types/generated";
+import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO, ExpensesByTagsDTO } from "../../../types/generated";
+import { emptyProps } from "@ngrx/store";
+import { ExpenseByTagDTO } from "../../../types/generated/expense-by-tag-dto";
 
 export type SortType = "date" | 'amount' | 'label'
 export const ExpenseEvents = eventGroup({
@@ -20,11 +22,20 @@ export const ExpenseEvents = eventGroup({
   },
 })
 
-export const ExpenseByTagsEvents = eventGroup({
-  source : "[Expense] Expenses by tags",
+export const ExpenseAmountByTagsEvents = eventGroup({
+  source : "[Expense] Expenses amount amount by tags",
   events : {
-    loadExpenseByTags : type<void>(),
-    loadExpenseBytagsSuccess: type<{ expenseByTags: ExpenseByTagDTO[] }>(),
+    loadExpenseAmountByTags : type<void>(),
+    loadExpenseAmountBytagsSuccess: type<{ expenseAmountByTags: ExpenseAmountByTagDTO[] }>(),
+    loadExpenseAmountByTagsFailure: type<{ error: unknown }>(),
+  }
+})
+
+export const ExpenseByTagsEvents = eventGroup({
+  source : "[Expense] Expenses amount by tags",
+  events : {
+    loadExpenseByTags : emptyProps(),
+    loadExpenseBytagsSuccess: type<{ expensesByTags: ExpensesByTagsDTO[] }>(),
     loadExpenseByTagsFailure: type<{ error: unknown }>(),
   }
 })

@@ -2,13 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ExpenseByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from '../../../types/generated';
+import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO, ExpensesByTagsDTO } from '../../../types/generated';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExpenseService {
-    private readonly baseUrl = environment.apiUrl + '/api/expense';
+  private readonly baseUrl = environment.apiUrl + '/api/expense';
 
   readonly http = inject(HttpClient);
 
@@ -30,8 +30,12 @@ export class ExpenseService {
     return this.http.get<ExpensePerMonthDTO[]>(`${this.baseUrl}/month`);
   }
 
-  getExpenseByTags() : Observable<ExpenseByTagDTO[]>{
-    return this.http.get<ExpenseByTagDTO[]>(`${this.baseUrl}/tags`);
+  getExpenseAmountByTags() : Observable<ExpenseAmountByTagDTO[]>{
+    return this.http.get<ExpenseAmountByTagDTO[]>(`${this.baseUrl}/amount`);
+  }
+
+  getExpensesByTags () : Observable<ExpensesByTagsDTO[]> {
+    return this.http.get<ExpensesByTagsDTO[]>(`${this.baseUrl}/tags`)
   }
 
 }
