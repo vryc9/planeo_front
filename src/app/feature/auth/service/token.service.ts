@@ -4,9 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TokenService {
-  constructor() {
-  }
-
   setToken(token: string): void {
     sessionStorage.setItem('access_token', token);
   }

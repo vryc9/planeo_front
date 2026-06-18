@@ -4,6 +4,33 @@
   height: 100%;
 }
 
+.logout-section {
+  margin-top: auto;
+  padding-bottom: 8px;
+}
+
+.btn-logout-full {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.btn-logout-full:hover {
+  background: rgba(239, 68, 68, 0.07);
+  color: #ef4444;
+}
+
 .menu-list {
   display: flex;
   flex-direction: column;
