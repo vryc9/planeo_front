@@ -13,6 +13,9 @@ const TAG_ICONS: Record<keyof typeof Tag, string> = {
   TRANSPORT:      'directions_transit',
   INVESTISSEMENT: 'trending_up',
   CINEMA:         'movie',
+  PHARMARCIE:     'local_pharmacy',
+  VETEMENT:       'checkroom',
+  COIFFEUR:       'content_cut',
 };
 
 export function toTagIcon(tag: string): string {
