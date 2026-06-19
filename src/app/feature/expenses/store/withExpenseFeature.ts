@@ -35,7 +35,6 @@ export function withExpenseEventsHandler() {
           loadExpense$: events.on(
             ExpenseEvents.loadExpense,
             ExpenseEvents.deleteExpenseSuccess,
-            SseEvent.subscribeSucces,
             ExpenseEvents.createExpenseSuccess)
             .pipe(
               switchMap(_ =>
@@ -61,7 +60,8 @@ export function withExpenseEventsHandler() {
                 )
               )
             ),
-          loadExpenseAmountByTags$: events.on(ExpensePerMountEvent.loadExpensePerMonth)
+          loadExpenseAmountByTags$: events.on(ExpenseAmountByTagsEvents.loadExpenseAmountByTags
+          )
             .pipe(
               switchMap(_ =>
                 service.getExpenseAmountByTags().pipe(
@@ -84,7 +84,7 @@ export function withExpenseEventsHandler() {
             )
           ),
           loadExpensesByTags: events.on(ExpenseTabEvents.changeTab).pipe(
-            filter(({payload : {tab}}) => tab === 'tags' ),
+            filter(({ payload: { tab } }) => tab === 'tags'),
             switchMap(_ =>
               service.getExpensesByTags().pipe(
                 mapResponse({

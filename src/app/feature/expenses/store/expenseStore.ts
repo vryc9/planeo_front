@@ -20,9 +20,14 @@ export type ExpenseState = {
   expensesByTags: ExpensesByTagsDTO[]
 }
 
+export const initialExpenseState: ExpenseState = {
+  expenses: [], sortBy: 'date', sortDirection: 'desc',
+  expensePerMonth: [], expenseAmountByTags: [], activeTab: 'incoming', expensesByTags: []
+};
+
 export type SortDirection = 'asc' | 'desc';
 export const ExpenseStore = signalStore(
-  withState<ExpenseState>({ expenses: [], sortBy: 'date', sortDirection: 'desc', expensePerMonth: [], expenseAmountByTags: [], activeTab: 'incoming', expensesByTags: [] }),
+  withState<ExpenseState>(initialExpenseState),
   withExpenseEventsHandler(),
   withExpenseReducer(),
   withExpenseComputed(),

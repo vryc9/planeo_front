@@ -85,7 +85,8 @@ export const BalanceStore = signalStore(
   ),
   withReducer(
     on(BalanceEvents.loadBalanceSuccess, ({ payload }) => ({ balance: payload.balance })),
-    on(BalanceUpdateEvents.addIncomeSuccess, ({ payload }) => ({ balance: payload.balance }))
+    on(BalanceUpdateEvents.addIncomeSuccess, ({ payload }) => ({ balance: payload.balance })),
+    on(AuthEvent.logout, () => ({ balance: undefined })),
   ),
   withHooks(({ dispatch }) => ({
     onInit() {

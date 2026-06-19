@@ -1,7 +1,8 @@
 import { signalStoreFeature, type } from "@ngrx/signals";
-import { ExpenseState } from "./expenseStore";
+import { ExpenseState, initialExpenseState } from "./expenseStore";
 import { on, withReducer } from "@ngrx/signals/events";
 import { ExpenseAmountByTagsEvents, ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
+import { AuthEvent } from "../../auth/store/AuthEvent";
 
 export function withExpenseReducer() {
   return signalStoreFeature(
@@ -23,7 +24,8 @@ export function withExpenseReducer() {
           sortDirection: 'asc'
         }
       }),
-      on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload: { expensesByTags } }) => ({ expensesByTags }))
+      on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload: { expensesByTags } }) => ({ expensesByTags })),
+      on(AuthEvent.logout, () => initialExpenseState)
     ),
   )
 }

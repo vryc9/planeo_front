@@ -5,6 +5,8 @@ import { Menu } from '../../types/menu';
 import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
 import { TokenService } from '../../../auth/service/token.service';
 import { Router } from '@angular/router';
+import { injectDispatch } from '@ngrx/signals/events';
+import { AuthEvent } from '../../../auth/store/AuthEvent';
 @Component({
   selector: 'app-sidebar-component',
   imports: [MatIconModule, CommonModule],
@@ -14,6 +16,7 @@ import { Router } from '@angular/router';
 export class SidebarComponent {
   readonly menuItems: InputSignal<Menu[]> = input.required<Menu[]>();
   readonly changeViewOuput: OutputEmitterRef<DashboardViewEnum> = output<DashboardViewEnum>();
+  private readonly dispatch = injectDispatch(AuthEvent)
   private readonly tokenService = inject(TokenService)
   private readonly router = inject(Router);
 
@@ -23,7 +26,6 @@ export class SidebarComponent {
   }
 
   protected logout() : void {
-    this.tokenService.removeToken();
-    this.router.navigate(["/"], {replaceUrl : true})
+    this.dispatch.logout()
   }
 }

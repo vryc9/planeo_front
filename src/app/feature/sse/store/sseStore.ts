@@ -3,7 +3,7 @@ import { signalStore, withProps } from "@ngrx/signals";
 import { SseService } from "../services/sse-service.service";
 import { Events, injectDispatch, withEventHandlers } from "@ngrx/signals/events";
 import { SseEvent } from "./withSseEvent";
-import { retry, switchMap, tap, timer } from "rxjs";
+import { EMPTY, retry, switchMap, tap, timer } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 import { appInitialized, AuthEvent } from "../../auth/store/AuthEvent";
 import { ToastEvents } from "../../../shared/toast/store/toastEvents";
@@ -19,9 +19,16 @@ export const SseStore = signalStore(
   })),
   withEventHandlers(({ events, service, toast, balanceEvents }) => {
     return {
-      connectToSse$: events.on(AuthEvent.authentificationSuccess, appInitialized.appReady).pipe(
-        switchMap(_ =>
-          service.getServerSentEvent().pipe(
+      connectToSse$: events.on(
+        AuthEvent.authentificationSuccess,
+        appInitialized.appReady,
+        AuthEvent.logout,
+      ).pipe(
+        switchMap((event) => {
+          if (event.type === AuthEvent.logout.type) {
+            return EMPTY;
+          }
+          return service.getServerSentEvent().pipe(
             tap((message) => {
               if (message.type === MessageEventEnum.UPDATED_EXPENSE) {
                 balanceEvents.loadBalance();
@@ -39,8 +46,8 @@ export const SseStore = signalStore(
               next: (_) => SseEvent.subscribeSucces(),
               error: (error) => SseEvent.subscribeFailure({ error })
             })
-          )
-        )
+          );
+        })
       ),
       onSseConnected$: events.on(SseEvent.subscribeSucces).pipe(
         tap(() => toast.show({
