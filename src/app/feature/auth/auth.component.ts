@@ -1,9 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
 import { Field, form } from '@angular/forms/signals';
-import { injectDispatch, provideDispatcher } from '@ngrx/signals/events';
+import { injectDispatch } from '@ngrx/signals/events';
 import { AuthEvent } from './store/AuthEvent';
 import { AuthStore } from './store/AuthStore';
-import { SseStore } from '../sse/store/sseStore';
 
 interface LoginData {
   username: string;

@@ -9,7 +9,6 @@ import { AuthEvent } from './AuthEvent';
 import { User } from '../types/user';
 import { Router } from '@angular/router';
 import { ExpenseAmountByTagsEvents, ExpenseEvents } from '../../expenses/store/expenseEvents';
-import { SseStore } from '../../sse/store/sseStore';
 import { BalanceService } from '../../balance/service/balance-service.service';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 

@@ -5,7 +5,6 @@ import { ExpenseService } from "../services/expense-service.service";
 import { ExpenseAmountByTagsEvents, ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
 import { filter, switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
-import { SseEvent } from '../../sse/store/withSseEvent';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 
 export function withExpenseEventsHandler() {
