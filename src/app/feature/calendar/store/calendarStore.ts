@@ -41,13 +41,13 @@ export const CalendarStore = signalStore(
     }
   ),
   withReducer(
-    on(ExpenseEvents.loadExpenseSuccess, ({ payload }) => ({ expenses: payload.expenses.map(expense => convertExpenseToCalendarItem(expense)) })),
+    on(ExpenseEvents.loadExpenseForLastMonthsSuccess, ({ payload }) => ({ expenses: payload.expenses.map(expense => convertExpenseToCalendarItem(expense)) })),
   ),
   withHooks({
     onInit(_) {
       const __ = inject(ExpenseStore);
       const dispatch = injectDispatch(ExpenseEvents);
-      dispatch.loadExpense();
+      dispatch.loadExpenseForLastMonths();
     },
   })
 )

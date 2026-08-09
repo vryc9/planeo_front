@@ -10,6 +10,8 @@ import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerM
 export class ExpenseService {
   private readonly baseUrl = environment.apiUrl + '/api/expense';
 
+  private readonly numberOfMonth : number = 2;
+
   readonly http = inject(HttpClient);
 
   createExpense(expense: ExpenseCreateRequestDTO): Observable<ExpenseDTO> {
@@ -18,6 +20,12 @@ export class ExpenseService {
 
   getAllExpense(): Observable<ExpenseDTO[]> {
     return this.http.get<ExpenseDTO[]>(this.baseUrl);
+  }
+
+  getExpensesForLastMonths() : Observable<ExpenseDTO[]> {
+    return this.http.get<ExpenseDTO[]>(`${this.baseUrl}/month/number`, {
+      params : {monthCount : this.numberOfMonth}
+    })
   }
 
   delete(expense: ExpenseDTO) {

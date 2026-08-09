@@ -59,6 +59,19 @@ export function withExpenseEventsHandler() {
                 )
               )
             ),
+          getExpensesForLastMonths$: events.on(
+            ExpenseEvents.loadExpenseForLastMonths, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess)
+            .pipe(
+              switchMap(_ =>
+                service.getExpensesForLastMonths().pipe(
+                  mapResponse({
+                    next: (expenses) => ExpenseEvents.loadExpenseForLastMonthsSuccess({ expenses }),
+                    error: (error) =>
+                      ExpenseEvents.loadExpenseFailure({ error }),
+                  })
+                )
+              )
+            ),
           loadExpenseAmountByTags$: events.on(ExpenseAmountByTagsEvents.loadExpenseAmountByTags, ExpenseEvents.createExpenseSuccess)
             .pipe(
               switchMap(_ =>
