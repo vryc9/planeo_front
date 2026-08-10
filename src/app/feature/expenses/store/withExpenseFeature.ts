@@ -72,7 +72,7 @@ export function withExpenseEventsHandler() {
                 )
               )
             ),
-          loadExpenseAmountByTags$: events.on(ExpenseAmountByTagsEvents.loadExpenseAmountByTags, ExpenseEvents.createExpenseSuccess)
+          loadExpenseAmountByTags$: events.on(ExpenseAmountByTagsEvents.loadExpenseAmountByTags, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess)
             .pipe(
               switchMap(_ =>
                 service.getExpenseAmountByTags().pipe(
