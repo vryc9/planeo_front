@@ -12,6 +12,7 @@ export const AuthEvent = eventGroup({
     getCurrentUserSuccess: type<{ user: User }>(),
     getCurrentUserFailure: type<{ error: unknown }>(),
     logout: type<void>(),
+    logoutSucess : type<void>()
   },
 })
 

@@ -3,6 +3,7 @@ import { AuthStore } from '../auth/store/AuthStore';
 import { SidebarComponent } from "./components/sidebar-component/sidebar-component";
 import { DashboardStore } from './store/DasboardStore';
 import { CalendarComponent } from '../calendar/calendar-component';
+import { CalendarStore } from '../calendar/store/calendarStore';
 import { NgComponentOutlet } from '@angular/common';
 import { DashboardViewEnum } from './enum/DashboardViewEnum';
 import { ExpenseComponent } from '../expenses/expense-component';
@@ -18,6 +19,7 @@ import { BalanceStore } from '../balance/store/balanceStore';
   imports: [SidebarComponent, NgComponentOutlet],
   templateUrl: './dashboard-container-component.html',
   styleUrl: './dashboard-container-component.css',
+  providers: [DashboardStore, CalendarStore],
 })
 export class DashboardContainerComponent {
   readonly authStore = inject(AuthStore);

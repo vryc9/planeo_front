@@ -8,8 +8,6 @@ import { injectDispatch, provideDispatcher } from '@ngrx/signals/events';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptorInterceptor } from './feature/auth/interceptor/auth-interceptor.service';
 import { AuthStore } from './feature/auth/store/AuthStore';
-import { DashboardStore } from './feature/dashboard/store/DasboardStore';
-import { CalendarStore } from './feature/calendar/store/calendarStore';
 import { ExpenseStore } from './feature/expenses/store/expenseStore';
 import { BalanceStore } from './feature/balance/store/balanceStore';
 import { ToastStore } from './shared/toast/store/toastStore';
@@ -23,8 +21,6 @@ export const appConfig: ApplicationConfig = {
     BalanceStore,
     ToastStore,
     AuthStore,
-    DashboardStore,
-    CalendarStore,
     ExpenseStore,
     provideCharts({ registerables: [BarController, Legend, Colors] }),
     provideBrowserGlobalErrorListeners(),
