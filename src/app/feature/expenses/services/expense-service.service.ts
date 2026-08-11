@@ -2,7 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO, ExpensesByTagsDTO } from '../../../types/generated';
+import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from '../../../types/generated';
+import { ExpenseAmountByCategoryDTO } from '../../../types/generated/expense-amount-by-tag-dto';
+import { ExpensesByCategoryDTO } from '../../../types/generated/expenses-by-tags-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -38,12 +40,12 @@ export class ExpenseService {
     return this.http.get<ExpensePerMonthDTO[]>(`${this.baseUrl}/month`);
   }
 
-  getExpenseAmountByTags() : Observable<ExpenseAmountByTagDTO[]>{
-    return this.http.get<ExpenseAmountByTagDTO[]>(`${this.baseUrl}/amount`);
+  getExpenseAmountByCategories() : Observable<ExpenseAmountByCategoryDTO[]>{
+    return this.http.get<ExpenseAmountByTagDTO[]>(`${this.baseUrl}/amount/category`);
   }
 
-  getExpensesByTags () : Observable<ExpensesByTagsDTO[]> {
-    return this.http.get<ExpensesByTagsDTO[]>(`${this.baseUrl}/tags`)
+  getExpensesByCategory () : Observable<ExpensesByCategoryDTO[]> {
+    return this.http.get<ExpensesByCategoryDTO[]>(`${this.baseUrl}/category`)
   }
 
 }

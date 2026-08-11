@@ -1,0 +1,206 @@
+.category-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 0.875rem;
+  color: #9ca3af;
+  margin: 4px 0 0 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-create {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #4fd1c5;
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(79, 209, 197, 0.35);
+}
+
+.btn-create:hover {
+  background: #38bdb2;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(79, 209, 197, 0.45);
+}
+
+.btn-create:active {
+  background: #2eada2;
+  transform: translateY(0);
+}
+
+/* ── Chip list ────────────────────────────────────────── */
+.chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.category-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 6px 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.category-chip:hover,
+.category-chip:focus-within {
+  border-color: rgba(79, 209, 197, 0.5);
+  box-shadow: 0 4px 14px rgba(79, 209, 197, 0.18);
+  transform: translateY(-1px);
+}
+
+.chip-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(79, 209, 197, 0.12);
+  color: #4fd1c5;
+  flex-shrink: 0;
+}
+
+.chip-icon-size {
+  font-size: 17px !important;
+  width: 17px !important;
+  height: 17px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chip-name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #1f2937;
+  white-space: nowrap;
+  padding-right: 4px;
+}
+
+.chip-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width 0.2s ease, opacity 0.15s ease;
+}
+
+.category-chip:hover .chip-actions,
+.category-chip:focus-within .chip-actions {
+  max-width: 64px;
+  opacity: 1;
+}
+
+.chip-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.chip-action mat-icon {
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+}
+
+.chip-edit:hover {
+  color: #4fd1c5;
+  background: rgba(79, 209, 197, 0.1);
+}
+
+.chip-delete:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ── Empty state ──────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 20px;
+  gap: 12px;
+  background: #ffffff;
+  border: 1.5px dashed #e5e7eb;
+  border-radius: 16px;
+}
+
+.empty-icon {
+  font-size: 48px !important;
+  width: 48px !important;
+  height: 48px !important;
+  color: #d1d5db;
+}
+
+.empty-text {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.btn-empty-create {
+  margin-top: 4px;
+  background: rgba(79, 209, 197, 0.1);
+  border: 1.5px solid rgba(79, 209, 197, 0.3);
+  border-radius: 10px;
+  color: #0f766e;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-empty-create:hover {
+  background: rgba(79, 209, 197, 0.18);
+  border-color: #4fd1c5;
+}

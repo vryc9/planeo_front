@@ -4,12 +4,12 @@
 // Generator: ts-codegen-processor (https://github.com/your-org/ts-codegen)
 // ---------------------------------------------------------------------------
 
+import { CategoryDTO } from './category-dto';
 import type { ExpenseStatus } from './expense-status';
-import type { Tag } from './tag';
 
 export interface ExpenseCreateRequestDTO {
   amount: number;
-  tag: Tag;
+  category: CategoryDTO;
   status: ExpenseStatus;
   date: string;
   label: string;

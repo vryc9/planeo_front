@@ -26,7 +26,7 @@
     <div class="form-grid">
 
       <div class="input-group">
-        <label class="label">Tag</label>
+        <label class="label">Catégories</label>
         <div class="custom-select-wrapper">
           <div class="select-trigger" [class.open]="isOpen()" (click)="toggleDropdown()">
             <span>{{ selectedLabel() }}</span>
@@ -36,9 +36,9 @@
           </div>
           @if (isOpen()) {
             <div class="options-container">
-              @for (option of tagOptions(); track option.id) {
-                <div class="option-item" (click)="selectOption(option.id, option.label)">
-                  {{ option.label }}
+              @for (option of categoryOption(); track option.id) {
+                <div class="option-item" (click)="selectOption(option.id, option.name)">
+                  {{ option.name }}
                 </div>
               }
             </div>

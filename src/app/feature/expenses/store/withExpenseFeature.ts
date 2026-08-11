@@ -2,7 +2,7 @@ import { inject } from "@angular/core";
 import { signalStoreFeature, withProps } from "@ngrx/signals";
 import { Events, injectDispatch, withEventHandlers } from "@ngrx/signals/events";
 import { ExpenseService } from "../services/expense-service.service";
-import { ExpenseAmountByTagsEvents, ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
+import { ExpenseAmountByCategoryEvents, ExpenseByCategoryEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
 import { filter, switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
@@ -72,13 +72,13 @@ export function withExpenseEventsHandler() {
                 )
               )
             ),
-          loadExpenseAmountByTags$: events.on(ExpenseAmountByTagsEvents.loadExpenseAmountByTags, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess)
+          loadExpenseAmountByCategory$: events.on(ExpenseAmountByCategoryEvents.loadExpenseAmountByCategory, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess)
             .pipe(
               switchMap(_ =>
-                service.getExpenseAmountByTags().pipe(
+                service.getExpenseAmountByCategories().pipe(
                   mapResponse({
-                    next: (expenseAmountByTags) => ExpenseAmountByTagsEvents.loadExpenseAmountBytagsSuccess({ expenseAmountByTags }),
-                    error: (error) => ExpenseAmountByTagsEvents.loadExpenseAmountByTagsFailure({ error }),
+                    next: (expenseAmountByTags) => ExpenseAmountByCategoryEvents.loadExpenseAmountByCategorySuccess({ expenseAmountByCategory: expenseAmountByTags }),
+                    error: (error) => ExpenseAmountByCategoryEvents.loadExpenseAmountByCategoryFailure({ error }),
                   })
                 )
               )
@@ -94,13 +94,13 @@ export function withExpenseEventsHandler() {
               )
             )
           ),
-          loadExpensesByTags: events.on(ExpenseTabEvents.changeTab).pipe(
-            filter(({ payload: { tab } }) => tab === 'tags'),
+          loadExpensesByCategory: events.on(ExpenseTabEvents.changeTab).pipe(
+            filter(({ payload: { tab } }) => tab === 'category'),
             switchMap(_ =>
-              service.getExpensesByTags().pipe(
+              service.getExpensesByCategory().pipe(
                 mapResponse({
-                  next: (expensesByTags) => ExpenseByTagsEvents.loadExpenseBytagsSuccess({ expensesByTags }),
-                  error: (error) => ExpenseAmountByTagsEvents.loadExpenseAmountByTagsFailure({ error }),
+                  next: (expensesByCategory) => ExpenseByCategoryEvents.loadExpenseByCategorySuccess({ expensesByCategory }),
+                  error: (error) => ExpenseAmountByCategoryEvents.loadExpenseAmountByCategoryFailure({ error }),
                 })
               )
             )

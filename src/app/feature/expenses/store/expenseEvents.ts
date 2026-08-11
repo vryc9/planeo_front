@@ -1,9 +1,10 @@
 import { eventGroup } from "@ngrx/signals/events";
 import { type } from "@ngrx/signals";
 import { TabType } from "./expenseStore";
-import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO, ExpensesByTagsDTO } from "../../../types/generated";
+import { ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from "../../../types/generated";
 import { emptyProps } from "@ngrx/store";
-import { ExpenseByTagDTO } from "../../../types/generated/expense-by-tag-dto";
+import { ExpenseAmountByCategoryDTO } from "../../../types/generated/expense-amount-by-tag-dto";
+import { ExpensesByCategoryDTO } from "../../../types/generated/expenses-by-tags-dto";
 
 export type SortType = "date" | 'amount' | 'label'
 export const ExpenseEvents = eventGroup({
@@ -25,21 +26,21 @@ export const ExpenseEvents = eventGroup({
   },
 })
 
-export const ExpenseAmountByTagsEvents = eventGroup({
+export const ExpenseAmountByCategoryEvents = eventGroup({
   source : "[Expense] Expenses amount amount by tags",
   events : {
-    loadExpenseAmountByTags : type<void>(),
-    loadExpenseAmountBytagsSuccess: type<{ expenseAmountByTags: ExpenseAmountByTagDTO[] }>(),
-    loadExpenseAmountByTagsFailure: type<{ error: unknown }>(),
+    loadExpenseAmountByCategory : type<void>(),
+    loadExpenseAmountByCategorySuccess: type<{ expenseAmountByCategory: ExpenseAmountByCategoryDTO[] }>(),
+    loadExpenseAmountByCategoryFailure: type<{ error: unknown }>(),
   }
 })
 
-export const ExpenseByTagsEvents = eventGroup({
-  source : "[Expense] Expenses amount by tags",
+export const ExpenseByCategoryEvents = eventGroup({
+  source : "[Expense] Expenses amount by category",
   events : {
-    loadExpenseByTags : emptyProps(),
-    loadExpenseBytagsSuccess: type<{ expensesByTags: ExpensesByTagsDTO[] }>(),
-    loadExpenseByTagsFailure: type<{ error: unknown }>(),
+    loadExpenseByCategory : emptyProps(),
+    loadExpenseByCategorySuccess: type<{ expensesByCategory: ExpensesByCategoryDTO[] }>(),
+    loadExpenseByCategoryFailure: type<{ error: unknown }>(),
   }
 })
 

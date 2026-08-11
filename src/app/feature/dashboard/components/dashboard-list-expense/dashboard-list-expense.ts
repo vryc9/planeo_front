@@ -5,8 +5,7 @@ import { DatePipe } from '@angular/common';
 import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from '../../store/DashboardEvents';
 import { DashboardViewEnum } from '../../enum/DashboardViewEnum';
-import { ExpenseDTO, Tag } from '../../../../types/generated';
-import { toTagIcon } from '../../../../shared/utils/tags-utils';
+import { ExpenseDTO } from '../../../../types/generated';
 
 @Component({
   selector: 'app-dashboard-list-expense',
@@ -21,9 +20,5 @@ export class DashboardListExpense {
 
   displayExpenseComponent(): void {
     this.dispatch.openMenu({ view: DashboardViewEnum.EXPENSE });
-  }
-
-  tagIcon(tag: Tag): string {
-    return toTagIcon(tag);
   }
 }

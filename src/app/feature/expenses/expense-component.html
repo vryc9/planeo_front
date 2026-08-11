@@ -32,7 +32,7 @@
         venir</button>
       <button class="segment" [class.active]="store.activeTab() === 'processed'" (click)="setTab('processed')">Dépenses
         passées</button>
-      <button class="segment" [class.active]="store.activeTab() === 'tags'" (click)="setTab('tags')">Dépenses par
+      <button class="segment" [class.active]="store.activeTab() === 'category'" (click)="setTab('category')">Dépenses par
         catégories</button>
     </div>
 
@@ -47,8 +47,8 @@
     </div>
 
 
-    @if (onglet() === 'tags') {
-    <app-list-expense-by-tag [expensesbyTags]="filteredTagExpenses()" />
+    @if (onglet() === 'category') {
+    <app-list-expense-by-category [expensesbyCategory]="store.expensesByCategoryList()" />
     } @else {
     <app-list-expense-component [expenses]="filteredDTOExpenses()" [onglet]="onglet()" />
     }

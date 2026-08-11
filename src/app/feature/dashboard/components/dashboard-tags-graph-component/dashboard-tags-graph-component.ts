@@ -2,7 +2,7 @@ import { Component, computed, input, InputSignal } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { ExpenseAmountByTagDTO } from '../../../../types/generated';
-import { toTagLabel } from '../../../../shared/utils/tags-utils';
+import { ExpenseAmountByCategoryDTO } from '../../../../types/generated/expense-amount-by-tag-dto';
 
 @Component({
   selector: 'app-dashboard-tags-graph-component',
@@ -11,13 +11,13 @@ import { toTagLabel } from '../../../../shared/utils/tags-utils';
   styleUrl: './dashboard-tags-graph-component.css',
 })
 export class DashboardTagsGraphComponent {
-  readonly expenseAmountByTags: InputSignal<ExpenseAmountByTagDTO[]> = input.required<ExpenseAmountByTagDTO[]>();
+  readonly expenseAmountByCategory: InputSignal<ExpenseAmountByCategoryDTO[]> = input.required<ExpenseAmountByCategoryDTO[]>();
 
   readonly chartData = computed<ChartData<'bar'>>(() => ({
-  labels: this.expenseAmountByTags().map(({tag}) => toTagLabel(tag)),
+  labels: this.expenseAmountByCategory().map(({category : {name}}) => name),
     datasets: [
       {
-        data: this.expenseAmountByTags().map(e => e.total),
+        data: this.expenseAmountByCategory().map(e => e.total),
         label: 'Dépenses par catégorie',
         backgroundColor: 'rgba(79, 209, 197, 0.54)',
         borderColor: '#4FD1C5',

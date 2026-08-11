@@ -16,6 +16,7 @@ const MENU_CONFIG: Omit<Menu, 'isActive'>[] = [
   { view: DashboardViewEnum.DASHBOARD, icon: 'space_dashboard' },
   { view: DashboardViewEnum.CALENDAR, icon: 'calendar_today', },
   { view: DashboardViewEnum.EXPENSE, icon: 'euro' },
+  {view : DashboardViewEnum.CATEGORY, icon : 'category' },
   { view: DashboardViewEnum.INVESTMENT, icon: 'attach_money' },
 ];
 

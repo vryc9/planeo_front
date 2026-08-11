@@ -1,5 +1,5 @@
 <div class="list-by-tag-container">
-  @if (expensesbyTags().length > 0) {
+  @if (expensesbyCategory().length > 0) {
     <div class="table-wrap">
       <table>
         <thead>
@@ -10,7 +10,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (group of expensesbyTags(); track group.tag; let i = $index) {
+          @for (group of expensesbyCategory(); track group.category.id; let i = $index) {
             <tr class="tag-row" [class.expanded]="isExpanded(i)" (click)="toggle(i)">
               <td>
                 <div class="tag-row-content">
@@ -20,7 +20,7 @@
                       <polyline points="9 18 15 12 9 6" />
                     </svg>
                   </span>
-                  <span class="tag-badge">{{ group.tag }}</span>
+                  <span class="tag-badge">{{ group.category.name }}</span>
                 </div>
               </td>
               <td class="center count-cell">{{ group.expenses.length }}</td>

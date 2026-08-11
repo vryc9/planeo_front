@@ -8,7 +8,7 @@ import { Events, injectDispatch, on, withEventHandlers, withReducer } from '@ngr
 import { AuthEvent } from './AuthEvent';
 import { User } from '../types/user';
 import { Router } from '@angular/router';
-import { ExpenseAmountByTagsEvents, ExpenseEvents } from '../../expenses/store/expenseEvents';
+import { ExpenseAmountByCategoryEvents, ExpenseEvents } from '../../expenses/store/expenseEvents';
 import { BalanceService } from '../../balance/service/balance-service.service';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 
@@ -22,7 +22,7 @@ export const AuthStore = signalStore(
     balanceService: inject(BalanceService),
     toastDispatcher: injectDispatch(ToastEvents),
     expenseDispatch: injectDispatch(ExpenseEvents),
-    tagsDispatch: injectDispatch(ExpenseAmountByTagsEvents)
+    tagsDispatch: injectDispatch(ExpenseAmountByCategoryEvents)
   })),
   withReducer(
     on(AuthEvent.authentification, (_) => ({ isLoading: true })),
@@ -53,7 +53,7 @@ export const AuthStore = signalStore(
         redirect$: events.on(AuthEvent.authentificationSuccess).pipe(
           tap(() => {
             expenseDispatch.loadExpense()
-            tagsDispatch.loadExpenseAmountByTags()
+            tagsDispatch.loadExpenseAmountByCategory()
           }),
           switchMap(_ =>
             balanceService.balanceIsExistingForUser().pipe(

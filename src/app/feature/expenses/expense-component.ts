@@ -7,14 +7,13 @@ import { calendarEvents } from '../calendar/store/calendarEvent';
 import { ExpenseTabEvents, IncomeModal } from './store/expenseEvents';
 import { debouncedSignal } from './utils/debounce';
 import { ExpenseDTO, ExpensesByTagsDTO } from '../../types/generated';
-import { ListExpenseByTag } from './components/list-expense-by-tag/list-expense-by-tag';
-import { toTagLabel } from '../../shared/utils/tags-utils';
+import { ListExpenseByCategory } from './components/list-expense-by-tag/list-expense-by-category';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
   selector: 'app-expense-component',
-  imports: [ListExpenseComponent, ExpenseResumeComponent, ListExpenseByTag],
+  imports: [ListExpenseComponent, ExpenseResumeComponent, ListExpenseByCategory],
   templateUrl: './expense-component.html',
   styleUrl: './expense-component.scss',
 })
@@ -34,9 +33,6 @@ export class ExpenseComponent {
     const expenses = this.store.expenseDTOList();
     return query ? expenses.filter(({ label }) => label.toLowerCase().includes(query)) : expenses;
   });
-
-  protected readonly filteredTagExpenses: Signal<ExpensesByTagsDTO[]> = computed<ExpensesByTagsDTO[]>(() =>
-    this.store.expensesByTagList().map((e) => ({ ...e, tag: toTagLabel(e.tag) }) as ExpensesByTagsDTO));
 
   setTab(tab: TabType): void {
     this.dispatchTabEvents.changeTab({ tab });

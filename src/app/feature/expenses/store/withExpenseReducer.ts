@@ -1,7 +1,7 @@
 import { signalStoreFeature, type } from "@ngrx/signals";
 import { ExpenseState, initialExpenseState } from "./expenseStore";
 import { on, withReducer } from "@ngrx/signals/events";
-import { ExpenseAmountByTagsEvents, ExpenseByTagsEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
+import { ExpenseAmountByCategoryEvents, ExpenseByCategoryEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
 import { AuthEvent } from "../../auth/store/AuthEvent";
 
 export function withExpenseReducer() {
@@ -10,7 +10,7 @@ export function withExpenseReducer() {
     withReducer(
       on(ExpenseEvents.loadExpenseSuccess, ({ payload }) => ({ expenses: payload.expenses })),
       on(ExpenseTabEvents.changeTab, ({ payload: { tab } }) => ({ activeTab: tab })),
-      on(ExpenseAmountByTagsEvents.loadExpenseAmountBytagsSuccess, ({ payload: { expenseAmountByTags } }) => ({ expenseAmountByTags })),
+      on(ExpenseAmountByCategoryEvents.loadExpenseAmountByCategorySuccess, ({ payload: { expenseAmountByCategory } }) => ({ expenseAmountByCategory })),
       on(ExpensePerMountEvent.loadExpensePerMonthSuccess, ({ payload }) => ({
         expensePerMonth: payload.expenses.map(item => ({
           ...item, month: new Intl.DateTimeFormat('fr-FR', { month: 'long' })
@@ -24,7 +24,7 @@ export function withExpenseReducer() {
           sortDirection: 'asc'
         }
       }),
-      on(ExpenseByTagsEvents.loadExpenseBytagsSuccess, ({ payload: { expensesByTags } }) => ({ expensesByTags })),
+      on(ExpenseByCategoryEvents.loadExpenseByCategorySuccess, ({ payload: { expensesByCategory} }) => ({ expensesByCategory })),
       on(AuthEvent.logout, () => initialExpenseState)
     ),
   )

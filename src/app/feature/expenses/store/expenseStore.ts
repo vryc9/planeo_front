@@ -1,13 +1,15 @@
 import { signalStore, withHooks, withState } from "@ngrx/signals";
 import { injectDispatch } from "@ngrx/signals/events";
-import { ExpenseAmountByTagsEvents, ExpenseEvents, SortType } from "./expenseEvents";
+import { ExpenseAmountByCategoryEvents, ExpenseEvents, SortType } from "./expenseEvents";
 import { withExpenseEventsHandler } from "./withExpenseFeature";
 import { withExpenseReducer } from "./withExpenseReducer";
 import { withExpenseComputed } from "./withExpenseComputed";
-import { ExpenseAmountByTagDTO, ExpenseDTO, ExpensesByTagsDTO } from "../../../types/generated";
+import { ExpenseDTO } from "../../../types/generated";
 import { ExpensePerMonView } from "../types/ExpensePerMonView";
+import { ExpensesByCategoryDTO } from "../../../types/generated/expenses-by-tags-dto";
+import { ExpenseAmountByCategoryDTO } from "../../../types/generated/expense-amount-by-tag-dto";
 
-export type TabType = 'incoming' | 'recurring' | 'processed' | 'tags';
+export type TabType = 'incoming' | 'recurring' | 'processed' | 'category';
 
 
 export type ExpenseState = {
@@ -15,14 +17,14 @@ export type ExpenseState = {
   sortBy: SortType | null,
   sortDirection: SortDirection
   expensePerMonth: ExpensePerMonView[],
-  expenseAmountByTags: ExpenseAmountByTagDTO[],
+  expenseAmountByCategory: ExpenseAmountByCategoryDTO[],
   activeTab: TabType
-  expensesByTags: ExpensesByTagsDTO[]
+  expensesByCategory: ExpensesByCategoryDTO[]
 }
 
 export const initialExpenseState: ExpenseState = {
   expenses: [], sortBy: 'date', sortDirection: 'desc',
-  expensePerMonth: [], expenseAmountByTags: [], activeTab: 'incoming', expensesByTags: []
+  expensePerMonth: [], expenseAmountByCategory: [], activeTab: 'incoming', expensesByCategory: []
 };
 
 export type SortDirection = 'asc' | 'desc';
@@ -34,9 +36,9 @@ export const ExpenseStore = signalStore(
   withHooks({
     onInit(_) {
       const dispatch = injectDispatch(ExpenseEvents);
-      const dispatchExpenseByTagsEvents = injectDispatch(ExpenseAmountByTagsEvents);
+      const dispatchExpenseByTagsEvents = injectDispatch(ExpenseAmountByCategoryEvents);
       dispatch.loadExpense();
-      dispatchExpenseByTagsEvents.loadExpenseAmountByTags();
+      dispatchExpenseByTagsEvents.loadExpenseAmountByCategory();
     },
   })
 )

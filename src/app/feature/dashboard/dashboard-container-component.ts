@@ -13,6 +13,7 @@ import { injectDispatch } from '@ngrx/signals/events';
 import { DashboardEvents } from './store/DashboardEvents';
 import { AuthEvent } from '../auth/store/AuthEvent';
 import { BalanceStore } from '../balance/store/balanceStore';
+import { CategoryComponentContainer } from '../category/category-component-container';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -32,8 +33,10 @@ export class DashboardContainerComponent {
     [DashboardViewEnum.DASHBOARD]: DashboardComponent,
     [DashboardViewEnum.CALENDAR]: CalendarComponent,
     [DashboardViewEnum.EXPENSE]: ExpenseComponent,
-    [DashboardViewEnum.INVESTMENT]: InvestmentComponent
+    [DashboardViewEnum.INVESTMENT]: InvestmentComponent,
+    [DashboardViewEnum.CATEGORY] : CategoryComponentContainer
   };
+
   readonly currentComponent = computed(() => this.components[this.store.currentView()]);
 
   protected changeView(view: DashboardViewEnum): void {

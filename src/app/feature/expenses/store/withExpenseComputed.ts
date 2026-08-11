@@ -9,7 +9,8 @@ import {
 import { ExpenseState, TabType } from "./expenseStore"; // ← TabType ajouté
 import { BalanceStore } from "../../balance/store/balanceStore";
 import { ExpenseResume } from "../types/expenseResume";
-import { ExpenseDTO, ExpensesByTagsDTO, ExpenseStatus } from "../../../types/generated";
+import { ExpenseDTO, ExpenseStatus } from "../../../types/generated";
+import { ExpensesByCategoryDTO } from "../../../types/generated/expenses-by-tags-dto";
 
 type SortKey = 'amount' | 'date' | 'label';
 type SortDirection = 'asc' | 'desc';
@@ -45,7 +46,7 @@ export function withExpenseComputed() {
       _balanceStore: inject(BalanceStore),
     })),
 
-    withComputed(({ expenses, sortBy, sortDirection, activeTab, expensesByTags, _balanceStore }) => {
+    withComputed(({ expenses, sortBy, sortDirection, activeTab, expensesByCategory, _balanceStore }) => {
       const pendingExpenses = computed(() =>
         expenses().filter(({ recurring, status }) =>
           !recurring && status === ExpenseStatus.PENDING
@@ -88,16 +89,16 @@ export function withExpenseComputed() {
       });
 
       const expenseDTOList = computed<ExpenseDTO[]>(() => {
-        const map: Record<Exclude<TabType, 'tags'>, ExpenseDTO[]> = {
+        const map: Record<Exclude<TabType, 'category'>, ExpenseDTO[]> = {
           incoming: sortedPending(),
           processed: sortedProcessed(),
           recurring: sortedRecurring(),
         };
-        return map[activeTab() as Exclude<TabType, 'tags'>] ?? [];
+        return map[activeTab() as Exclude<TabType, 'category'>] ?? [];
       });
 
-      const expensesByTagList = computed<ExpensesByTagsDTO[]>(() =>
-        activeTab() === 'tags' ? expensesByTags() : []
+      const expensesByCategoryList = computed<ExpensesByCategoryDTO[]>(() =>
+        activeTab() === 'category' ? expensesByCategory() : []
       );
 
       return {
@@ -106,7 +107,7 @@ export function withExpenseComputed() {
         sortedRecurringExpenses: sortedRecurring,
         filterExpenseByProcessingStatus: sortedProcessed,
         expenseDTOList,
-        expensesByTagList,
+        expensesByCategoryList,
       };
     }),
 

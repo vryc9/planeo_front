@@ -13,9 +13,7 @@
   <div class="expense-list">
     @for (expense of expenses(); track $index) {
     <div class="expense-row">
-      <div class="expense-icon" [ngClass]="'tag-' + expense.tag">
-        <mat-icon>{{ tagIcon(expense.tag) }}</mat-icon>
-      </div>
+      <mat-icon>{{ expense.category.icon }}</mat-icon>
 
       <div class="expense-meta">
         <span class="expense-label">{{ expense.label }}</span>

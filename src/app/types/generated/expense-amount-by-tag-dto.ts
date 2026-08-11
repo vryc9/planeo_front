@@ -4,9 +4,9 @@
 // Generator: ts-codegen-processor (https://github.com/your-org/ts-codegen)
 // ---------------------------------------------------------------------------
 
-import type { Tag } from './tag';
+import { CategoryDTO } from './category-dto';
 
-export interface ExpenseAmountByTagDTO {
-  tag: Tag;
+export interface ExpenseAmountByCategoryDTO {
+  category: CategoryDTO;
   total: number;
 }

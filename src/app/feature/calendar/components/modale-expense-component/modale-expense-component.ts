@@ -6,11 +6,13 @@ import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents } from '../../../expenses/store/expenseEvents';
 import { ExpenseStore } from '../../../expenses/store/expenseStore';
 import { NgClass } from "@angular/common";
-import { ExpenseStatus, Tag } from '../../../../types/generated';
+import { CategoryStore } from '../../../category/store/CategoryStore';
+import { CategoryDTO } from '../../../../types/generated/category-dto';
+import { ExpenseStatus } from '../../../../types/generated';
 
 interface ExpenseFormData {
   amount: number;
-  tag: Tag | null,
+  category: CategoryDTO | null,
   date: string,
   label: string
 }
@@ -18,6 +20,7 @@ interface ExpenseFormData {
 @Component({
   selector: 'app-modale-expense-component',
   imports: [MatDialogModule, Field, MatInputModule, NgClass],
+  providers : [CategoryStore],
   templateUrl: './modale-expense-component.html',
   styleUrl: './modale-expense-component.css',
 })
@@ -26,33 +29,31 @@ export class ModaleExpenseComponent {
   readonly dialogRef = inject(MatDialogRef<ModaleExpenseComponent>);
   readonly dispatch = injectDispatch(ExpenseEvents);
   readonly expenseStore = inject(ExpenseStore)
+  protected readonly categoryStore = inject(CategoryStore);
 
-  tagOptions: Signal<{
-    id: Tag;
-    label: string;
+  categoryOption: Signal<{
+    id: number;
+    name: string;
   }[]> = computed(() => {
-    return Object.entries(Tag).map(([key, value]) => ({
-      id: key as Tag,
-      label: value
-    }));
+    return this.categoryStore.categories().map(({id, name}) => ({id, name}))
   });
 
   expenseModel = signal<ExpenseFormData>({
     amount: 0,
-    tag: null,
+    category: null,
     date: "",
     label: "",
   });
 
   form = form(this.expenseModel, (schemaPath) => {
-    required(schemaPath.tag, { message: "Doit etre la" })
+    required(schemaPath.category, { message: "Doit etre la" })
     required(schemaPath.amount, { message: 'Le montant est obligatoire' })
     min(schemaPath.amount, 1, { message: "Le montant doit être supérier à 0" })
     required(schemaPath.label, { message: "Le label est obligatoire" })
   });
 
   isOpen: WritableSignal<boolean> = signal<boolean>(false);
-  selectedLabel: WritableSignal<string> = signal<string>('Sélection un tag');
+  selectedLabel: WritableSignal<string> = signal<string>('Sélection une catégorie');
   isRecurring: WritableSignal<boolean> = signal<boolean>(false);
 
   dateFormLabel: Signal<string> = computed<string>(() => this.isRecurring() ? "Date de prélèvement" : "Date")
@@ -60,7 +61,7 @@ export class ModaleExpenseComponent {
   constructor(@Inject(MAT_DIALOG_DATA) { date, isRecurring }: { date: string, isRecurring: boolean }) {
     this.expenseModel.set({
       amount: 0,
-      tag: null,
+      category: null,
       date: date,
       label: "",
     })
@@ -71,8 +72,9 @@ export class ModaleExpenseComponent {
     this.isOpen.update(b => !b);
   }
 
-  selectOption(tagId: Tag, label: string): void {
-    this.form.tag().value.set(tagId);
+  selectOption(categoryid: number, label: string): void {
+    const selectedCategory : CategoryDTO = this.categoryStore.categories().find(({id}) => id === categoryid)!;
+    this.form.category().value.set(selectedCategory);
     this.selectedLabel.set(label);
     this.isOpen.set(false);
   }
@@ -80,9 +82,9 @@ export class ModaleExpenseComponent {
   onSubmit(event: Event): void {
     event.preventDefault();
     submit(this.form, async () => {
-      const { tag, amount, date, label } = this.expenseModel();
+      const { category, amount, date, label } = this.expenseModel();
       console.log({
-        tag: tag!,
+        category,
         amount,
         date: new Date(date),
         label,
@@ -91,7 +93,7 @@ export class ModaleExpenseComponent {
 
       this.dispatch.createExpense({
         expense: {
-          tag: tag!,
+          category : category!,
           amount,
           status : ExpenseStatus.PENDING,
           date: new Date(date).toISOString(),
