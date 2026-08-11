@@ -48,19 +48,19 @@
 
       <div class="input-group">
         <label class="label">Libellé</label>
-        <input [field]="form.label" autocomplete="off" class="input" type="text" placeholder="Ex: Netflix">
+        <input [formField]="form.label" autocomplete="off" class="input" type="text" placeholder="Ex: Netflix">
       </div>
 
       <div class="input-group">
         <label class="label">{{dateFormLabel()}}</label>
-        <input [field]="form.date" autocomplete="off" [ngClass]="{'readonly': !isRecurring()}" class="input" type="text" placeholder="JJ/MM/AAAA">
+        <input [formField]="form.date" autocomplete="off" [ngClass]="{'readonly': !isRecurring()}" class="input" type="text" placeholder="JJ/MM/AAAA">
       </div>
 
       <div class="input-group">
         <label class="label">Montant</label>
         <div class="amount-wrapper">
           <span class="currency">€</span>
-          <input [field]="form.amount" autocomplete="off" class="input amount-input" step="any" type="number" placeholder="0.00">
+          <input [formField]="form.amount" autocomplete="off" class="input amount-input" step="any" type="number" placeholder="0.00">
         </div>
       </div>
 

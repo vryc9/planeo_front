@@ -1,5 +1,5 @@
 import { Component, inject, Inject, signal } from '@angular/core';
-import { Field, form, min, required, submit } from '@angular/forms/signals';
+import { FormField, form, min, required, submit } from '@angular/forms/signals';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { injectDispatch } from '@ngrx/signals/events';
@@ -12,7 +12,7 @@ interface IncomeFormData {
 
 @Component({
   selector: 'app-modale-income',
-  imports: [MatDialogModule, Field, MatInputModule],
+  imports: [MatDialogModule, FormField, MatInputModule, FormField],
   templateUrl: './modale-income-component.html',
   styleUrl: './modale-income-component.css',
 })

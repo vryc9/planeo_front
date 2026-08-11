@@ -29,12 +29,12 @@
 
     <div class="input-group">
       <label class="label">Username</label>
-      <input [field]="form.username" autocomplete="off" id="Email" class="input" type="text">
+      <input [formField]="form.username" autocomplete="off" id="Email" class="input" type="text">
       <div></div>
     </div>
     <div class="input-group">
       <label class="label">Mot de passe</label>
-      <input [field]="form.password" autocomplete="off" id="password" class="input" type="password">
+      <input [formField]="form.password" autocomplete="off" id="password" class="input" type="password">
       <div></div>
     </div>
     <button (click)="submit()" class="btn"> Se connecter</button>

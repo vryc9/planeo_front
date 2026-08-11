@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { Field, form } from '@angular/forms/signals';
+import { FormField, form } from '@angular/forms/signals';
 import { injectDispatch } from '@ngrx/signals/events';
 import { BalanceCreateEvents, BalanceEvents } from '../../store/balanceEvents';
 import { BalanceStore } from '../../store/balanceStore';
 
 @Component({
   selector: 'app-create-balance',
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './create-balance.html',
   styleUrl: './create-balance.css',
 })

@@ -3,9 +3,9 @@
     <div class="modal-title-row">
       <div class="modal-icon">
         @if (selectedIcon()) {
-          <mat-icon class="modal-icon-glyph" [fontIcon]="selectedIcon()!"></mat-icon>
+        <mat-icon class="modal-icon-glyph" [fontIcon]="selectedIcon()!"></mat-icon>
         } @else {
-          <mat-icon class="modal-icon-glyph" fontIcon="category"></mat-icon>
+        <mat-icon class="modal-icon-glyph" fontIcon="category"></mat-icon>
         }
       </div>
       <div>
@@ -27,46 +27,39 @@
 
       <div class="input-group">
         <label class="label">Nom de la catégorie</label>
-        <input
-          class="input"
-          type="text"
-          autocomplete="off"
-          placeholder="Ex : Restaurant, Transport..."
-          [value]="name()"
-          (input)="name.set($any($event.target).value)" />
+        <input class="input" type="text" autocomplete="off" [formField]="categoryForm.name"
+          placeholder="Ex : Restaurant, Transport..." />
+        @if(canDisplayError()) {
+        <p>{{categoryForm.name().errors()[0].message}}</p>
+        }
       </div>
-
       <div class="input-group">
         <label class="label">Icône</label>
-
         <div class="icon-search-wrapper">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
-          <input
-            class="icon-search-input"
-            type="text"
-            placeholder="Rechercher une icône..."
-            [value]="iconSearch()"
+          <input class="icon-search-input" type="text" placeholder="Rechercher une icône..."
             (input)="iconSearch.set($any($event.target).value)" />
         </div>
 
-        <div class="icon-grid">
-          @for (icon of filteredIcons(); track icon) {
-            <button
-              type="button"
-              class="icon-option"
-              [class.selected]="selectedIcon() === icon"
-              [title]="icon"
+        @if (filteredIcons().length > 0) {
+        <cdk-virtual-scroll-viewport #viewport [itemSize]="56" class="icon-viewport">
+          <div class="icon-row" *cdkVirtualFor="let row of iconRows(); trackBy: trackRow"
+            [style.grid-template-columns]="'repeat(' + iconsPerRow() + ', 1fr)'">
+            @for (icon of row; track icon) {
+            <button type="button" class="icon-option" [class.selected]="selectedIcon() === icon" [title]="icon"
               (click)="selectIcon(icon)">
               <mat-icon [fontIcon]="icon"></mat-icon>
             </button>
-          } @empty {
-            <p class="icon-empty">Aucune icône trouvée</p>
-          }
-        </div>
+            }
+          </div>
+        </cdk-virtual-scroll-viewport>
+        } @else {
+        <p class="icon-empty">Aucune icône trouvée</p>
+        }
       </div>
 
     </div>

@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { Field, form } from '@angular/forms/signals';
+import { FormField, form } from '@angular/forms/signals';
 import { injectDispatch } from '@ngrx/signals/events';
 import { AuthEvent } from './store/AuthEvent';
 import { AuthStore } from './store/AuthStore';
@@ -10,7 +10,7 @@ interface LoginData {
 }
 @Component({
   selector: 'app-auth',
-  imports: [Field],
+  imports: [FormField],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css',
 })

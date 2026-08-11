@@ -1,5 +1,5 @@
 import { Component, computed, Inject, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
-import { email, Field, form, min, required, submit } from '@angular/forms/signals';
+import { form, min, required, submit, FormField } from '@angular/forms/signals';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { injectDispatch } from '@ngrx/signals/events';
@@ -19,7 +19,7 @@ interface ExpenseFormData {
 
 @Component({
   selector: 'app-modale-expense-component',
-  imports: [MatDialogModule, Field, MatInputModule, NgClass],
+  imports: [MatDialogModule, FormField, MatInputModule, NgClass, FormField],
   providers : [CategoryStore],
   templateUrl: './modale-expense-component.html',
   styleUrl: './modale-expense-component.css',

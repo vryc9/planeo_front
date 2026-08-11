@@ -1,6 +1,6 @@
 import { signalStore, withComputed, withHooks, withProps, withState } from "@ngrx/signals"
 import { CategoryDTO } from "../../../types/generated/category-dto"
-import { CategoryFetchEvents } from "./CategoryEvents"
+import { CategoryAddEvents, CategoryFetchEvents } from "./CategoryEvents"
 import { Events, injectDispatch, on, withEventHandlers, withReducer } from "@ngrx/signals/events"
 import { computed, inject } from "@angular/core"
 import { CategoryService } from "../services/category-servives.service"
@@ -26,11 +26,19 @@ export const CategoryStore = signalStore(
   })),
   withEventHandlers(({ service, events }) => {
     return {
-      loadCategory$: events.on(CategoryFetchEvents.loadCategory).pipe(
+      loadCategory$: events.on(CategoryFetchEvents.loadCategory, CategoryAddEvents.addCategorySuccess).pipe(
         switchMap(_ => service.getAllExpense().pipe(
           mapResponse({
             next: (categories) => CategoryFetchEvents.loadCategorySuccess({ categories }),
             error: (error: unknown) => CategoryFetchEvents.loadCategoryFailure({ error })
+          })
+        ))
+      ),
+      createCategory$: events.on(CategoryAddEvents.addCategory).pipe(
+        switchMap(({ payload }) => service.createCategory(payload).pipe(
+          mapResponse({
+            next: (category) => CategoryAddEvents.addCategorySuccess({ category }),
+            error: (error: unknown) => CategoryAddEvents.addCategoryFailure({ error })
           })
         ))
       )

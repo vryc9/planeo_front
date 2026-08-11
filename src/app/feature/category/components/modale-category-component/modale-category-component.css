@@ -6,6 +6,18 @@
   padding: 24px 24px 0;
 }
 
+.icon-viewport {
+  height: 280px;
+  width: 100%;
+}
+
+.icon-row {
+  display: grid;
+  gap: 8px;
+  height: 56px;
+  align-items: center;
+}
+
 .modal-title-row {
   display: flex;
   align-items: center;
