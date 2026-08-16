@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, effect, inject, signal } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg } from '@fullcalendar/core/index.js';
+import { CalendarOptions, DateSelectArg, Duration, EventApi, EventClickArg, EventDropArg } from '@fullcalendar/core/index.js';
 import interactionPlugin from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -12,6 +12,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CalendarStore } from './store/calendarStore';
 import { ExpenseDetailModalComponent } from './components/expense-detail-modal/expense-detail-modal';
 import { ExpenseDTO } from '../../types/generated';
+import { ExpenseStore } from '../expenses/store/expenseStore';
+import { ExpenseEvents } from '../expenses/store/expenseEvents';
 @Component({
   selector: 'app-calendar-component',
   imports: [FullCalendarModule, MatDialogModule],
@@ -24,6 +26,8 @@ export class CalendarComponent {
   readonly dispatch = injectDispatch(calendarEvents);
   readonly store = inject(CalendarStore);
   readonly dialog = inject(MatDialog);
+  private readonly expenseStore = inject(ExpenseStore)
+  private readonly dispatchExpenseEvents = injectDispatch(ExpenseEvents)
   calendarOptions = signal<CalendarOptions>({
     height: '100%',
     expandRows: true,
@@ -41,7 +45,7 @@ export class CalendarComponent {
     dayMaxEvents: true,
     select: this.handleDateSelect.bind(this),
     eventClick: this.handleEventClick.bind(this),
-    eventsSet: this.handleEvents.bind(this)
+    eventDrop: this.handleEvents.bind(this)
   });
   currentEvents = signal<EventApi[]>([]);
 
@@ -80,8 +84,15 @@ export class CalendarComponent {
     });
   }
 
-  handleEvents(events: EventApi[]): void {
-    this.currentEvents.set(events);
-    this.changeDetector.detectChanges();
+  handleEvents({ delta: { days }, event: { _def: { title } } }: EventDropArg): void {
+    const expenseToUpdate: ExpenseDTO = { ...this.expenseStore.expenses().find(({ label }) => title === label) } as ExpenseDTO
+    const expenseUpdated: ExpenseDTO = { ...expenseToUpdate, date: this.applyDaysToDate(expenseToUpdate.date, days) }
+    this.dispatchExpenseEvents.updateExpense({ expense: expenseUpdated });
+  }
+
+  private applyDaysToDate(dateStr: string, days: number): string {
+    const date: Date = new Date(dateStr);
+    date.setDate(date.getDate() + days);
+    return date.toISOString().split('T')[0];
   }
 }

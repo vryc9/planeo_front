@@ -8,7 +8,7 @@ import { mapResponse } from '@ngrx/operators';
 import { ExpenseEvents, IncomeModal } from '../../expenses/store/expenseEvents';
 import { AuthEvent } from '../../auth/store/AuthEvent';
 import { Router } from '@angular/router';
-import {BalanceResponseDTO } from '../../../types/generated';
+import { BalanceResponseDTO } from '../../../types/generated';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 import { MatDialog } from '@angular/material/dialog';
 import { ModaleIncomeComponent } from '../../expenses/components/modale-income-component/modale-income-component';
@@ -34,6 +34,7 @@ export const BalanceStore = signalStore(
           BalanceEvents.loadBalance,
           ExpenseEvents.createExpenseSuccess,
           ExpenseEvents.loadExpense,
+          ExpenseEvents.updateExpenseSuccess,
           ExpenseEvents.deleteExpenseSuccess).
           pipe(
             switchMap(_ =>

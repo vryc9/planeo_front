@@ -1,5 +1,9 @@
+@if (!isEmpty()) {
 <div class="list-expense-container">
-  @if(!isEmpty()) {
+    <div class="list-expense-header">
+      <h2>Dépenses</h2>
+      <span class="expense-count">{{ totalExpense() }}</span>
+    </div>
     <div class="table-wrap">
       <table>
         <thead>
@@ -38,10 +42,12 @@
         </tbody>
       </table>
     </div>
-  } @else {
+</div>
+}
+
+ @else {
     <div class="empty-state">
       <mat-icon class="empty-icon" fontIcon="inbox"/>
       <p class="empty-text">Aucune dépense prévue</p>
     </div>
   }
-</div>

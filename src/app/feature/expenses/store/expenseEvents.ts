@@ -23,6 +23,9 @@ export const ExpenseEvents = eventGroup({
     loadExpenseForLastMonths : type<void>(),
     loadExpenseForLastMonthsSuccess: type<{ expenses: ExpenseDTO[] }>(),
     loadExpenseForLastMonthsFailure: type<{ error: unknown }>(),
+    updateExpense : type<{expense : ExpenseDTO}>(),
+    updateExpenseSuccess: type<{ expense: ExpenseDTO }>(),
+    updateExpenseFailure: type<{ error: unknown }>(),
   },
 })
 

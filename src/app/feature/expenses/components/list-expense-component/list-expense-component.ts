@@ -18,6 +18,7 @@ export class ListExpenseComponent {
   readonly dateColumnlabel: Signal<string> = computed<string>(() => this.onglet() !== "incoming" ? "Date de prélèvement" : "Date")
   readonly dispath = injectDispatch(ExpenseEvents);
   readonly isEmpty : Signal<boolean> = computed<boolean>(() => this.expenses().length === 0)
+  protected readonly totalExpense : Signal<number> = computed<number>(() => this.expenses().length);
 
   sort(sortBy: SortType): void {
     this.dispath.sortExpense({ sortType: sortBy })

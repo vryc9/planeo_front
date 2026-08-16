@@ -12,7 +12,7 @@ import { ExpensesByCategoryDTO } from '../../../types/generated/expenses-by-tags
 export class ExpenseService {
   private readonly baseUrl = environment.apiUrl + '/api/expense';
 
-  private readonly numberOfMonth : number = 2;
+  private readonly numberOfMonth: number = 2;
 
   readonly http = inject(HttpClient);
 
@@ -24,9 +24,9 @@ export class ExpenseService {
     return this.http.get<ExpenseDTO[]>(this.baseUrl);
   }
 
-  getExpensesForLastMonths() : Observable<ExpenseDTO[]> {
+  getExpensesForLastMonths(): Observable<ExpenseDTO[]> {
     return this.http.get<ExpenseDTO[]>(`${this.baseUrl}/month/number`, {
-      params : {monthCount : this.numberOfMonth}
+      params: { monthCount: this.numberOfMonth }
     })
   }
 
@@ -36,15 +36,19 @@ export class ExpenseService {
     });
   }
 
-  getExpensePerMonth() : Observable<ExpensePerMonthDTO[]> {
+  update(expense: ExpenseDTO): Observable<ExpenseDTO> {
+    return this.http.put<ExpenseDTO>(this.baseUrl, expense);
+  }
+
+  getExpensePerMonth(): Observable<ExpensePerMonthDTO[]> {
     return this.http.get<ExpensePerMonthDTO[]>(`${this.baseUrl}/month`);
   }
 
-  getExpenseAmountByCategories() : Observable<ExpenseAmountByCategoryDTO[]>{
+  getExpenseAmountByCategories(): Observable<ExpenseAmountByCategoryDTO[]> {
     return this.http.get<ExpenseAmountByTagDTO[]>(`${this.baseUrl}/amount/category`);
   }
 
-  getExpensesByCategory () : Observable<ExpensesByCategoryDTO[]> {
+  getExpensesByCategory(): Observable<ExpensesByCategoryDTO[]> {
     return this.http.get<ExpensesByCategoryDTO[]>(`${this.baseUrl}/category`)
   }
 

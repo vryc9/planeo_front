@@ -34,6 +34,7 @@ export function withExpenseEventsHandler() {
           loadExpense$: events.on(
             ExpenseEvents.loadExpense,
             ExpenseEvents.deleteExpenseSuccess,
+            ExpenseEvents.updateExpenseSuccess,
             ExpenseEvents.createExpenseSuccess)
             .pipe(
               switchMap(_ =>
@@ -60,7 +61,7 @@ export function withExpenseEventsHandler() {
               )
             ),
           getExpensesForLastMonths$: events.on(
-            ExpenseEvents.loadExpenseForLastMonths, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess)
+            ExpenseEvents.loadExpenseForLastMonths, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess, ExpenseEvents.updateExpenseSuccess)
             .pipe(
               switchMap(_ =>
                 service.getExpensesForLastMonths().pipe(
@@ -90,6 +91,17 @@ export function withExpenseEventsHandler() {
                   next: (_) => ExpenseEvents.deleteExpenseSuccess(),
                   error: (error) =>
                     ExpenseEvents.deleteExpenseFailure({ error }),
+                })
+              )
+            )
+          ),
+          updateExpense$: events.on(ExpenseEvents.updateExpense).pipe(
+            switchMap(({ payload }) =>
+              service.update(payload.expense).pipe(
+                mapResponse({
+                  next: (expense) => ExpenseEvents.updateExpenseSuccess({ expense }),
+                  error: (error) =>
+                    ExpenseEvents.updateExpenseFailure({ error }),
                 })
               )
             )
