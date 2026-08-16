@@ -1,8 +1,10 @@
-import { Component, computed, input, InputSignal } from '@angular/core';
-import { ChartData, ChartOptions } from 'chart.js';
+import { Component, computed, inject, input, InputSignal } from '@angular/core';
+import { ActiveElement, ChartData, ChartEvent, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { ExpenseAmountByTagDTO } from '../../../../types/generated';
+import { MatDialog } from '@angular/material/dialog';
+import { ExpenseDTO } from '../../../../types/generated';
 import { ExpenseAmountByCategoryDTO } from '../../../../types/generated/expense-amount-by-tag-dto';
+import { ExpenseCategoryModalComponent } from '../expense-category-modal/expense-category-modal';
 
 @Component({
   selector: 'app-dashboard-tags-graph-component',
@@ -11,7 +13,10 @@ import { ExpenseAmountByCategoryDTO } from '../../../../types/generated/expense-
   styleUrl: './dashboard-tags-graph-component.css',
 })
 export class DashboardTagsGraphComponent {
+  private readonly dialog = inject(MatDialog);
+
   readonly expenseAmountByCategory: InputSignal<ExpenseAmountByCategoryDTO[]> = input.required<ExpenseAmountByCategoryDTO[]>();
+  readonly expenses: InputSignal<ExpenseDTO[]> = input.required<ExpenseDTO[]>();
 
   readonly chartData = computed<ChartData<'bar'>>(() => ({
   labels: this.expenseAmountByCategory().map(({category : {name}}) => name),
@@ -32,6 +37,10 @@ export class DashboardTagsGraphComponent {
     responsive: true,
     maintainAspectRatio: true,
     aspectRatio: 4,
+    onHover: (event, elements) => {
+      const target = event.native?.target as HTMLElement | undefined;
+      if (target) target.style.cursor = elements.length ? 'pointer' : 'default';
+    },
     plugins: {
       legend: { display: true },
       tooltip: {
@@ -49,4 +58,21 @@ export class DashboardTagsGraphComponent {
       }
     }
   };
+
+  onChartClick(event: { event?: ChartEvent; active?: object[] }): void {
+    const active = event.active as ActiveElement[] | undefined;
+    if (!active?.length) return;
+
+    const entry = this.expenseAmountByCategory()[active[0].index];
+    if (!entry) return;
+
+    const categoryExpenses = this.expenses().filter(expense => expense.category.id === entry.category.id);
+
+    this.dialog.open(ExpenseCategoryModalComponent, {
+      data: { category: entry.category, expenses: categoryExpenses },
+      width: '560px',
+      maxWidth: '92vw',
+      panelClass: 'expense-category-panel',
+    });
+  }
 }

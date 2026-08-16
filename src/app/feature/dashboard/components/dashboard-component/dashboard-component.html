@@ -8,5 +8,5 @@
     <app-dashbord-graph-component [expensesPerMonth]="expensesStore.expensePerMonth()" ></app-dashbord-graph-component>
     <app-dashboard-list-expense [expenses]="dashboardStore.expenses()"></app-dashboard-list-expense>
   </div>
-  <app-dashboard-tags-graph-component [expenseAmountByCategory]="expensesStore.expenseAmountByCategory()"></app-dashboard-tags-graph-component>
+  <app-dashboard-tags-graph-component [expenseAmountByCategory]="expensesStore.expenseAmountByCategory()" [expenses]="expensesStore.expenses()"></app-dashboard-tags-graph-component>
 </div>
