@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <div class="modal-title-row">
+    <div class="modal-icon" [class.modal-icon--danger]="data.variant === 'danger'">
+      @if (data.variant === 'danger') {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+      }
+    </div>
+    <h2 class="modal-title">{{ data.title }}</h2>
+  </div>
+</div>
+
+<mat-dialog-content>
+  <p class="confirm-message">{{ data.message }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions class="modal-actions">
+  <button type="button" class="btn btn-cancel" (click)="cancel()">
+    {{ data.cancelLabel ?? 'Annuler' }}
+  </button>
+  <button
+    type="button"
+    class="btn"
+    [class.btn-confirm-danger]="data.variant === 'danger'"
+    [class.btn-close-action]="data.variant !== 'danger'"
+    (click)="confirm()"
+  >
+    {{ data.confirmLabel ?? 'Confirmer' }}
+  </button>
+</mat-dialog-actions>

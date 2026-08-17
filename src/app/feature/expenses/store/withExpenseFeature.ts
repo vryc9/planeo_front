@@ -3,9 +3,10 @@ import { signalStoreFeature, withProps } from "@ngrx/signals";
 import { Events, injectDispatch, withEventHandlers } from "@ngrx/signals/events";
 import { ExpenseService } from "../services/expense-service.service";
 import { ExpenseAmountByCategoryEvents, ExpenseByCategoryEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
-import { filter, switchMap, tap } from "rxjs";
+import { exhaustMap, filter, map, switchMap, tap } from "rxjs";
 import { mapResponse } from "@ngrx/operators";
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
+import { ConfirmDialogService } from "../../../shared/confirm-dialog/confirm-dialog.service";
 
 export function withExpenseEventsHandler() {
   return signalStoreFeature(
@@ -13,9 +14,10 @@ export function withExpenseEventsHandler() {
       toast: injectDispatch(ToastEvents),
       events: inject(Events),
       service: inject(ExpenseService),
+      confirmationDialog: inject(ConfirmDialogService)
     })),
     withEventHandlers(
-      ({ toast, events, service }) => {
+      ({ toast, events, service, confirmationDialog }) => {
         return {
           createExpense$: events.on(ExpenseEvents.createExpense).pipe(
             switchMap(({ payload }) =>
@@ -85,15 +87,25 @@ export function withExpenseEventsHandler() {
               )
             ),
           deleteExpense$: events.on(ExpenseEvents.deleteExpense).pipe(
-            switchMap(({ payload }) =>
-              service.delete(payload.expense).pipe(
+            switchMap(({ payload: { expense } }) =>
+              confirmationDialog.confirm({
+                title: 'Supprimer la dépense',
+                message: `Voulez-vous vraiment supprimer "${expense.label}" ? Cette action est irréversible.`,
+                confirmLabel: 'Supprimer',
+                variant: 'danger',
+              }).pipe(
+                filter((confirmed): confirmed is true => confirmed),
+                map(() => expense),
+              ),
+            ),
+            exhaustMap((expense) =>
+              service.delete(expense).pipe(
                 mapResponse({
-                  next: (_) => ExpenseEvents.deleteExpenseSuccess(),
-                  error: (error) =>
-                    ExpenseEvents.deleteExpenseFailure({ error }),
-                })
-              )
-            )
+                  next: () => ExpenseEvents.deleteExpenseSuccess(),
+                  error: (error) => ExpenseEvents.deleteExpenseFailure({ error }),
+                }),
+              ),
+            ),
           ),
           updateExpense$: events.on(ExpenseEvents.updateExpense).pipe(
             switchMap(({ payload }) =>

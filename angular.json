@@ -39,6 +39,7 @@
             ],
             "styles": [
               "src/material-theme.scss",
+              "@angular/cdk/overlay-prebuilt.css",
               "src/styles.css"
             ]
           },

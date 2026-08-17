@@ -10,6 +10,7 @@ import { BalanceStore } from "../../balance/store/balanceStore";
 import { ExpenseResume } from "../types/expenseResume";
 import { ExpenseDTO, ExpenseStatus } from "../../../types/generated";
 import { ExpensesByCategoryDTO } from "../../../types/generated/expenses-by-tags-dto";
+import { ConfirmDialogService } from "../../../shared/confirm-dialog/confirm-dialog.service";
 
 type SortKey = 'amount' | 'date' | 'label';
 type SortDirection = 'asc' | 'desc';
@@ -33,7 +34,6 @@ function sortExpenses(
 export function withExpenseComputed() {
   return signalStoreFeature(
     { state: type<ExpenseState>() },
-
     withProps(() => ({
       _balanceStore: inject(BalanceStore),
     })),

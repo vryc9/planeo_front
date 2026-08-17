@@ -1,0 +1,108 @@
+/* ── Header ─────────────────────────────────────────────── */
+.modal-header {
+  padding: 24px 24px 0;
+}
+
+.modal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(79, 209, 197, 0.1);
+  border: 1.5px solid rgba(79, 209, 197, 0.2);
+  color: #4fd1c5;
+  flex-shrink: 0;
+}
+
+.modal-icon--danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* ── Content ────────────────────────────────────────────── */
+.confirm-message {
+  font-size: 0.9rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 16px 0 0;
+}
+
+/* ── Actions ────────────────────────────────────────────── */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 20px 24px 24px;
+}
+
+.btn {
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-cancel {
+  background: #f1f5f9;
+  color: #374151;
+}
+
+.btn-cancel:hover {
+  background: #e2e8f0;
+}
+
+.btn-close-action {
+  background: #4fd1c5;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(79, 209, 197, 0.35);
+}
+
+.btn-close-action:hover {
+  background: #38bdb2;
+  box-shadow: 0 6px 16px rgba(79, 209, 197, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-close-action:active {
+  background: #2eada2;
+  transform: translateY(0);
+}
+
+.btn-confirm-danger {
+  background: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.35);
+}
+
+.btn-confirm-danger:hover {
+  background: #dc2626;
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.45);
+  transform: translateY(-1px);
+}
+
+.btn-confirm-danger:active {
+  background: #c62727;
+  transform: translateY(0);
+}
