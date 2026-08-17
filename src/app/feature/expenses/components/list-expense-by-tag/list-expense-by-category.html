@@ -24,7 +24,7 @@
                 </div>
               </td>
               <td class="center count-cell">{{ group.expenses.length }}</td>
-              <td class="center amount-cell">{{ totalAmount(group.expenses) }} €</td>
+              <td class="center amount-cell">{{ totalAmount(group.expenses) | currency : 'EUR' : 'symbol'}}</td>
             </tr>
             <tr class="expand-row" [class.open]="isExpanded(i)">
               <td colspan="3" class="expand-cell">
@@ -41,7 +41,7 @@
                       @for (expense of group.expenses; track expense.id) {
                         <tr class="inner-row">
                           <td class="inner-label">{{ expense.label }}</td>
-                          <td class="center inner-amount">{{ expense.amount }} €</td>
+                          <td class="center inner-amount">{{ expense.amount | currency : 'EUR' : 'symbol'}}</td>
                           <td class="center inner-date">{{ expense.date | date:'dd/MM/yyyy' }}</td>
                         </tr>
                       }

@@ -32,10 +32,12 @@
         venir</button>
       <button class="segment" [class.active]="store.activeTab() === 'processed'" (click)="setTab('processed')">Dépenses
         passées</button>
-      <button class="segment" [class.active]="store.activeTab() === 'category'" (click)="setTab('category')">Dépenses par
+      <button class="segment" [class.active]="store.activeTab() === 'category'" (click)="setTab('category')">Dépenses
+        par
         catégories</button>
     </div>
 
+    @if (canDisplaySearchBar()) {
     <div class="search-wrapper">
       <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -45,7 +47,7 @@
       <input class="search-input" type="text" placeholder="Rechercher une dépense..."
         (input)="search($any($event.target).value)" />
     </div>
-
+    }
 
     @if (onglet() === 'category') {
     <app-list-expense-by-category [expensesbyCategory]="store.expensesByCategoryList()" />

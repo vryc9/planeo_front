@@ -1,12 +1,11 @@
-import { computed, inject, linkedSignal } from "@angular/core";
+import { computed, inject } from "@angular/core";
 import {
   signalStoreFeature,
   type,
   withComputed,
-  withLinkedState,
   withProps,
 } from "@ngrx/signals";
-import { ExpenseState, TabType } from "./expenseStore"; // ← TabType ajouté
+import { ExpenseState, TabType } from "./expenseStore";
 import { BalanceStore } from "../../balance/store/balanceStore";
 import { ExpenseResume } from "../types/expenseResume";
 import { ExpenseDTO, ExpenseStatus } from "../../../types/generated";
@@ -31,13 +30,6 @@ function sortExpenses(
   });
 }
 
-type TabSource = {
-  tab: TabType;
-  pending: ExpenseDTO[];
-  processed: ExpenseDTO[];
-  recurring: ExpenseDTO[];
-};
-
 export function withExpenseComputed() {
   return signalStoreFeature(
     { state: type<ExpenseState>() },
@@ -47,27 +39,25 @@ export function withExpenseComputed() {
     })),
 
     withComputed(({ expenses, sortBy, sortDirection, activeTab, expensesByCategory, _balanceStore }) => {
-      const pendingExpenses = computed(() =>
-        expenses().filter(({ recurring, status }) =>
-          !recurring && status === ExpenseStatus.PENDING
-        )
-      );
-      const processedExpenses = computed(() =>
-        expenses().filter(({ recurring, status }) =>
-          !recurring && status === ExpenseStatus.PROCESSED
-        )
-      );
-      const recurringExpenses = computed(() =>
-        expenses().filter(({ recurring }) => recurring)
-      );
+      const groupedExpenses = computed(() => {
+        const groups = Object.groupBy(expenses(), ({ recurring, status }) => {
+          if (recurring) return 'recurring';
+          return status === ExpenseStatus.PENDING ? 'pending' : 'processed';
+        });
+        return {
+          pending: groups.pending ?? [],
+          processed: groups.processed ?? [],
+          recurring: groups.recurring ?? [],
+        };
+      });
 
-      const sortedPending = computed(() => sortExpenses(pendingExpenses(), sortBy(), sortDirection()));
-      const sortedProcessed = computed(() => sortExpenses(processedExpenses(), sortBy(), sortDirection()));
-      const sortedRecurring = computed(() => sortExpenses(recurringExpenses(), sortBy(), sortDirection()));
+      const sortedPending = computed(() => sortExpenses(groupedExpenses().pending, sortBy(), sortDirection()));
+      const sortedProcessed = computed(() => sortExpenses(groupedExpenses().processed, sortBy(), sortDirection()));
+      const sortedRecurring = computed(() => sortExpenses(groupedExpenses().recurring, sortBy(), sortDirection()));
 
       const resumeExpense = computed<ExpenseResume[]>(() => {
         const balance = _balanceStore.balance();
-        const pendingCount = pendingExpenses().length;
+        const pendingCount = groupedExpenses().pending.length;
 
         if (!balance) {
           return [
@@ -88,16 +78,17 @@ export function withExpenseComputed() {
         ];
       });
 
-      const expenseDTOList = computed<ExpenseDTO[]>(() => {
-        const map: Record<Exclude<TabType, 'category'>, ExpenseDTO[]> = {
+      const expenseDTOList = computed(() => {
+        const map: Record<TabType, ExpenseDTO[]> = {
           incoming: sortedPending(),
           processed: sortedProcessed(),
           recurring: sortedRecurring(),
+          category: [],
         };
-        return map[activeTab() as Exclude<TabType, 'category'>] ?? [];
+        return map[activeTab()];
       });
 
-      const expensesByCategoryList = computed<ExpensesByCategoryDTO[]>(() =>
+      const expensesByCategoryList = computed(() =>
         activeTab() === 'category' ? expensesByCategory() : []
       );
 
@@ -110,6 +101,5 @@ export function withExpenseComputed() {
         expensesByCategoryList,
       };
     }),
-
   );
 }

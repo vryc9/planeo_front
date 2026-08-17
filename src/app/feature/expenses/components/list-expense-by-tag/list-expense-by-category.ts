@@ -1,12 +1,12 @@
 import { Component, input, InputSignal, signal } from '@angular/core';
 import { ExpenseDTO } from '../../../../types/generated';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ExpensesByCategoryDTO } from '../../../../types/generated/expenses-by-tags-dto';
 
 
 @Component({
   selector: 'app-list-expense-by-category',
-  imports: [DatePipe],
+  imports: [DatePipe, CurrencyPipe],
   templateUrl: './list-expense-by-category.html',
   styleUrl: './list-expense-by-category.css',
 })

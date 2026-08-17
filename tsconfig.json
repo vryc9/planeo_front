@@ -13,7 +13,7 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
-    "lib": [ "ES2023"],
+    "lib": ["ES2023", "ES2024.Object"],
     "module": "preserve"
   },
   "angularCompilerOptions": {
