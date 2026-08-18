@@ -3,6 +3,8 @@ import { ExpenseState, initialExpenseState } from "./expenseStore";
 import { on, withReducer } from "@ngrx/signals/events";
 import { ExpenseAmountByCategoryEvents, ExpenseByCategoryEvents, ExpenseEvents, ExpensePerMountEvent, ExpenseTabEvents } from "./expenseEvents";
 import { AuthEvent } from "../../auth/store/AuthEvent";
+import { DashboardEvents } from "../../dashboard/store/DashboardEvents";
+import { DashboardViewEnum } from "../../dashboard/enum/DashboardViewEnum";
 
 export function withExpenseReducer() {
   return signalStoreFeature(
@@ -24,7 +26,10 @@ export function withExpenseReducer() {
           sortDirection: 'asc'
         }
       }),
-      on(ExpenseByCategoryEvents.loadExpenseByCategorySuccess, ({ payload: { expensesByCategory} }) => ({ expensesByCategory })),
+      on(ExpenseByCategoryEvents.loadExpenseByCategorySuccess, ({ payload: { expensesByCategory } }) => ({ expensesByCategory })),
+      on(DashboardEvents.openMenu, ({ payload }) => ({
+        activeTab: payload.view === DashboardViewEnum.EXPENSE && payload.openTab === 'processed' ? 'processed' : 'incoming'
+      })),
       on(AuthEvent.logout, () => initialExpenseState)
     ),
   )

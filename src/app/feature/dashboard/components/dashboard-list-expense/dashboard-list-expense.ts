@@ -19,6 +19,6 @@ export class DashboardListExpense {
   readonly DashboardViewEnum: typeof DashboardViewEnum = DashboardViewEnum;
 
   displayExpenseComponent(): void {
-    this.dispatch.openMenu({ view: DashboardViewEnum.EXPENSE });
+    this.dispatch.openMenu({ view: DashboardViewEnum.EXPENSE, openTab : 'processed' });
   }
 }
