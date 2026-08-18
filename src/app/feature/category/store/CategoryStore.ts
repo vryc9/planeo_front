@@ -1,11 +1,15 @@
+import { ConfirmDialogService } from './../../../shared/confirm-dialog/confirm-dialog.service';
 import { signalStore, withComputed, withHooks, withProps, withState } from "@ngrx/signals"
 import { CategoryDTO } from "../../../types/generated/category-dto"
-import { CategoryAddEvents, CategoryFetchEvents } from "./CategoryEvents"
+import { CategoryAddEvents, CategoryDeleteEvents, CategoryFetchEvents } from "./CategoryEvents"
 import { Events, injectDispatch, on, withEventHandlers, withReducer } from "@ngrx/signals/events"
 import { computed, inject } from "@angular/core"
 import { CategoryService } from "../services/category-servives.service"
-import { switchMap } from "rxjs"
+import { exhaustMap, filter, map, switchMap } from "rxjs"
 import { mapResponse } from "@ngrx/operators"
+import { ErrorEvents } from '../../../shared/error/store/error-events';
+import { ErrorDetail } from '../../../shared/error/error';
+import { ErrorStore } from '../../../shared/error/store/errorStore';
 
 type CategoryState = {
   categories: CategoryDTO[]
@@ -20,19 +24,41 @@ export const CategoryStore = signalStore(
   withProps((() => ({
     service: inject(CategoryService),
     events: inject(Events),
+    confirmationDialog: inject(ConfirmDialogService)
   }))),
   withComputed(({ categories }) => ({
     categoriesCount: computed<number>(() => categories().length)
   })),
-  withEventHandlers(({ service, events }) => {
+  withEventHandlers(({ service, events, confirmationDialog }) => {
     return {
-      loadCategory$: events.on(CategoryFetchEvents.loadCategory, CategoryAddEvents.addCategorySuccess).pipe(
+      loadCategory$: events.on(CategoryFetchEvents.loadCategory, CategoryAddEvents.addCategorySuccess, CategoryDeleteEvents.deleteCategorySuccess).pipe(
         switchMap(_ => service.getAllExpense().pipe(
           mapResponse({
             next: (categories) => CategoryFetchEvents.loadCategorySuccess({ categories }),
             error: (error: unknown) => CategoryFetchEvents.loadCategoryFailure({ error })
           })
         ))
+      ),
+      delete: events.on(CategoryDeleteEvents.deleteCategory).pipe(
+        switchMap(({ payload: { category } }) =>
+          confirmationDialog.confirm({
+            title: 'Supprimer la catégorie ?',
+            message: `Voulez-vous vraiment supprimer "${category.name}" ? Cette action est irréversible.`,
+            confirmLabel: 'Supprimer',
+            variant: 'danger',
+          }).pipe(
+            filter((confirmed): confirmed is true => confirmed),
+            map(() => category),
+          ),
+        ),
+        exhaustMap((category) =>
+          service.delete(category).pipe(
+            mapResponse({
+              next: () => CategoryDeleteEvents.deleteCategorySuccess(),
+              error: (error: ErrorDetail) => ErrorEvents.error({ error })
+            }),
+          ),
+        ),
       ),
       createCategory$: events.on(CategoryAddEvents.addCategory).pipe(
         switchMap(({ payload }) => service.createCategory(payload).pipe(

@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
-import { injectDispatch, provideDispatcher } from '@ngrx/signals/events';
+import { provideDispatcher } from '@ngrx/signals/events';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptorInterceptor } from './feature/auth/interceptor/auth-interceptor.service';
 import { AuthStore } from './feature/auth/store/AuthStore';
@@ -13,23 +13,27 @@ import { BalanceStore } from './feature/balance/store/balanceStore';
 import { ToastStore } from './shared/toast/store/toastStore';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BarController, Colors, Legend } from 'chart.js';
-import { TokenService } from './feature/auth/service/token.service';
-import { appInitialized, AuthEvent } from './feature/auth/store/AuthEvent';
+import { ErrorStore } from "./shared/error/store/errorStore";
+import { errorDetailInterceptor } from "./shared/error/error-detail.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     BalanceStore,
     ToastStore,
+    ErrorStore,
     AuthStore,
     ExpenseStore,
     provideCharts({ registerables: [BarController, Legend, Colors] }),
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    provideAppInitializer(() => {
+      inject(ErrorStore);
+    }),
     provideStore(),
     provideDispatcher(),
     provideHttpClient(
-      withInterceptors([authInterceptorInterceptor])
+      withInterceptors([authInterceptorInterceptor, errorDetailInterceptor])
     ), provideCharts(withDefaultRegisterables()),
-        provideTaiga(),
-    ]
+    provideTaiga(),
+  ]
 };

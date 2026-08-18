@@ -2,6 +2,7 @@ import { type } from "@ngrx/signals";
 import { eventGroup } from "@ngrx/signals/events";
 import { CategoryDTO } from "../../../types/generated/category-dto";
 import { CSP_NONCE } from "@angular/core";
+import { emptyProps } from "@ngrx/store";
 
 export const CategoryFetchEvents = eventGroup({
   source: '[Category] Fetching...',
@@ -21,3 +22,13 @@ export const CategoryAddEvents = eventGroup({
     addCategoryFailure: type<{ error: unknown }>()
   }
 })
+
+
+export const CategoryDeleteEvents = eventGroup({
+  source: '[Category] Adding category',
+  events: {
+    deleteCategory: type<{ category: CategoryDTO }>(),
+    deleteCategorySuccess: type<void>(),
+  }
+})
+

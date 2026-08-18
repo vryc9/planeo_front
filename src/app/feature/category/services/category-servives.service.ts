@@ -11,8 +11,12 @@ export class CategoryService {
   private readonly baseUrl = environment.apiUrl + '/api/category';
   private readonly http = inject(HttpClient);
 
-  createCategory(category: {name : string, icon : string}): Observable<CategoryDTO> {
+  createCategory(category: { name: string, icon: string }): Observable<CategoryDTO> {
     return this.http.post<CategoryDTO>(this.baseUrl, category)
+  }
+
+  delete(category: CategoryDTO): Observable<void> {
+    return this.http.delete<void>(this.baseUrl, { body: category });
   }
 
   getAllExpense(): Observable<CategoryDTO[]> {
