@@ -9,7 +9,6 @@ import { exhaustMap, filter, map, switchMap } from "rxjs"
 import { mapResponse } from "@ngrx/operators"
 import { ErrorEvents } from '../../../shared/error/store/error-events';
 import { ErrorDetail } from '../../../shared/error/error';
-import { ErrorStore } from '../../../shared/error/store/errorStore';
 
 type CategoryState = {
   categories: CategoryDTO[]
@@ -27,7 +26,7 @@ export const CategoryStore = signalStore(
     confirmationDialog: inject(ConfirmDialogService)
   }))),
   withComputed(({ categories }) => ({
-    categoriesCount: computed<number>(() => categories().length)
+    categoriesCount: computed<number>(() => categories().length),
   })),
   withEventHandlers(({ service, events, confirmationDialog }) => {
     return {

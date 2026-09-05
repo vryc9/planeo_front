@@ -92,7 +92,8 @@ export class CalendarComponent {
   }
 
   handleEvents({ delta: { days }, event: { _def: { title } } }: EventDropArg): void {
-    const expenseToUpdate: ExpenseDTO = { ...this.expenseStore.expenses().find(({ label }) => title === label) } as ExpenseDTO
+    const expenseToUpdate = this.expenseStore.expenses().find(({ label }) => title === label);
+    if (!expenseToUpdate) return;
     const expenseUpdated: ExpenseDTO = { ...expenseToUpdate, date: this.applyDaysToDate(expenseToUpdate.date, days) }
     this.dispatchExpenseEvents.updateExpense({ expense: expenseUpdated });
   }
@@ -111,7 +112,8 @@ export class CalendarComponent {
   }
 
   private deleteEvent({ title }: EventApi): void {
-    const expense: ExpenseDTO = { ...this.expenseStore.expenses().find(({ label }) => title === label) } as ExpenseDTO
+    const expense = this.expenseStore.expenses().find(({ label }) => title === label);
+    if (!expense) return;
     this.dispatchExpenseEvents.deleteExpense({ expense });
   }
 }

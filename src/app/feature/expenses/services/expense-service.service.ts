@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ExpenseAmountByTagDTO, ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from '../../../types/generated';
 import { ExpenseAmountByCategoryDTO } from '../../../types/generated/expense-amount-by-tag-dto';
-import { ExpensesByCategoryDTO } from '../../../types/generated/expenses-by-tags-dto';
+import { ExpensesByCategoryPerMonthDTO } from '../types/ExpensesByCategoryPerMonthDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -48,8 +48,8 @@ export class ExpenseService {
     return this.http.get<ExpenseAmountByTagDTO[]>(`${this.baseUrl}/amount/category`);
   }
 
-  getExpensesByCategory(): Observable<ExpensesByCategoryDTO[]> {
-    return this.http.get<ExpensesByCategoryDTO[]>(`${this.baseUrl}/category`)
+  getExpensesByCategory(): Observable<ExpensesByCategoryPerMonthDTO[]> {
+    return this.http.get<ExpensesByCategoryPerMonthDTO[]>(`${this.baseUrl}/category/month`)
   }
 
 }

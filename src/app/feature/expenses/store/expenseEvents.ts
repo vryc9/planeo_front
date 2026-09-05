@@ -4,7 +4,7 @@ import { TabType } from "./expenseStore";
 import { ExpenseCreateRequestDTO, ExpenseDTO, ExpensePerMonthDTO } from "../../../types/generated";
 import { emptyProps } from "@ngrx/store";
 import { ExpenseAmountByCategoryDTO } from "../../../types/generated/expense-amount-by-tag-dto";
-import { ExpensesByCategoryDTO } from "../../../types/generated/expenses-by-tags-dto";
+import { ExpensesByCategoryPerMonthDTO } from "../types/ExpensesByCategoryPerMonthDTO";
 
 export type SortType = "date" | 'amount' | 'label'
 export const ExpenseEvents = eventGroup({
@@ -42,7 +42,7 @@ export const ExpenseByCategoryEvents = eventGroup({
   source : "[Expense] Expenses amount by category",
   events : {
     loadExpenseByCategory : emptyProps(),
-    loadExpenseByCategorySuccess: type<{ expensesByCategory: ExpensesByCategoryDTO[] }>(),
+    loadExpenseByCategorySuccess: type<{ expensesByCategory: ExpensesByCategoryPerMonthDTO[] }>(),
     loadExpenseByCategoryFailure: type<{ error: unknown }>(),
   }
 })

@@ -6,7 +6,7 @@ import { withExpenseReducer } from "./withExpenseReducer";
 import { withExpenseComputed } from "./withExpenseComputed";
 import { ExpenseDTO } from "../../../types/generated";
 import { ExpensePerMonView } from "../types/ExpensePerMonView";
-import { ExpensesByCategoryDTO } from "../../../types/generated/expenses-by-tags-dto";
+import { ExpensesByCategoryPerMonthDTO } from "../types/ExpensesByCategoryPerMonthDTO";
 import { ExpenseAmountByCategoryDTO } from "../../../types/generated/expense-amount-by-tag-dto";
 
 export type TabType = 'incoming' | 'recurring' | 'processed' | 'category';
@@ -19,7 +19,7 @@ export type ExpenseState = {
   expensePerMonth: ExpensePerMonView[],
   expenseAmountByCategory: ExpenseAmountByCategoryDTO[],
   activeTab: TabType
-  expensesByCategory: ExpensesByCategoryDTO[]
+  expensesByCategory: ExpensesByCategoryPerMonthDTO[]
 }
 
 export const initialExpenseState: ExpenseState = {

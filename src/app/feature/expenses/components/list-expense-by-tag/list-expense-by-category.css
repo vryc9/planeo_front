@@ -9,6 +9,45 @@
   overflow: hidden;
 }
 
+/* ── Month tags ──────────────────────────────────────────── */
+.month-tags-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.month-tag {
+  padding: 8px 18px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 999px;
+  background: #f8fafc;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #6b7280;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+
+  &:hover:not(.active) {
+    border-color: #4fd1c5;
+    color: #0f766e;
+    background: rgba(79, 209, 197, 0.08);
+  }
+
+  &.active {
+    background: #4fd1c5;
+    border-color: #4fd1c5;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(79, 209, 197, 0.35);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
 .table-wrap {
   overflow-x: auto;
   max-height: 560px;
@@ -193,6 +232,20 @@ thead th.center {
   text-align: center;
   color: #9ca3af;
   font-size: 0.78rem;
+}
+
+/* ── Total row ───────────────────────────────────────────── */
+.total-row td {
+  padding: 14px 20px;
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #1f2937;
+  background: #f8fafc;
+  border-top: 2px solid #f1f5f9;
+}
+
+.total-row .amount-cell {
+  color: #0f766e;
 }
 
 /* ── Empty state ─────────────────────────────────────────── */

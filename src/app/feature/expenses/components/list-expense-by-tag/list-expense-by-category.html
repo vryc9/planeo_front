@@ -1,5 +1,16 @@
 <div class="list-by-tag-container">
-  @if (expensesbyCategory().length > 0) {
+  @if (monthOptions().length > 0) {
+  <div class="month-tags-bar">
+    @for (option of monthOptions(); track option.value) {
+    <button type="button" class="month-tag" [class.active]="option.value === selectedMonth()"
+      (click)="selectMonth(option.value)">
+      {{ option.label }}
+    </button>
+    }
+  </div>
+  }
+
+  @if (filteredGroups().length > 0) {
     <div class="table-wrap">
       <table>
         <thead>
@@ -10,11 +21,11 @@
           </tr>
         </thead>
         <tbody>
-          @for (group of expensesbyCategory(); track group.category.id; let i = $index) {
-            <tr class="tag-row" [class.expanded]="isExpanded(i)" (click)="toggle(i)">
+          @for (group of filteredGroups(); track group.category.id) {
+            <tr class="tag-row" [class.expanded]="isExpanded(group.category.id)" (click)="toggle(group.category.id)">
               <td>
                 <div class="tag-row-content">
-                  <span class="chevron-icon" [class.open]="isExpanded(i)">
+                  <span class="chevron-icon" [class.open]="isExpanded(group.category.id)">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                       <polyline points="9 18 15 12 9 6" />
@@ -26,9 +37,9 @@
               <td class="center count-cell">{{ group.expenses.length }}</td>
               <td class="center amount-cell">{{ totalAmount(group.expenses) | currency : 'EUR' : 'symbol'}}</td>
             </tr>
-            <tr class="expand-row" [class.open]="isExpanded(i)">
+            <tr class="expand-row" [class.open]="isExpanded(group.category.id)">
               <td colspan="3" class="expand-cell">
-                <div class="expand-content" [class.open]="isExpanded(i)">
+                <div class="expand-content" [class.open]="isExpanded(group.category.id)">
                   <table class="inner-table">
                     <thead class="inner-thead">
                       <tr>
@@ -52,6 +63,13 @@
             </tr>
           }
         </tbody>
+        <tfoot>
+          <tr class="total-row">
+            <td>Total du mois</td>
+            <td class="center"></td>
+            <td class="center amount-cell">{{ monthTotal() | currency : 'EUR' : 'symbol'}}</td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   } @else {
