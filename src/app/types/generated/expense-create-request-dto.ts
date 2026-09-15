@@ -14,4 +14,5 @@ export interface ExpenseCreateRequestDTO {
   date: string;
   label: string;
   recurring: boolean;
+  accountId: number;
 }

@@ -1,4 +1,4 @@
-<div class="stat-card">
+<div class="stat-card" [class.has-tooltip]="barSegments().length" [attr.tabindex]="barSegments().length ? 0 : null">
   <div class="stat-icon">
     <mat-icon>{{ expenseResume().icon }}</mat-icon>
   </div>
@@ -6,4 +6,36 @@
     <span class="stat-label">{{ expenseResume().title }}</span>
     <span class="stat-value">{{ expenseResume().data }}</span>
   </div>
+
+  @if (barSegments().length) {
+    <mat-icon class="info-badge" aria-hidden="true">info</mat-icon>
+
+    <div class="stat-tooltip">
+      <p class="tooltip-title">Répartition du solde</p>
+
+      <div class="breakdown-bar">
+        @for (segment of barSegments(); track segment.id) {
+          <div
+            class="breakdown-segment"
+            [style.width.%]="segment.percent"
+            [style.background]="segment.color"
+            [title]="segment.label + ' — ' + (segment.percent | number: '1.0-1') + ' %'"
+          ></div>
+        }
+      </div>
+
+      <div class="breakdown-legend">
+        @for (account of visibleAccounts(); track account.id) {
+          <div class="breakdown-row">
+            <span class="breakdown-dot" [style.background]="account.color"></span>
+            <span class="breakdown-label">{{ account.label }}</span>
+            <span class="breakdown-amount">{{ account.amount | number: '1.2-2':'fr-FR' }} €</span>
+          </div>
+        }
+        @if (hiddenAccountCount() > 0) {
+          <span class="breakdown-more">+{{ hiddenAccountCount() }} autre{{ hiddenAccountCount() > 1 ? 's' : '' }}</span>
+        }
+      </div>
+    </div>
+  }
 </div>

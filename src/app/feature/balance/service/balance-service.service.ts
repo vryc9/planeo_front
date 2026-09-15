@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { BalanceDTO, BalanceResponseDTO } from '../../../types/generated';
+import { BalanceDTO, BalanceResponseDTO, DepositRequestDTO } from '../../../types/generated';
 
 @Injectable({
   providedIn: 'root',
@@ -23,8 +23,8 @@ export class BalanceService {
     return this.http.post<BalanceResponseDTO>(this.baseUrl, balance);
   }
 
-  update(income: number): Observable<BalanceResponseDTO> {
-    return this.http.put<BalanceResponseDTO>(this.baseUrl, income);
+  update(deposit: DepositRequestDTO): Observable<BalanceResponseDTO> {
+    return this.http.put<BalanceResponseDTO>(this.baseUrl, deposit);
   }
 
 }

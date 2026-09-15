@@ -60,8 +60,8 @@ export const BalanceStore = signalStore(
           ))
         ),
         update$: events.on(BalanceUpdateEvents.addIncome).pipe(
-          switchMap(({ payload: { amount } }) =>
-            service.update(amount).pipe(
+          switchMap(({ payload: { amount, accountId } }) =>
+            service.update({ amount, accountId }).pipe(
               mapResponse({
                 next: (balance) => {
                   toast.show({

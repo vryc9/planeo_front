@@ -10,6 +10,7 @@ import { authInterceptorInterceptor } from './feature/auth/interceptor/auth-inte
 import { AuthStore } from './feature/auth/store/AuthStore';
 import { ExpenseStore } from './feature/expenses/store/expenseStore';
 import { BalanceStore } from './feature/balance/store/balanceStore';
+import { AccountStore } from './feature/account/store/accountStore';
 import { ToastStore } from './shared/toast/store/toastStore';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BarController, Colors, Legend } from 'chart.js';
@@ -19,6 +20,7 @@ import { errorDetailInterceptor } from "./shared/error/error-detail.interceptor"
 export const appConfig: ApplicationConfig = {
   providers: [
     BalanceStore,
+    AccountStore,
     ToastStore,
     ErrorStore,
     AuthStore,

@@ -24,7 +24,7 @@ export const BalanceCreateEvents = eventGroup({
 export const BalanceUpdateEvents = eventGroup({
   source: "[Balance] Update balance",
   events: {
-    addIncome: type<{ amount: number }>(),
+    addIncome: type<{ amount: number; accountId: number }>(),
     addIncomeSuccess: type<{ balance: BalanceResponseDTO }>(),
     addIncomeFailure: type<{ error: unknown }>(),
   }

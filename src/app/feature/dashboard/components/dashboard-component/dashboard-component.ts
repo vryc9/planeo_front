@@ -7,6 +7,7 @@ import { DashboardResumeCard } from "../dashboard-resume-card/dashboard-resume-c
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpensePerMountEvent } from '../../../expenses/store/expenseEvents';
 import { DashboardStore } from '../../store/DasboardStore';
+import { AccountStore } from '../../../account/store/accountStore';
 
 @Component({
   selector: 'app-dashboard-component',
@@ -17,6 +18,7 @@ import { DashboardStore } from '../../store/DasboardStore';
 export class DashboardComponent implements OnInit {
   readonly expensesStore = inject(ExpenseStore);
   readonly dashboardStore = inject(DashboardStore);
+  readonly accountStore = inject(AccountStore);
   readonly dispatch = injectDispatch(ExpensePerMountEvent);
 
 

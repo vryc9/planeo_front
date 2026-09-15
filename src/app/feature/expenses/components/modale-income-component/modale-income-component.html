@@ -36,7 +36,50 @@
         <span>Entrée d'argent — vient augmenter votre solde</span>
       </div>
 
-      <form >
+      <form class="field-stack">
+        <div class="input-group">
+          <label class="label">Compte</label>
+          <div class="custom-select-wrapper">
+            <div class="select-trigger" [class.open]="isAccountOpen()" (click)="toggleAccountDropdown()">
+              @if (selectedAccountLabel() !== 'Sélection un compte') {
+                @if (selectedAccountLogo()) {
+                  <img class="account-logo" [src]="'data:image/png;base64,' + selectedAccountLogo()" alt="" />
+                } @else {
+                  <span class="account-logo account-logo-fallback">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="5" width="20" height="14" rx="3"/>
+                      <path d="M2 10h20"/>
+                    </svg>
+                  </span>
+                }
+              }
+              <span>{{ selectedAccountLabel() }}</span>
+              <svg class="arrow" width="12" height="12" viewBox="0 0 16 16">
+                <path fill="none" stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 5l6 6 6-6"/>
+              </svg>
+            </div>
+            @if (isAccountOpen()) {
+              <div class="options-container">
+                @for (option of accountOption(); track option.id) {
+                  <div class="option-item" (click)="selectAccountOption(option.id, option.label, option.logo)">
+                    @if (option.logo) {
+                      <img class="account-logo" [src]="'data:image/png;base64,' + option.logo" alt="" />
+                    } @else {
+                      <span class="account-logo account-logo-fallback">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="2" y="5" width="20" height="14" rx="3"/>
+                          <path d="M2 10h20"/>
+                        </svg>
+                      </span>
+                    }
+                    {{ option.label }}
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
         <div class="input-group">
           <label class="label">Montant</label>
           <div class="amount-wrapper">

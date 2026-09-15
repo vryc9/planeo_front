@@ -1,7 +1,10 @@
 <div class="dashboard-content-container">
   <div class="dashboard-stats-row">
     @for (item of expensesStore.resumeExpense(); track $index) {
-      <app-dashboard-resume-card [expenseResume]="item"></app-dashboard-resume-card>
+      <app-dashboard-resume-card
+        [expenseResume]="item"
+        [accounts]="item.title === 'Solde actuel' ? accountStore.accounts() : undefined"
+      ></app-dashboard-resume-card>
     }
   </div>
   <div class="dashboard-graph-list-expense">

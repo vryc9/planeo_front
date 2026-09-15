@@ -9,10 +9,13 @@ import { NgClass } from "@angular/common";
 import { CategoryStore } from '../../../category/store/CategoryStore';
 import { CategoryDTO } from '../../../../types/generated/category-dto';
 import { ExpenseStatus } from '../../../../types/generated';
+import { AccountStore } from '../../../account/store/accountStore';
+import { AccountDTO } from '../../../../types/generated/account-dto';
 
 interface ExpenseFormData {
   amount: number;
   category: CategoryDTO | null,
+  account: AccountDTO | null,
   date: string,
   label: string
 }
@@ -30,6 +33,7 @@ export class ModaleExpenseComponent {
   readonly dispatch = injectDispatch(ExpenseEvents);
   readonly expenseStore = inject(ExpenseStore)
   protected readonly categoryStore = inject(CategoryStore);
+  protected readonly accountStore = inject(AccountStore);
 
   categoryOption: Signal<{
     id: number;
@@ -38,15 +42,25 @@ export class ModaleExpenseComponent {
     return this.categoryStore.categories().map(({id, name}) => ({id, name}))
   });
 
+  accountOption: Signal<{
+    id: number;
+    label: string;
+    logo: string;
+  }[]> = computed(() => {
+    return this.accountStore.accounts().map(({id, label, logo}) => ({id, label, logo}))
+  });
+
   expenseModel = signal<ExpenseFormData>({
     amount: 0,
     category: null,
+    account: null,
     date: "",
     label: "",
   });
 
   form = form(this.expenseModel, (schemaPath) => {
     required(schemaPath.category, { message: "Doit etre la" })
+    required(schemaPath.account, { message: "Le compte est obligatoire" })
     required(schemaPath.amount, { message: 'Le montant est obligatoire' })
     min(schemaPath.amount, 1, { message: "Le montant doit être supérier à 0" })
     required(schemaPath.label, { message: "Le label est obligatoire" })
@@ -54,6 +68,9 @@ export class ModaleExpenseComponent {
 
   isOpen: WritableSignal<boolean> = signal<boolean>(false);
   selectedLabel: WritableSignal<string> = signal<string>('Sélection une catégorie');
+  isAccountOpen: WritableSignal<boolean> = signal<boolean>(false);
+  selectedAccountLabel: WritableSignal<string> = signal<string>('Sélection un compte');
+  selectedAccountLogo: WritableSignal<string | null> = signal<string | null>(null);
   isRecurring: WritableSignal<boolean> = signal<boolean>(false);
 
   dateFormLabel: Signal<string> = computed<string>(() => this.isRecurring() ? "Date de prélèvement" : "Date")
@@ -62,6 +79,7 @@ export class ModaleExpenseComponent {
     this.expenseModel.set({
       amount: 0,
       category: null,
+      account: null,
       date: date,
       label: "",
     })
@@ -79,12 +97,25 @@ export class ModaleExpenseComponent {
     this.isOpen.set(false);
   }
 
+  toggleAccountDropdown(): void {
+    this.isAccountOpen.update(b => !b);
+  }
+
+  selectAccountOption(accountId: number, label: string, logo: string): void {
+    const selectedAccount : AccountDTO = this.accountStore.accounts().find(({id}) => id === accountId)!;
+    this.form.account().value.set(selectedAccount);
+    this.selectedAccountLabel.set(label);
+    this.selectedAccountLogo.set(logo);
+    this.isAccountOpen.set(false);
+  }
+
   onSubmit(event: Event): void {
     event.preventDefault();
     submit(this.form, async () => {
-      const { category, amount, date, label } = this.expenseModel();
+      const { category, account, amount, date, label } = this.expenseModel();
       console.log({
         category,
+        account,
         amount,
         date: new Date(date),
         label,
@@ -94,6 +125,7 @@ export class ModaleExpenseComponent {
       this.dispatch.createExpense({
         expense: {
           category : category!,
+          accountId : account!.id,
           amount,
           status : ExpenseStatus.PENDING,
           date: new Date(date).toISOString(),

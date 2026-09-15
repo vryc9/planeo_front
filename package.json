@@ -7,8 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "generate:material-icons": "node tools/generate-materials-icons.mjs"
-
+    "generate:material-icons": "node tools/generate-materials-icons.mjs",
+    "generate:banks": "node tools/bank/generate-banks.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -68,6 +68,7 @@
     "@angular/compiler-cli": "^21.2.19",
     "@types/event-source-polyfill": "^1.0.5",
     "jsdom": "^27.1.0",
+    "sharp": "^0.35.4",
     "typescript": "^5.9.3",
     "vitest": "^4.0.8"
   }

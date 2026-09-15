@@ -1,4 +1,5 @@
 import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ListExpenseComponent } from "./components/list-expense-component/list-expense-component";
 import { ExpenseResumeComponent } from "./components/expense-resume-component/expense-resume-component";
 import { ExpenseStore, TabType } from './store/expenseStore';
@@ -8,6 +9,7 @@ import { ExpenseTabEvents, IncomeModal } from './store/expenseEvents';
 import { debouncedSignal } from './utils/debounce';
 import { ExpenseDTO } from '../../types/generated';
 import { ListExpenseByCategory } from './components/list-expense-by-tag/list-expense-by-category';
+import { ModaleAccountComponent } from '../account/components/modale-account-component/modale-account-component';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -22,6 +24,7 @@ export class ExpenseComponent {
   private readonly dispatch = injectDispatch(calendarEvents);
   private readonly dispatchTabEvents = injectDispatch(ExpenseTabEvents);
   private readonly dispatchIncomEvents = injectDispatch(IncomeModal)
+  private readonly dialog = inject(MatDialog);
 
   protected readonly onglet = this.store.activeTab;
   private readonly searchQuery: WritableSignal<string> = signal('');
@@ -44,6 +47,10 @@ export class ExpenseComponent {
 
   openIncomeModal(): void {
     this.dispatchIncomEvents.openIncomeModal();
+  }
+
+  openCreateAccountModal(): void {
+    this.dialog.open(ModaleAccountComponent, { width: '480px' });
   }
 
   search(query: string): void {

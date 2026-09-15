@@ -47,6 +47,31 @@
       </div>
 
       <div class="input-group">
+        <label class="label">Compte</label>
+        <div class="custom-select-wrapper">
+          <div class="select-trigger" [class.open]="isAccountOpen()" (click)="toggleAccountDropdown()">
+            @if (selectedAccountLogo()) {
+              <img class="account-logo" [src]="'data:image/png;base64,' + selectedAccountLogo()" alt="" />
+            }
+            <span>{{ selectedAccountLabel() }}</span>
+            <svg class="arrow" width="12" height="12" viewBox="0 0 16 16">
+              <path fill="none" stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 5l6 6 6-6"/>
+            </svg>
+          </div>
+          @if (isAccountOpen()) {
+            <div class="options-container">
+              @for (option of accountOption(); track option.id) {
+                <div class="option-item" (click)="selectAccountOption(option.id, option.label, option.logo)">
+                  <img class="account-logo" [src]="'data:image/png;base64,' + option.logo" alt="" />
+                  {{ option.label }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="input-group">
         <label class="label">Libellé</label>
         <input [formField]="form.label" autocomplete="off" class="input" type="text" placeholder="Ex: Netflix">
       </div>
