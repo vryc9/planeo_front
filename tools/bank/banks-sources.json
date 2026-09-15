@@ -14,5 +14,9 @@
   {
   "name": "BoursoBank",
   "svgUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Logo%20Boursorama.svg"
-}
+  },
+  {
+    "name": "Liquide",
+    "svgPath": "./liquide.svg"
+  }
 ]

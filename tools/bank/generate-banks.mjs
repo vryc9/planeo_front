@@ -13,6 +13,10 @@ async function fetchSvg(url) {
   return response.text();
 }
 
+async function readLocalSvg(path) {
+  return readFile(new URL(path, SOURCES_PATH), 'utf-8');
+}
+
 async function svgToPngBase64(svgText) {
   const buffer = await sharp(Buffer.from(svgText))
     .resize(LOGO_SIZE, LOGO_SIZE, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
@@ -25,9 +29,9 @@ async function generate() {
   const sources = JSON.parse(await readFile(SOURCES_PATH, 'utf-8'));
   const banks = [];
 
-  for (const { name, svgUrl } of sources) {
+  for (const { name, svgUrl, svgPath } of sources) {
     try {
-      const svg = await fetchSvg(svgUrl);
+      const svg = svgPath ? await readLocalSvg(svgPath) : await fetchSvg(svgUrl);
       const logo = await svgToPngBase64(svg);
       banks.push({ name, logo });
       console.log(`  ✓ ${name}`);
