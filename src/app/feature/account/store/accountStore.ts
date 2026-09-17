@@ -35,6 +35,7 @@ export const AccountStore = signalStore(
           BalanceUpdateEvents.addIncomeSuccess,
           AccountAddEvents.addAccountSuccess,
           AccountTransferEvents.transferSuccess,
+          AuthEvent.authentificationSuccess,
         )
         .pipe(
           switchMap(() =>
@@ -67,7 +68,11 @@ export const AccountStore = signalStore(
         ),
       ),
       checkAccountExists$: events
-        .on(AccountExistEvents.checkAccountExists, AccountAddEvents.addAccountSuccess)
+        .on(
+          AccountExistEvents.checkAccountExists,
+          AccountAddEvents.addAccountSuccess,
+          AuthEvent.authentificationSuccess,
+        )
         .pipe(
           switchMap(() =>
             service.exist().pipe(
