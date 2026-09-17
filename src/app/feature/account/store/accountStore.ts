@@ -4,7 +4,7 @@ import { inject } from '@angular/core';
 import { switchMap } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
 import { AccountService } from '../service/account-service.service';
-import { AccountAddEvents, AccountEvents } from './accountEvents';
+import { AccountAddEvents, AccountEvents, AccountExistEvents, AccountTransferEvents } from './accountEvents';
 import { AccountDTO } from '../../../types/generated';
 import { ExpenseEvents } from '../../expenses/store/expenseEvents';
 import { BalanceUpdateEvents } from '../../balance/store/balanceEvents';
@@ -15,10 +15,11 @@ import { ErrorDetail } from '../../../shared/error/error';
 
 type AccountState = {
   accounts: AccountDTO[];
+  hasAccount: boolean;
 };
 
 export const AccountStore = signalStore(
-  withState<AccountState>({ accounts: [] }),
+  withState<AccountState>({ accounts: [], hasAccount: false }),
   withEventHandlers(() => {
     const events = inject(Events);
     const service = inject(AccountService);
@@ -33,6 +34,7 @@ export const AccountStore = signalStore(
           ExpenseEvents.deleteExpenseSuccess,
           BalanceUpdateEvents.addIncomeSuccess,
           AccountAddEvents.addAccountSuccess,
+          AccountTransferEvents.transferSuccess,
         )
         .pipe(
           switchMap(() =>
@@ -64,17 +66,59 @@ export const AccountStore = signalStore(
           ),
         ),
       ),
+      checkAccountExists$: events
+        .on(AccountExistEvents.checkAccountExists, AccountAddEvents.addAccountSuccess)
+        .pipe(
+          switchMap(() =>
+            service.exist().pipe(
+              mapResponse({
+                next: (exists) => AccountExistEvents.checkAccountExistsSuccess({ exists }),
+                error: (error) => AccountExistEvents.checkAccountExistsFailure({ error }),
+              }),
+            ),
+          ),
+        ),
+      transfer$: events.on(AccountTransferEvents.transfer).pipe(
+        switchMap(({ payload }) =>
+          service
+            .transfer({
+              accountOriginId: payload.accountOriginId,
+              accountTargetId: payload.accountTargetId,
+              amount: payload.amount,
+            })
+            .pipe(
+              mapResponse({
+                next: () => {
+                  const formattedAmount = payload.amount.toLocaleString('fr-FR', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  });
+                  toast.show({
+                    title: 'Transfert effectué',
+                    description: `${formattedAmount} € transférés de "${payload.accountOriginLabel}" vers "${payload.accountTargetLabel}"`,
+                    variant: 'success',
+                  });
+                  return AccountTransferEvents.transferSuccess();
+                },
+                error: (error: ErrorDetail) => ErrorEvents.error({ error }),
+              }),
+            ),
+        ),
+      ),
     };
   }),
   withReducer(
     on(AccountEvents.loadAccountsSuccess, ({ payload }) => ({ accounts: payload.accounts })),
-    on(AuthEvent.logout, () => ({ accounts: [] })),
+    on(AccountExistEvents.checkAccountExistsSuccess, ({ payload }) => ({ hasAccount: payload.exists })),
+    on(AuthEvent.logout, () => ({ accounts: [], hasAccount: false })),
   ),
   withHooks(() => {
     const dispatch = injectDispatch(AccountEvents);
+    const dispatchExist = injectDispatch(AccountExistEvents);
     return {
       onInit() {
         dispatch.loadAccounts();
+        dispatchExist.checkAccountExists();
       },
     };
   }),

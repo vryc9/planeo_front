@@ -19,3 +19,26 @@ export const AccountAddEvents = eventGroup({
     addAccountFailure: type<{ error: unknown }>(),
   },
 });
+
+export const AccountExistEvents = eventGroup({
+  source: '[Account] Vérification existence',
+  events: {
+    checkAccountExists: type<void>(),
+    checkAccountExistsSuccess: type<{ exists: boolean }>(),
+    checkAccountExistsFailure: type<{ error: unknown }>(),
+  },
+});
+
+export const AccountTransferEvents = eventGroup({
+  source: '[Account] Transfert entre comptes',
+  events: {
+    transfer: type<{
+      accountOriginId: number;
+      accountOriginLabel: string;
+      accountTargetId: number;
+      accountTargetLabel: string;
+      amount: number;
+    }>(),
+    transferSuccess: type<void>(),
+  },
+});

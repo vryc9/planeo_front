@@ -6,6 +6,7 @@ export type { AccountCreateRequestDTO } from './account-create-request-dto';
 export type { AccountDTO } from './account-dto';
 export type { BalanceDTO } from './balance-dto';
 export type { BalanceResponseDTO } from './balance-response-dto';
+export type { BalanceTransfertDTO } from './balance-transfert-dto';
 export type { DepositRequestDTO } from './deposit-request-dto';
 export type { ExpenseAmountByCategoryDTO as ExpenseAmountByTagDTO } from './expense-amount-by-tag-dto';
 export type { ExpenseCreateRequestDTO } from './expense-create-request-dto';

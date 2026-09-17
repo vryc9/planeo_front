@@ -10,6 +10,8 @@ import { debouncedSignal } from './utils/debounce';
 import { ExpenseDTO } from '../../types/generated';
 import { ListExpenseByCategory } from './components/list-expense-by-tag/list-expense-by-category';
 import { ModaleAccountComponent } from '../account/components/modale-account-component/modale-account-component';
+import { ModaleTransferComponent } from '../account/components/modale-transfer-component/modale-transfer-component';
+import { AccountStore } from '../account/store/accountStore';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -21,6 +23,7 @@ const SEARCH_DEBOUNCE_MS = 300;
 })
 export class ExpenseComponent {
   readonly store = inject(ExpenseStore);
+  protected readonly accountStore = inject(AccountStore);
   private readonly dispatch = injectDispatch(calendarEvents);
   private readonly dispatchTabEvents = injectDispatch(ExpenseTabEvents);
   private readonly dispatchIncomEvents = injectDispatch(IncomeModal)
@@ -51,6 +54,10 @@ export class ExpenseComponent {
 
   openCreateAccountModal(): void {
     this.dialog.open(ModaleAccountComponent, { width: '480px' });
+  }
+
+  openTransferModal(): void {
+    this.dialog.open(ModaleTransferComponent, { width: '560px' });
   }
 
   search(query: string): void {
