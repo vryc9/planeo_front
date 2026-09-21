@@ -1,0 +1,134 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4FD1C5;
+  padding: 24px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.input {
+  width: 100%;
+  max-width: 220px;
+  height: 44px;
+  background-color: #05060f0a;
+  border-radius: .5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  transition: border-color .3s cubic-bezier(.25,.01,.25,1) 0s, color .3s cubic-bezier(.25,.01,.25,1) 0s,background .2s cubic-bezier(.25,.01,.25,1) 0s;
+}
+
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  display: block;
+  margin-bottom: .3rem;
+  font-size: .9rem;
+  font-weight: bold;
+  color: #05060f99;
+  transition: color .3s cubic-bezier(.25,.01,.25,1) 0s;
+  align-self: flex-start;
+  margin-left: calc(50% - 110px);
+}
+
+.input:hover, .input:focus, .input-group:hover .input {
+  outline: none;
+  border-color: #4FD1C5;
+}
+
+.input-group:hover .label, .input:focus {
+  color: #05060fc2;
+}
+
+.field-error {
+  width: 100%;
+  max-width: 220px;
+  margin: 4px 0 0;
+  color: #e53e3e;
+  font-size: .8rem;
+  text-align: left;
+}
+
+.invitation-info {
+  text-align: center;
+  font-size: .9rem;
+  color: #05060f99;
+}
+
+.invitation-email {
+  margin-top: 4px;
+  font-weight: bold;
+  color: #05060fc2;
+}
+
+.state-message {
+  text-align: center;
+  font-size: .95rem;
+  color: #05060f99;
+}
+
+.state-error p {
+  color: #e53e3e;
+}
+
+.link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #00BFA6;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* From Uiverse.io by Shakil-Babu */
+.btn {
+ background-color: #00BFA6;
+ padding: 14px 40px;
+ color: #fff;
+ text-transform: uppercase;
+ letter-spacing: 2px;
+ cursor: pointer;
+ border-radius: 10px;
+ border: 2px dashed #00BFA6;
+ box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+ transition: .4s;
+}
+
+.btn:hover {
+ transition: .4s;
+ border: 2px dashed #00BFA6;
+ background-color: #fff;
+ color: #00BFA6;
+}
+
+.btn:active {
+ background-color: #87dbd0;
+}
+
+.btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}

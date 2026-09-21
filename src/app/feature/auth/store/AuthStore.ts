@@ -9,7 +9,7 @@ import { AuthEvent } from './AuthEvent';
 import { User } from '../types/user';
 import { Router } from '@angular/router';
 import { ExpenseAmountByCategoryEvents, ExpenseEvents } from '../../expenses/store/expenseEvents';
-import { BalanceService } from '../../balance/service/balance-service.service';
+import { AccountService } from '../../account/service/account-service.service';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 
 interface AuthState {
@@ -19,7 +19,7 @@ interface AuthState {
 export const AuthStore = signalStore(
   withState<AuthState>({ userConnected: null, isLoading: false }),
   withProps(() => ({
-    balanceService: inject(BalanceService),
+    accountService: inject(AccountService),
     toastDispatcher: injectDispatch(ToastEvents),
     expenseDispatch: injectDispatch(ExpenseEvents),
     tagsDispatch: injectDispatch(ExpenseAmountByCategoryEvents)
@@ -31,7 +31,7 @@ export const AuthStore = signalStore(
     on(AuthEvent.logout, () => ({ userConnected: null, isLoading: false })),
   ),
   withEventHandlers(
-    ({ balanceService, expenseDispatch, tagsDispatch }) => {
+    ({ accountService, expenseDispatch, tagsDispatch }) => {
       const events = inject(Events);
       const service = inject(AuthService);
       const tokenService = inject(TokenService);
@@ -56,9 +56,9 @@ export const AuthStore = signalStore(
             tagsDispatch.loadExpenseAmountByCategory()
           }),
           switchMap(_ =>
-            balanceService.balanceIsExistingForUser().pipe(
+            accountService.exist().pipe(
               mapResponse({
-                next: (bool) => bool ? router.navigate(['/dashboard']) : router.navigate(['/balance']),
+                next: (hasAccount) => hasAccount ? router.navigate(['/dashboard']) : router.navigate(['/balance']),
                 error: (e) => console.error(e)
               })
             )

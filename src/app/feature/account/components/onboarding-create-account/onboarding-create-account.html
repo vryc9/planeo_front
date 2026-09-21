@@ -1,0 +1,95 @@
+<div class="container">
+  <form class="card" (submit)="onSubmit($event)">
+    <div class="icon-wrapper">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#4FD1C5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="5" width="20" height="14" rx="3" />
+        <path d="M2 10h20" />
+        <circle cx="17" cy="15" r="1.5" fill="#4FD1C5" stroke="none" />
+      </svg>
+    </div>
+
+    <div class="header">
+      <h1 class="title">Bienvenue sur Planeo</h1>
+      <p class="subtitle">Ajoutez votre première banque pour commencer à suivre vos finances.</p>
+    </div>
+
+    <div class="input-group">
+      <label class="label">Banque</label>
+      <div class="bank-search-wrapper">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input class="bank-search-input" type="text" placeholder="Rechercher une banque..."
+          (input)="onSearch($any($event.target).value)" />
+      </div>
+
+      @if (filteredBanks().length > 0) {
+        <div class="bank-grid">
+          @for (bank of filteredBanks(); track bank.name) {
+            <button type="button" class="bank-option" [class.selected]="isBankSelected(bank)"
+              (click)="toggleBank(bank)">
+              @if (isBankSelected(bank)) {
+                <span class="bank-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+              }
+              <img class="bank-logo" [src]="'data:image/png;base64,' + bank.logo" [alt]="bank.name" />
+              <span class="bank-name">{{ bank.name }}</span>
+            </button>
+          }
+        </div>
+      } @else {
+        <p class="bank-empty">Aucune banque trouvée</p>
+      }
+    </div>
+
+    @if (entries().length > 0) {
+      <div class="entries-list">
+        @for (entry of entries(); track entry.bank.name; let i = $index) {
+          <div class="entry-row">
+            <div class="entry-header">
+              <img class="bank-logo-sm" [src]="'data:image/png;base64,' + entry.bank.logo" [alt]="entry.bank.name" />
+              <span class="entry-bank-name">{{ entry.bank.name }}</span>
+              <button type="button" class="entry-remove" (click)="toggleBank(entry.bank)" aria-label="Retirer cette banque">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+            </div>
+            <div class="entry-fields">
+              <div class="input-group">
+                <label class="label">Libellé du compte</label>
+                <input class="input" type="text" autocomplete="off" [value]="entry.label"
+                  (input)="updateLabel(i, $any($event.target).value)" placeholder="Ex : Compte courant" />
+              </div>
+              <div class="input-group">
+                <label class="label">Montant</label>
+                <div class="amount-wrapper">
+                  <span class="currency">€</span>
+                  <input class="input amount-input" type="text" inputmode="decimal" autocomplete="off"
+                    [value]="entry.amount || ''" (input)="updateAmount(i, $any($event.target).value)" placeholder="0.00" />
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="totals-summary">
+        <div class="totals-line">
+          <span>Montant total</span>
+          <span class="totals-value">{{ totalAmount() | number: '1.2-2':'fr-FR' }} €</span>
+        </div>
+      </div>
+    }
+
+    <button type="submit" class="btn" [disabled]="!canSubmit()">
+      {{ entries().length > 1 ? 'Créer mes comptes' : 'Commencer' }}
+    </button>
+  </form>
+</div>

@@ -1,6 +1,7 @@
 import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { Events, injectDispatch, on, withEventHandlers, withReducer } from '@ngrx/signals/events';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { mapResponse } from '@ngrx/operators';
 import { AccountService } from '../service/account-service.service';
@@ -24,6 +25,7 @@ export const AccountStore = signalStore(
     const events = inject(Events);
     const service = inject(AccountService);
     const toast = injectDispatch(ToastEvents);
+    const router = inject(Router);
     return {
       loadAccounts$: events
         .on(
@@ -60,6 +62,7 @@ export const AccountStore = signalStore(
                   description,
                   variant: 'success',
                 });
+                router.navigate(['/dashboard']);
                 return AccountAddEvents.addAccountSuccess({ accounts: created });
               },
               error: (error : ErrorDetail) => ErrorEvents.error({ error }),

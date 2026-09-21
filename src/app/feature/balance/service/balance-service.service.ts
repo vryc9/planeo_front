@@ -15,10 +15,6 @@ export class BalanceService {
     return this.http.get<BalanceResponseDTO>(this.baseUrl);
   }
 
-  balanceIsExistingForUser(): Observable<boolean> {
-    return this.http.get<boolean>(this.baseUrl + '/exist');
-  }
-
   create(balance: BalanceDTO): Observable<BalanceResponseDTO> {
     return this.http.post<BalanceResponseDTO>(this.baseUrl, balance);
   }

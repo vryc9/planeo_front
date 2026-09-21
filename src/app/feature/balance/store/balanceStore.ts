@@ -12,6 +12,8 @@ import { BalanceResponseDTO } from '../../../types/generated';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
 import { MatDialog } from '@angular/material/dialog';
 import { ModaleIncomeComponent } from '../../expenses/components/modale-income-component/modale-income-component';
+import { ErrorEvents } from '../../../shared/error/store/error-events';
+import { ErrorDetail } from '../../../shared/error/error';
 
 type BalanceState = {
   balance: BalanceResponseDTO | undefined
@@ -48,17 +50,6 @@ export const BalanceStore = signalStore(
               )
             )
           ),
-        createBalance$: events.on(BalanceCreateEvents.createBalance).pipe(
-          switchMap(({ payload: { balance } }) => service.create(balance).pipe(
-            mapResponse({
-              next: (balance) => {
-                router.navigate(["/dashboard"])
-                return BalanceCreateEvents.createBalanceSuccess({ balance })
-              },
-              error: (error) => BalanceCreateEvents.createBalanceFailure({ error })
-            })
-          ))
-        ),
         update$: events.on(BalanceUpdateEvents.addIncome).pipe(
           switchMap(({ payload: { amount, accountId } }) =>
             service.update({ amount, accountId }).pipe(
