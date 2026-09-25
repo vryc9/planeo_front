@@ -1,7 +1,7 @@
 import { mapResponse } from '@ngrx/operators';
-import { signalStore, withProps, withState } from '@ngrx/signals';
-import { ignoreElements, switchMap, tap } from 'rxjs';
-import { inject } from '@angular/core';
+import { signalStore, withComputed, withProps, withState } from '@ngrx/signals';
+import { ignoreElements, map, switchMap, tap } from 'rxjs';
+import { computed, inject } from '@angular/core';
 import { TokenService } from '../service/token.service';
 import { AuthService } from '../service/auth-service.service';
 import { Events, injectDispatch, on, withEventHandlers, withReducer } from '@ngrx/signals/events';
@@ -11,11 +11,19 @@ import { Router } from '@angular/router';
 import { ExpenseAmountByCategoryEvents, ExpenseEvents } from '../../expenses/store/expenseEvents';
 import { AccountService } from '../../account/service/account-service.service';
 import { ToastEvents } from '../../../shared/toast/store/toastEvents';
+import { JwtPayload } from 'jwt-decode';
+
+export interface UserConnected {
+  username: string,
+  role: string
+}
 
 interface AuthState {
-  userConnected: User | null
+  userConnected: UserConnected | null
   isLoading: boolean,
 }
+
+
 export const AuthStore = signalStore(
   withState<AuthState>({ userConnected: null, isLoading: false }),
   withProps(() => ({
@@ -26,10 +34,16 @@ export const AuthStore = signalStore(
   })),
   withReducer(
     on(AuthEvent.authentification, (_) => ({ isLoading: true })),
-    on(AuthEvent.authentificationSuccess, (_) => ({ isLoading: false })),
-    on(AuthEvent.getCurrentUserSuccess, ({ payload }) => ({ userConnected: payload.user })),
+    on(AuthEvent.authentificationSuccess, ({ payload: { userConnected } }) => ({ isLoading: false, userConnected })),
     on(AuthEvent.logout, () => ({ userConnected: null, isLoading: false })),
+    on(AuthEvent.restoreSessionSuccess, ({ payload: { userConnected } }) => ({ userConnected })),
+    on(AuthEvent.restoreSessionFailure, () => ({ userConnected: null })),
   ),
+  withComputed(({ userConnected }) => {
+    return {
+      isAdmin: computed<boolean>(() => userConnected()?.role === "ADMIN")
+    }
+  }),
   withEventHandlers(
     ({ accountService, expenseDispatch, tagsDispatch }) => {
       const events = inject(Events);
@@ -43,7 +57,10 @@ export const AuthStore = signalStore(
               mapResponse({
                 next: ({ accessToken }) => {
                   tokenService.setToken(accessToken);
-                  return AuthEvent.authentificationSuccess({ token: accessToken });
+                  const userConnected: UserConnected = tokenService.getCurrentUser() as UserConnected;
+                  return userConnected
+                    ? AuthEvent.authentificationSuccess({ token: accessToken, userConnected })
+                    : AuthEvent.authentificationFailure({ error: 'Invalid token' });
                 },
                 error: (error) => AuthEvent.authentificationFailure({ error }),
               })
@@ -63,6 +80,12 @@ export const AuthStore = signalStore(
               })
             )
           )
+        ),
+        restoreSession$: events.on(AuthEvent.restoreSession).pipe(
+          map(() => {
+            const userConnected = tokenService.getCurrentUser();
+            return userConnected ? AuthEvent.restoreSessionSuccess({ userConnected }) : AuthEvent.restoreSessionFailure();
+          }),
         ),
         logout$: events.on(AuthEvent.logout).pipe(
           tap(() => tokenService.removeToken()),

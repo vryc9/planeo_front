@@ -14,6 +14,7 @@ import { ModaleTransferComponent } from '../account/components/modale-transfer-c
 import { AccountStore } from '../account/store/accountStore';
 import { InvitationCreateStore } from '../register/store/InvitationCreateStore';
 import { InvitationCreateEvents } from '../register/store/InvitationCreateEvent';
+import { AuthStore } from '../auth/store/AuthStore';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -33,6 +34,8 @@ export class ExpenseComponent {
   private readonly dispatchIncomEvents = injectDispatch(IncomeModal)
   private readonly dispatchInvitation = injectDispatch(InvitationCreateEvents);
   private readonly dialog = inject(MatDialog);
+  protected readonly authStore = inject(AuthStore);
+
 
   protected readonly onglet = this.store.activeTab;
   private readonly searchQuery: WritableSignal<string> = signal('');

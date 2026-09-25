@@ -23,10 +23,8 @@ import { CategoryComponentContainer } from '../category/category-component-conta
   providers: [DashboardStore, CalendarStore],
 })
 export class DashboardContainerComponent {
-  readonly authStore = inject(AuthStore);
   readonly store = inject(DashboardStore);
   readonly dispatch = injectDispatch(DashboardEvents);
-  private readonly balanceStore = inject(BalanceStore);
   private readonly authDispatch = injectDispatch(AuthEvent);
 
   private readonly components: Record<DashboardViewEnum, Type<unknown>> = {

@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
-import { provideDispatcher } from '@ngrx/signals/events';
+import { injectDispatch, provideDispatcher } from '@ngrx/signals/events';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptorInterceptor } from './feature/auth/interceptor/auth-interceptor.service';
 import { AuthStore } from './feature/auth/store/AuthStore';
@@ -16,6 +16,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { BarController, Colors, Legend } from 'chart.js';
 import { ErrorStore } from "./shared/error/store/errorStore";
 import { errorDetailInterceptor } from "./shared/error/error-detail.interceptor";
+import { AuthEvent } from "./feature/auth/store/AuthEvent";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAppInitializer(() => {
       inject(ErrorStore);
+      inject(AuthStore);
+      injectDispatch(AuthEvent).restoreSession();
     }),
     provideStore(),
     provideDispatcher(),
