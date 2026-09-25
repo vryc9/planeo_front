@@ -14,5 +14,6 @@ export type { ExpenseDTO } from './expense-dto';
 export type { ExpensePerMonthDTO } from './expense-per-month-dto';
 export { ExpenseStatus } from './expense-status';
 export type { ExpensesByCategoryDTO as ExpensesByTagsDTO } from './expenses-by-tags-dto';
+export type { InvitationCreatedDTO } from './invitation-created-dto';
 export type { InvitationPreviewDTO } from './invitation-preview-dto';
 export type { RegisterFromInvitationDTO } from './register-from-invitation-dto';

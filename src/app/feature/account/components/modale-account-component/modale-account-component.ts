@@ -39,27 +39,12 @@ export class ModaleAccountComponent {
     () => this.balanceStore.balance()?.currentBalance ?? 0,
   );
 
-  protected readonly totalAmount: Signal<number> = computed(() =>
-    this.entries().reduce((sum, entry) => sum + (Number(entry.amount) || 0), 0),
-  );
-
-  private readonly mismatchAmount: Signal<number> = computed(
-    () => this.currentBalance() - this.totalAmount(),
-  );
-
-  protected readonly isAmountMissing: Signal<boolean> = computed(() => this.mismatchAmount() > 0);
-  protected readonly mismatchAbsolute: Signal<number> = computed(() => Math.abs(this.mismatchAmount()));
-
-  protected readonly sumMismatch: Signal<boolean> = computed(
-    () => this.entries().length > 0 && Math.round(this.mismatchAmount() * 100) !== 0,
-  );
-
   private readonly hasEmptyLabel: Signal<boolean> = computed(() =>
     this.entries().some((entry) => !entry.label.trim()),
   );
 
   protected readonly canSubmit: Signal<boolean> = computed(
-    () => this.entries().length > 0 && !this.sumMismatch() && !this.hasEmptyLabel(),
+    () => this.entries().length > 0 && !this.hasEmptyLabel(),
   );
 
   protected onSearch(query: string): void {

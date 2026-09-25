@@ -12,21 +12,26 @@ import { ListExpenseByCategory } from './components/list-expense-by-tag/list-exp
 import { ModaleAccountComponent } from '../account/components/modale-account-component/modale-account-component';
 import { ModaleTransferComponent } from '../account/components/modale-transfer-component/modale-transfer-component';
 import { AccountStore } from '../account/store/accountStore';
+import { InvitationCreateStore } from '../register/store/InvitationCreateStore';
+import { InvitationCreateEvents } from '../register/store/InvitationCreateEvent';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
 @Component({
   selector: 'app-expense-component',
   imports: [ListExpenseComponent, ExpenseResumeComponent, ListExpenseByCategory],
+  providers: [InvitationCreateStore],
   templateUrl: './expense-component.html',
   styleUrl: './expense-component.scss',
 })
 export class ExpenseComponent {
   readonly store = inject(ExpenseStore);
   protected readonly accountStore = inject(AccountStore);
+  protected readonly invitationStore = inject(InvitationCreateStore);
   private readonly dispatch = injectDispatch(calendarEvents);
   private readonly dispatchTabEvents = injectDispatch(ExpenseTabEvents);
   private readonly dispatchIncomEvents = injectDispatch(IncomeModal)
+  private readonly dispatchInvitation = injectDispatch(InvitationCreateEvents);
   private readonly dialog = inject(MatDialog);
 
   protected readonly onglet = this.store.activeTab;
@@ -58,6 +63,10 @@ export class ExpenseComponent {
 
   openTransferModal(): void {
     this.dialog.open(ModaleTransferComponent, { width: '560px' });
+  }
+
+  createInvitation(): void {
+    this.dispatchInvitation.createInvitation({ role: 'USER' });
   }
 
   search(query: string): void {

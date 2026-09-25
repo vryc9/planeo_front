@@ -91,29 +91,7 @@
             </div>
           }
         </div>
-
-        <div class="totals-summary">
-          <div class="totals-line">
-            <span>Total saisi</span>
-            <span class="totals-value">{{ totalAmount() | number: '1.2-2':'fr-FR' }} €</span>
-          </div>
-          <div class="totals-line">
-            <span>Solde actuel</span>
-            <span class="totals-value">{{ currentBalance() | number: '1.2-2':'fr-FR' }} €</span>
-          </div>
-        </div>
-
-        @if (sumMismatch()) {
-          <p class="field-error">
-            @if (isAmountMissing()) {
-              Il manque {{ mismatchAbsolute() | number: '1.2-2':'fr-FR' }} € pour atteindre votre solde actuel.
-            } @else {
-              Le total dépasse votre solde actuel de {{ mismatchAbsolute() | number: '1.2-2':'fr-FR' }} €.
-            }
-          </p>
-        }
       }
-
     </div>
   </mat-dialog-content>
 

@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModaleIncomeComponent } from '../../expenses/components/modale-income-component/modale-income-component';
 import { ErrorEvents } from '../../../shared/error/store/error-events';
 import { ErrorDetail } from '../../../shared/error/error';
+import { AccountAddEvents } from '../../account/store/accountEvents';
 
 type BalanceState = {
   balance: BalanceResponseDTO | undefined
@@ -37,6 +38,7 @@ export const BalanceStore = signalStore(
           ExpenseEvents.createExpenseSuccess,
           ExpenseEvents.loadExpense,
           ExpenseEvents.updateExpenseSuccess,
+          AccountAddEvents.addAccountSuccess,
           ExpenseEvents.deleteExpenseSuccess).
           pipe(
             switchMap(_ =>

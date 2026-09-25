@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { InvitationPreviewDTO, RegisterFromInvitationDTO } from '../../../types/generated';
+import { InvitationCreatedDTO, InvitationPreviewDTO, RegisterFromInvitationDTO } from '../../../types/generated';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +17,9 @@ export class RegisterService {
 
   register(payload: RegisterFromInvitationDTO): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/register`, payload);
+  }
+
+  createInvitation(role: string): Observable<InvitationCreatedDTO> {
+    return this.http.post<InvitationCreatedDTO>(`${this.baseUrl}/invitations`, { role });
   }
 }
