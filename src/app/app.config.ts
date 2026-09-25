@@ -4,9 +4,10 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
-import { injectDispatch, provideDispatcher } from '@ngrx/signals/events';
+import { Events, injectDispatch, provideDispatcher } from '@ngrx/signals/events';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { authInterceptorInterceptor } from './feature/auth/interceptor/auth-interceptor.service';
+import { credentialsInterceptor } from './feature/auth/interceptor/credentials.interceptor';
+import { sessionExpiredInterceptor } from './feature/auth/interceptor/session-expired.interceptor';
 import { AuthStore } from './feature/auth/store/AuthStore';
 import { ExpenseStore } from './feature/expenses/store/expenseStore';
 import { BalanceStore } from './feature/balance/store/balanceStore';
@@ -17,6 +18,7 @@ import { BarController, Colors, Legend } from 'chart.js';
 import { ErrorStore } from "./shared/error/store/errorStore";
 import { errorDetailInterceptor } from "./shared/error/error-detail.interceptor";
 import { AuthEvent } from "./feature/auth/store/AuthEvent";
+import { firstValueFrom, merge } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,12 +34,24 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(ErrorStore);
       inject(AuthStore);
-      injectDispatch(AuthEvent).restoreSession();
+      const events = inject(Events);
+      const dispatch = injectDispatch(AuthEvent);
+
+      // Await the gateway's "who am I" cookie check before the router activates any guarded
+      // route, so accessDashboardGuard can read AuthStore synchronously without a race.
+      const sessionResolved = firstValueFrom(
+        merge(
+          events.on(AuthEvent.restoreSessionSuccess),
+          events.on(AuthEvent.restoreSessionFailure),
+        )
+      );
+      dispatch.restoreSession();
+      return sessionResolved;
     }),
     provideStore(),
     provideDispatcher(),
     provideHttpClient(
-      withInterceptors([authInterceptorInterceptor, errorDetailInterceptor])
+      withInterceptors([credentialsInterceptor, errorDetailInterceptor, sessionExpiredInterceptor])
     ), provideCharts(withDefaultRegisterables()),
     provideTaiga(),
   ]
