@@ -1,8 +1,8 @@
 import { ContextMenuTriggerDirective } from './../../shared/context-menu/context-menu-trigger.directive';
 import { ChangeDetectorRef, Component, computed, effect, inject, signal } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { CalendarOptions, DateSelectArg, EventApi, EventClickArg, EventDropArg } from '@fullcalendar/core/index.js';
-import interactionPlugin from '@fullcalendar/interaction';
+import { CalendarOptions, EventApi, EventClickArg, EventDropArg } from '@fullcalendar/core/index.js';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -43,10 +43,9 @@ export class CalendarComponent {
     initialView: 'dayGridMonth',
     weekends: true,
     editable: true,
-    selectable: true,
-    selectMirror: true,
     dayMaxEvents: true,
-    select: this.handleDateSelect.bind(this),
+    // dateClick fires on a simple tap, whereas `select` needs a 1s long-press on touch screens.
+    dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
     eventDrop: this.handleEvents.bind(this)
   });
@@ -73,8 +72,8 @@ export class CalendarComponent {
     }));
   }
 
-  handleDateSelect({ startStr }: DateSelectArg): void {
-    this.dispatch.openExpenseModal({ startStr, isRecurring: false });
+  handleDateClick({ dateStr }: DateClickArg): void {
+    this.dispatch.openExpenseModal({ startStr: dateStr, isRecurring: false });
   }
 
   readonly menuItems = computed<readonly ContextMenuItem[]>(() => [
