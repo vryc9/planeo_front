@@ -205,3 +205,27 @@
   font-size: 0.85rem;
   margin: 0;
 }
+
+@media (max-width: 1024px) {
+  .expense-dashboard-container {
+    max-height: 440px;
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .expense-list {
+    min-height: 0;
+  }
+
+  .expense-row {
+    gap: 10px;
+    padding: 6px 4px;
+  }
+}
+
+@media (max-width: 420px) {
+  .expense-title {
+    flex-direction: column;
+    gap: 2px;
+  }
+}

@@ -183,3 +183,39 @@
   color: #9ca3af;
   font-weight: 600;
 }
+
+@media (max-width: 1024px) {
+  :host {
+    min-width: 0;
+  }
+
+  .stat-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .stat-content {
+    min-width: 0;
+  }
+
+  .stat-value {
+    font-size: 18px;
+    overflow-wrap: anywhere;
+  }
+
+  /* Keep the breakdown tooltip inside the viewport: anchor it to the card's left edge */
+  .stat-tooltip {
+    left: 0;
+    transform: translateY(-4px);
+    width: min(260px, calc(100vw - 32px));
+  }
+
+  .stat-tooltip::before {
+    left: 32px;
+  }
+
+  .stat-card.has-tooltip:hover .stat-tooltip,
+  .stat-card.has-tooltip:focus-visible .stat-tooltip {
+    transform: translateY(0);
+  }
+}

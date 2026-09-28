@@ -1,5 +1,23 @@
 <div class="dashboard-container">
-  <div class="sidebar">
+  <header class="mobile-topbar">
+    <button type="button" class="btn-burger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen()"
+      aria-controls="app-sidebar" aria-label="Ouvrir le menu">
+      <mat-icon fontIcon="menu" />
+    </button>
+    <svg class="mobile-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" aria-label="Planeo" role="img">
+      <g transform="translate(10, 10)">
+        <rect fill="#4FD1C5" x="0" y="0" width="18" height="60" rx="4" />
+        <circle fill="#4FD1C5" cx="38" cy="24" r="24" />
+        <circle fill="#F8F9FA" cx="38" cy="24" r="10" />
+        <rect fill="#F8F9FA" x="14" y="18" width="10" height="12" />
+      </g>
+      <text x="80" y="58" fill="#4FD1C5" font-family="sans-serif" font-weight="900" font-size="42">laneo</text>
+    </svg>
+  </header>
+
+  <div class="sidebar-backdrop" [class.visible]="menuOpen()" (click)="closeMenu()"></div>
+
+  <div id="app-sidebar" class="sidebar" [class.open]="menuOpen()">
     <app-sidebar-component (changeViewOuput)="changeView($event)" [menuItems]="store.menu()" />
   </div>
 

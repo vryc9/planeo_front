@@ -6,3 +6,26 @@
   padding: 30px 20px 30px 20px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 1;
+}
+
+@media (max-width: 1024px) {
+  .graph-container {
+    padding: 20px 12px;
+  }
+
+  .chart-wrapper {
+    aspect-ratio: 2.5 / 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .chart-wrapper {
+    aspect-ratio: auto;
+    height: 280px;
+  }
+}

@@ -19,6 +19,7 @@ import { ErrorStore } from "./shared/error/store/errorStore";
 import { errorDetailInterceptor } from "./shared/error/error-detail.interceptor";
 import { AuthEvent } from "./feature/auth/store/AuthEvent";
 import { firstValueFrom, merge } from 'rxjs';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig } from '@angular/material/dialog';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -54,5 +55,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([credentialsInterceptor, errorDetailInterceptor, sessionExpiredInterceptor])
     ), provideCharts(withDefaultRegisterables()),
     provideTaiga(),
+    // Keep every dialog inside the viewport on small screens (Material's default is 80vw).
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { ...new MatDialogConfig(), maxWidth: 'calc(100vw - 32px)' } },
   ]
 };

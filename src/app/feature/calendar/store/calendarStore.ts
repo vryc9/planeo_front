@@ -28,7 +28,6 @@ export const CalendarStore = signalStore(
           tap(({ payload }) => dialog.open(ModaleExpenseComponent,
             {
               width: '700px',
-              maxWidth: '100vw',
               panelClass: 'overflow-visible-dialog',
               data: {
                 date: payload.startStr ?? '',

@@ -42,6 +42,8 @@ export class DashbordGraphComponent {
 
   readonly chartOptions: ChartOptions<'line'> = {
     responsive: true,
+    // Fill the card: its height is set in CSS (fixed on desktop, per breakpoint on mobile).
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: true },
       tooltip: {

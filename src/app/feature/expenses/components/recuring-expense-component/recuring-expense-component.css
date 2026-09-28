@@ -25,3 +25,11 @@ button:active {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 #4fd1c5;
 }
+
+@media (max-width: 600px) {
+  button {
+    margin-left: 0;
+    width: 100%;
+    font-size: 15px;
+  }
+}

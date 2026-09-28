@@ -137,3 +137,13 @@
 .toast--error .toast-progress {
   background: linear-gradient(to right, rgba(239, 68, 68, 0.3), #ef4444);
 }
+
+@media (max-width: 600px) {
+  .toast {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    min-width: 0;
+    max-width: none;
+  }
+}

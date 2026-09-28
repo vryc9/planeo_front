@@ -1,5 +1,7 @@
 .container {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,3 +79,30 @@
 }
 
 
+
+@media (max-width: 480px) {
+  .form {
+    width: 100%;
+    max-width: 360px;
+    padding: 32px 20px;
+  }
+
+  .form svg {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  .input-group,
+  .input {
+    width: 100%;
+  }
+
+  .input {
+    max-width: none;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

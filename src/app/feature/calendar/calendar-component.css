@@ -175,3 +175,67 @@ full-calendar {
   box-shadow: none;
   outline: none;
 }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  :host {
+    height: calc(100dvh - 92px);
+    min-height: 480px;
+  }
+
+  .calendar-card {
+    padding: 16px 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  :host ::ng-deep .fc-header-toolbar {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  :host ::ng-deep .fc-header-toolbar.fc-toolbar {
+    margin-bottom: 12px;
+  }
+
+  :host ::ng-deep .fc-toolbar-title {
+    font-size: 16px;
+  }
+
+  :host ::ng-deep .fc-button {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  :host ::ng-deep .fc-col-header-cell {
+    padding: 8px 0;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-frame {
+    padding: 2px;
+    min-height: 56px;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-number {
+    font-size: 11px;
+    width: 22px;
+    height: 22px;
+    padding: 2px;
+    margin: 1px;
+  }
+
+  :host ::ng-deep .fc-event {
+    font-size: 10px;
+    padding: 1px 3px;
+  }
+
+  :host ::ng-deep .fc-daygrid-event {
+    margin: 1px 0;
+  }
+
+  :host ::ng-deep .fc-daygrid-more-link {
+    font-size: 10px;
+  }
+}
