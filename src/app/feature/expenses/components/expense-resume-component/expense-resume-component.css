@@ -9,3 +9,15 @@
   flex: 1;
   min-width: 200px;
 }
+
+@media (max-width: 1024px) {
+  .expense-resume-container {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .expense-resume-container > app-resume-expense-card {
+    min-width: 100%;
+  }
+}

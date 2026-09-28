@@ -264,3 +264,42 @@ thead th.center {
   font-size: 0.9rem;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .month-tags-bar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 14px 16px;
+    scrollbar-width: none;
+  }
+
+  .month-tags-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .month-tag {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    white-space: nowrap;
+  }
+
+  thead th,
+  .tag-row td,
+  .total-row td {
+    padding: 12px;
+  }
+
+  .inner-thead .inner-th,
+  .inner-row td {
+    padding: 8px 12px;
+  }
+
+  .inner-thead .inner-th:first-child,
+  .inner-label {
+    padding-left: 36px !important;
+  }
+
+  .table-wrap {
+    max-height: 480px;
+  }
+}

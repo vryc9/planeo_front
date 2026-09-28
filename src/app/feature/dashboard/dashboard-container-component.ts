@@ -1,4 +1,5 @@
-import { Component, computed, inject, Type, } from '@angular/core';
+import { Component, computed, inject, signal, Type, } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { AuthStore } from '../auth/store/AuthStore';
 import { SidebarComponent } from "./components/sidebar-component/sidebar-component";
 import { DashboardStore } from './store/DasboardStore';
@@ -17,7 +18,8 @@ import { CategoryComponentContainer } from '../category/category-component-conta
 
 @Component({
   selector: 'app-dashboard-component',
-  imports: [SidebarComponent, NgComponentOutlet],
+  imports: [SidebarComponent, NgComponentOutlet, MatIconModule],
+  host: { '(document:keydown.escape)': 'closeMenu()' },
   templateUrl: './dashboard-container-component.html',
   styleUrl: './dashboard-container-component.css',
   providers: [DashboardStore, CalendarStore],
@@ -37,8 +39,19 @@ export class DashboardContainerComponent {
 
   readonly currentComponent = computed(() => this.components[this.store.currentView()]);
 
+  protected readonly menuOpen = signal(false);
+
   protected changeView(view: DashboardViewEnum): void {
     this.dispatch.openMenu({ view });
+    this.closeMenu();
+  }
+
+  protected toggleMenu(): void {
+    this.menuOpen.update(open => !open);
+  }
+
+  protected closeMenu(): void {
+    this.menuOpen.set(false);
   }
 
   protected logout(): void {

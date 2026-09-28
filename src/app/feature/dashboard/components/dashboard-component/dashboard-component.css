@@ -24,3 +24,36 @@
   box-sizing: border-box;
 }
 
+
+@media (max-width: 1280px) {
+  .dashboard-stats-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-content-container {
+    gap: 16px;
+  }
+
+  .dashboard-stats-row {
+    gap: 12px;
+  }
+
+  .dashboard-graph-list-expense {
+    flex-direction: column;
+    height: auto;
+    gap: 16px;
+  }
+
+  .dashboard-graph-list-expense > * {
+    height: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard-stats-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -1,5 +1,7 @@
 
 <div class="graph-container">
-  <canvas baseChart [data]="chartData()" [options]="chartOptions" type="bar" (chartClick)="onChartClick($event)">
-  </canvas>
+  <div class="chart-wrapper">
+    <canvas baseChart [data]="chartData()" [options]="chartOptions" type="bar" (chartClick)="onChartClick($event)">
+    </canvas>
+  </div>
 </div>

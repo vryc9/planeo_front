@@ -1,5 +1,6 @@
 .container {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,4 +132,35 @@
 .btn:disabled {
   opacity: .6;
   cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+
+  .form {
+    max-width: 360px;
+    padding: 32px 20px;
+  }
+
+  .form svg {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  .input,
+  .field-error {
+    max-width: none;
+  }
+
+  .label {
+    margin-left: 0;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 14px 16px;
+  }
 }

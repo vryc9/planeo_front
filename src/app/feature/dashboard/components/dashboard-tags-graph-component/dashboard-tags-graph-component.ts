@@ -35,8 +35,8 @@ export class DashboardTagsGraphComponent {
 
   readonly chartOptions: ChartOptions<'bar'> = {
     responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 4,
+    // Height is driven by the wrapper's CSS aspect-ratio so it can change per breakpoint.
+    maintainAspectRatio: false,
     onHover: (event, elements) => {
       const target = event.native?.target as HTMLElement | undefined;
       if (target) target.style.cursor = elements.length ? 'pointer' : 'default';

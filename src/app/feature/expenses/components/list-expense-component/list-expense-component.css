@@ -169,3 +169,22 @@ td.center {
   font-size: 0.9rem;
   margin: 0;
 }
+
+@media (max-width: 768px) {
+  .list-expense-header {
+    padding: 14px 16px;
+  }
+
+  table {
+    min-width: 520px;
+  }
+
+  thead th,
+  tbody td {
+    padding: 12px 12px;
+  }
+
+  .table-wrap {
+    max-height: 480px;
+  }
+}

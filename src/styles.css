@@ -20,3 +20,21 @@ body {
 .overflow-visible-dialog .mat-mdc-dialog-content {
   overflow: visible !important;
 }
+
+body {
+  overflow-x: hidden;
+}
+
+/* ── Dialogs on small screens ─────────────────────────────── */
+@media (max-width: 600px) {
+  .mat-mdc-dialog-container .mat-mdc-dialog-content {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* The expense dialog lets its dropdowns overflow: allow the whole pane to scroll instead */
+  .cdk-overlay-pane.overflow-visible-dialog {
+    max-height: calc(100dvh - 32px);
+    overflow-y: auto;
+  }
+}

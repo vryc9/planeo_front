@@ -8,6 +8,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 20px;
 }
 
 .page-title {
@@ -203,4 +205,43 @@
 .btn-empty-create:hover {
   background: rgba(79, 209, 197, 0.18);
   border-color: #4fd1c5;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+/* Touch screens have no hover: always show the edit / delete actions */
+@media (hover: none) {
+  .chip-actions {
+    max-width: 64px;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-page {
+    gap: 16px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-create {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .chip-list {
+    gap: 8px;
+  }
+
+  .category-chip {
+    max-width: 100%;
+  }
+
+  .chip-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
