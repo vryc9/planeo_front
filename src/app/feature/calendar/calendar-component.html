@@ -1,7 +1,51 @@
 <div class="calendar-card">
   <full-calendar [options]='calendarOptions()'>
     <ng-template  #eventContent let-arg>
-      <p [appContextMenu]="getMenuItems(arg.event)">{{ arg.event.title }}</p>
+      @if (isMobile()) {
+        <span class="event-dot" [title]="arg.event.title"></span>
+      } @else {
+        <p [appContextMenu]="getMenuItems(arg.event)">{{ arg.event.title }}</p>
+      }
     </ng-template>
   </full-calendar>
 </div>
+
+@if (isMobile()) {
+  <section class="agenda" aria-live="polite">
+    <div class="agenda-header">
+      <div class="agenda-heading">
+        <p class="agenda-title">{{ selectedDateLabel() }}</p>
+        <p class="agenda-subtitle">
+          @if (selectedDayExpenses().length) {
+            {{ selectedDayExpenses().length }} dépense{{ selectedDayExpenses().length > 1 ? 's' : '' }}
+            · {{ selectedDayTotal() | number: '1.2-2':'fr-FR' }} €
+          } @else {
+            Aucune dépense
+          }
+        </p>
+      </div>
+      <button type="button" class="btn-add" (click)="addExpenseOnSelectedDate()">
+        <mat-icon fontIcon="add" />
+        Ajouter
+      </button>
+    </div>
+
+    @for (expense of selectedDayExpenses(); track expense.id) {
+      <div class="agenda-item">
+        <button type="button" class="agenda-main" (click)="openExpenseDetail(expense)">
+          <span class="agenda-icon"><mat-icon [fontIcon]="expense.category.icon" /></span>
+          <span class="agenda-meta">
+            <span class="agenda-label">{{ expense.label }}</span>
+            <span class="agenda-category">{{ expense.category.name }}</span>
+          </span>
+          <span class="agenda-amount">-{{ expense.amount | number: '1.2-2':'fr-FR' }} €</span>
+        </button>
+        <button type="button" class="agenda-delete" (click)="deleteExpense(expense)" aria-label="Supprimer la dépense">
+          <mat-icon fontIcon="delete" />
+        </button>
+      </div>
+    } @empty {
+      <p class="agenda-empty">Touchez « Ajouter » pour planifier une dépense ce jour-là.</p>
+    }
+  </section>
+}

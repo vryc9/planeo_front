@@ -32,6 +32,7 @@ full-calendar {
   font-size: 18px;
   font-weight: 700;
   color: #1f2937;
+  text-transform: capitalize;
 }
 
 :host ::ng-deep .fc-button {
@@ -188,54 +189,288 @@ full-calendar {
   }
 }
 
+/* ── Phones: dot-based month grid + agenda of the selected day ── */
 @media (max-width: 600px) {
-  :host ::ng-deep .fc-header-toolbar {
-    flex-wrap: wrap;
-    gap: 8px;
+  :host {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    gap: 16px;
+  }
+
+  .calendar-card {
+    flex: none;
+    height: auto;
+    padding: 16px 10px 10px;
   }
 
   :host ::ng-deep .fc-header-toolbar.fc-toolbar {
     margin-bottom: 12px;
+    padding: 0 6px;
   }
 
   :host ::ng-deep .fc-toolbar-title {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   :host ::ng-deep .fc-button {
-    font-size: 12px;
-    padding: 5px 10px;
+    padding: 6px 12px;
   }
 
   :host ::ng-deep .fc-col-header-cell {
     padding: 8px 0;
-    font-size: 10px;
-    letter-spacing: 0.02em;
+    font-size: 11px;
   }
 
   :host ::ng-deep .fc-daygrid-day-frame {
-    padding: 2px;
-    min-height: 56px;
+    min-height: 54px;
+    padding: 2px 0 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-top {
+    justify-content: center;
   }
 
   :host ::ng-deep .fc-daygrid-day-number {
-    font-size: 11px;
-    width: 22px;
-    height: 22px;
-    padding: 2px;
-    margin: 1px;
+    width: 32px;
+    height: 32px;
+    margin: 2px 0 0;
+    font-size: 14px;
   }
 
-  :host ::ng-deep .fc-event {
-    font-size: 10px;
-    padding: 1px 3px;
+  :host ::ng-deep .fc-daygrid-day.is-selected .fc-daygrid-day-number {
+    background: rgba(79, 209, 197, 0.18);
+    color: #0f766e;
+    font-weight: 800;
   }
 
-  :host ::ng-deep .fc-daygrid-event {
-    margin: 1px 0;
+  :host ::ng-deep .fc-day-today.is-selected .fc-daygrid-day-number,
+  :host ::ng-deep .fc-day-today .fc-daygrid-day-number {
+    background: #4fd1c5;
+    color: #ffffff;
   }
 
-  :host ::ng-deep .fc-daygrid-more-link {
-    font-size: 10px;
+  /* Events become a row of dots under the day number */
+  :host ::ng-deep .fc-daygrid-day-events {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3px;
+    min-height: 6px;
+    max-width: 30px;
+    margin: 2px auto 0 !important;
+  }
+
+  :host ::ng-deep .fc-daygrid-event-harness {
+    margin: 0 !important;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-events .fc-daygrid-event,
+  :host ::ng-deep .fc-daygrid-day-events .fc-event {
+    background: transparent !important;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  :host ::ng-deep .fc-daygrid-day-bottom {
+    display: none;
+  }
+
+  /* No FullCalendar tap/selection overlay on the dots, no sticky touch hover */
+  :host ::ng-deep .fc-event-selected::after,
+  :host ::ng-deep .fc-event:focus::after,
+  :host ::ng-deep .fc-event:focus::before {
+    display: none;
+  }
+
+  :host ::ng-deep .fc-event-selected,
+  :host ::ng-deep .fc-event:focus {
+    box-shadow: none !important;
+  }
+
+  :host ::ng-deep .fc-daygrid-day:hover {
+    background: transparent !important;
+  }
+
+  /* Natural height: no inner scroller, hence no scrollbar filler in the header */
+  :host ::ng-deep .fc-scroller {
+    overflow: hidden !important;
+  }
+
+  .event-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4fd1c5;
+  }
+
+  :host ::ng-deep .fc-day-other .event-dot {
+    opacity: 0.4;
+  }
+
+  /* ── Agenda ── */
+  .agenda {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 16px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  }
+
+  .agenda-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .agenda-heading {
+    min-width: 0;
+  }
+
+  .agenda-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #1f2937;
+    text-transform: capitalize;
+  }
+
+  .agenda-subtitle {
+    margin-top: 2px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #9ca3af;
+  }
+
+  .btn-add {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    height: 38px;
+    padding: 0 14px 0 10px;
+    border: none;
+    border-radius: 10px;
+    background: #4fd1c5;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(79, 209, 197, 0.35);
+    cursor: pointer;
+  }
+
+  .btn-add mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .agenda-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 12px;
+    background: #f8fafc;
+  }
+
+  .agenda-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+    padding: 10px 4px 10px 10px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .agenda-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: rgba(79, 209, 197, 0.12);
+    color: #4fd1c5;
+  }
+
+  .agenda-icon mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .agenda-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .agenda-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #1f2937;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .agenda-category {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #9ca3af;
+  }
+
+  .agenda-amount {
+    flex-shrink: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: #1f2937;
+  }
+
+  .agenda-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+  }
+
+  .agenda-delete mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+
+  .agenda-delete:active {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+
+  .agenda-empty {
+    padding: 16px 8px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #9ca3af;
   }
 }
