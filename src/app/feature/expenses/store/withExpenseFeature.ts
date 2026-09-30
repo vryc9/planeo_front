@@ -50,7 +50,7 @@ export function withExpenseEventsHandler() {
               )
             ),
           loadExpensePerMount$: events.on(
-            ExpensePerMountEvent.loadExpensePerMonth)
+            ExpensePerMountEvent.loadExpensePerMonth, ExpenseEvents.createExpenseSuccess, ExpenseEvents.deleteExpenseSuccess)
             .pipe(
               switchMap(_ =>
                 service.getExpensePerMonth().pipe(

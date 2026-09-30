@@ -10,7 +10,6 @@ import { CategoryDeleteEvents } from './store/CategoryEvents';
 @Component({
   selector: 'app-category-component-container',
   imports: [MatIconModule],
-  providers: [CategoryStore],
   templateUrl: './category-component-container.html',
   styleUrl: './category-component-container.css',
 })

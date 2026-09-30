@@ -19,6 +19,7 @@ const INITIAL_STATE: CategoryState = {
 }
 
 export const CategoryStore = signalStore(
+  { providedIn: 'root' },
   withState<CategoryState>(INITIAL_STATE),
   withProps((() => ({
     service: inject(CategoryService),

@@ -1,0 +1,42 @@
+<div class="custom-select-wrapper" (keydown.escape)="open.set(false)">
+  <button
+    type="button"
+    class="select-trigger"
+    [class.open]="open()"
+    aria-haspopup="listbox"
+    [attr.aria-expanded]="open()"
+    [attr.aria-label]="ariaLabel()"
+    (click)="open.update(o => !o)">
+    @if (selected(); as option) {
+      @if (option.logo) {
+        <img class="account-logo" [src]="option.logo" alt="" />
+      }
+      <span>{{ option.label }}</span>
+    } @else {
+      <span class="placeholder">{{ placeholder() }}</span>
+    }
+    <svg class="arrow" width="12" height="12" viewBox="0 0 16 16" aria-hidden="true">
+      <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 5l6 6 6-6"/>
+    </svg>
+  </button>
+
+  @if (open()) {
+    <ul class="options-container" role="listbox" [attr.aria-label]="ariaLabel()">
+      @for (option of options(); track option.id) {
+        <li
+          class="option-item"
+          role="option"
+          tabindex="0"
+          [attr.aria-selected]="option.id === value()"
+          (click)="select(option.id)"
+          (keydown.enter)="select(option.id)"
+          (keydown.space)="select(option.id); $event.preventDefault()">
+          @if (option.logo) {
+            <img class="account-logo" [src]="option.logo" alt="" />
+          }
+          {{ option.label }}
+        </li>
+      }
+    </ul>
+  }
+</div>

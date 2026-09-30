@@ -33,7 +33,6 @@ export class DashboardContainerComponent {
     [DashboardViewEnum.DASHBOARD]: DashboardComponent,
     [DashboardViewEnum.CALENDAR]: CalendarComponent,
     [DashboardViewEnum.EXPENSE]: ExpenseComponent,
-    [DashboardViewEnum.INVESTMENT]: InvestmentComponent,
     [DashboardViewEnum.CATEGORY] : CategoryComponentContainer
   };
 

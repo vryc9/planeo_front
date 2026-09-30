@@ -1,0 +1,5 @@
+@if (state().touched()) {
+  @if (state().errors()[0]; as error) {
+    <span class="error-message" role="alert">{{ error.message }}</span>
+  }
+}

@@ -1,6 +1,6 @@
 import { signalStore, withHooks, withState } from "@ngrx/signals";
 import { injectDispatch } from "@ngrx/signals/events";
-import { ExpenseAmountByCategoryEvents, ExpenseEvents, SortType } from "./expenseEvents";
+import { ExpenseAmountByCategoryEvents, ExpenseEvents, ExpensePerMountEvent, SortType } from "./expenseEvents";
 import { withExpenseEventsHandler } from "./withExpenseFeature";
 import { withExpenseReducer } from "./withExpenseReducer";
 import { withExpenseComputed } from "./withExpenseComputed";
@@ -37,8 +37,10 @@ export const ExpenseStore = signalStore(
     onInit(_) {
       const dispatch = injectDispatch(ExpenseEvents);
       const dispatchExpenseByTagsEvents = injectDispatch(ExpenseAmountByCategoryEvents);
+      const dispatchExpensePerMonth = injectDispatch(ExpensePerMountEvent);
       dispatch.loadExpense();
       dispatchExpenseByTagsEvents.loadExpenseAmountByCategory();
+      dispatchExpensePerMonth.loadExpensePerMonth();
     },
   })
 )

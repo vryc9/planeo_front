@@ -5,12 +5,26 @@ const SOURCES_PATH = new URL('./banks-sources.json', import.meta.url);
 const OUTPUT_PATH = new URL('../../src/app/shared/banks/banks.data.ts', import.meta.url);
 const LOGO_SIZE = 128;
 
+const USER_AGENT = 'PlaneoBankLogos/1.0 (https://vryc9.github.io; enzo47volpato@gmail.com)';
+const MAX_RETRIES = 4;
+const DELAY_BETWEEN_BANKS_MS = 1000;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function fetchSvg(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const response = await fetch(url, { headers: { 'User-Agent': USER_AGENT } });
+
+    if (response.ok) {
+      return response.text();
+    }
+    if (response.status === 429 && attempt < MAX_RETRIES) {
+      const retryAfter = Number(response.headers.get('retry-after')) || 2 ** attempt * 2;
+      await sleep(retryAfter * 1000);
+      continue;
+    }
     throw new Error(`Échec du téléchargement (${response.status})`);
   }
-  return response.text();
 }
 
 async function readLocalSvg(path) {

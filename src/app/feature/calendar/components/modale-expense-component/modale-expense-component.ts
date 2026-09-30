@@ -1,139 +1,102 @@
-import { Component, computed, Inject, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
-import { form, min, required, submit, FormField } from '@angular/forms/signals';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  form, min, required, requiredError, submit, validate,
+  FormField, type SchemaPath,
+  readonly,
+} from '@angular/forms/signals';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { injectDispatch } from '@ngrx/signals/events';
 import { ExpenseEvents } from '../../../expenses/store/expenseEvents';
-import { ExpenseStore } from '../../../expenses/store/expenseStore';
-import { NgClass } from "@angular/common";
 import { CategoryStore } from '../../../category/store/CategoryStore';
-import { CategoryDTO } from '../../../../types/generated/category-dto';
-import { ExpenseStatus } from '../../../../types/generated';
 import { AccountStore } from '../../../account/store/accountStore';
+import { CategoryDTO } from '../../../../types/generated/category-dto';
 import { AccountDTO } from '../../../../types/generated/account-dto';
+import { ExpenseStatus } from '../../../../types/generated';
+import { DropdownComponent, DropdownOption } from '../../../../shared/components/dropdown-component/dropdown-component';
+import { FieldErrorComponent } from '../../../../shared/components/field-error-component/field-error-component';
 
-interface ExpenseFormData {
-  amount: number;
-  category: CategoryDTO | null,
-  account: AccountDTO | null,
-  date: string,
-  label: string
-}
+type ExpenseDialogData = Readonly<{ date: string; isRecurring: boolean }>;
+
+type ExpenseFormModel = {
+  amount: number | null;
+  categoryId: CategoryDTO['id'] | null;
+  accountId: AccountDTO['id'] | null;
+  date: string;
+  label: string;
+};
+
+const notBlank = (path: SchemaPath<string>, message: string): void =>
+  validate(path, ({ value }) => (value().trim() ? undefined : requiredError({ message })));
 
 @Component({
   selector: 'app-modale-expense-component',
-  imports: [MatDialogModule, FormField, MatInputModule, NgClass, FormField],
-  providers : [CategoryStore],
+  imports: [MatDialogModule, MatInputModule, FormField, DropdownComponent, FieldErrorComponent],
   templateUrl: './modale-expense-component.html',
   styleUrl: './modale-expense-component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class ModaleExpenseComponent {
-  readonly dialogRef = inject(MatDialogRef<ModaleExpenseComponent>);
-  readonly dispatch = injectDispatch(ExpenseEvents);
-  readonly expenseStore = inject(ExpenseStore)
-  protected readonly categoryStore = inject(CategoryStore);
-  protected readonly accountStore = inject(AccountStore);
+  private readonly dialogRef = inject<MatDialogRef<ModaleExpenseComponent>>(MatDialogRef);
+  private readonly dispatch = injectDispatch(ExpenseEvents);
+  private readonly categoryStore = inject(CategoryStore);
+  private readonly accountStore = inject(AccountStore);
+  private readonly data = inject<ExpenseDialogData>(MAT_DIALOG_DATA);
 
-  categoryOption: Signal<{
-    id: number;
-    name: string;
-  }[]> = computed(() => {
-    return this.categoryStore.categories().map(({id, name}) => ({id, name}))
+  protected readonly isRecurring = this.data.isRecurring;
+  protected readonly dateLabel = this.isRecurring ? 'Date de prélèvement' : 'Date';
+
+  protected readonly categoryOptions = computed<DropdownOption[]>(() =>
+    this.categoryStore.categories().map(({ id, name }) => ({ id, label: name })),
+  );
+  protected readonly accountOptions = computed<DropdownOption[]>(() =>
+    this.accountStore.accounts().map(({ id, label, logo }) => ({
+      id,
+      label,
+      logo: `data:image/png;base64,${logo}`,
+    })),
+  );
+
+
+  private readonly model = signal<ExpenseFormModel>({
+    amount: null,
+    categoryId: null,
+    accountId: null,
+    date: this.data.date,
+    label: '',
   });
 
-  accountOption: Signal<{
-    id: number;
-    label: string;
-    logo: string;
-  }[]> = computed(() => {
-    return this.accountStore.accounts().map(({id, label, logo}) => ({id, label, logo}))
+  protected readonly form = form(this.model, (p) => {
+    readonly(p.date, () => !this.isRecurring);
+    required(p.categoryId, { message: 'La catégorie est obligatoire' });
+    required(p.accountId, { message: 'Le compte est obligatoire' });
+    required(p.amount, { message: 'Le montant est obligatoire' });
+    min(p.amount, 0.01, { message: 'Le montant doit être supérieur à 0' });
+    required(p.date, { message: 'La date est obligatoire' });
+    notBlank(p.label, 'Le label est obligatoire');
   });
 
-  expenseModel = signal<ExpenseFormData>({
-    amount: 0,
-    category: null,
-    account: null,
-    date: "",
-    label: "",
-  });
-
-  form = form(this.expenseModel, (schemaPath) => {
-    required(schemaPath.category, { message: "Doit etre la" })
-    required(schemaPath.account, { message: "Le compte est obligatoire" })
-    required(schemaPath.amount, { message: 'Le montant est obligatoire' })
-    min(schemaPath.amount, 1, { message: "Le montant doit être supérier à 0" })
-    required(schemaPath.label, { message: "Le label est obligatoire" })
-  });
-
-  isOpen: WritableSignal<boolean> = signal<boolean>(false);
-  selectedLabel: WritableSignal<string> = signal<string>('Sélection une catégorie');
-  isAccountOpen: WritableSignal<boolean> = signal<boolean>(false);
-  selectedAccountLabel: WritableSignal<string> = signal<string>('Sélection un compte');
-  selectedAccountLogo: WritableSignal<string | null> = signal<string | null>(null);
-  isRecurring: WritableSignal<boolean> = signal<boolean>(false);
-
-  dateFormLabel: Signal<string> = computed<string>(() => this.isRecurring() ? "Date de prélèvement" : "Date")
-
-  constructor(@Inject(MAT_DIALOG_DATA) { date, isRecurring }: { date: string, isRecurring: boolean }) {
-    this.expenseModel.set({
-      amount: 0,
-      category: null,
-      account: null,
-      date: date,
-      label: "",
-    })
-    this.isRecurring.set(isRecurring)
-  }
-
-  toggleDropdown(): void {
-    this.isOpen.update(b => !b);
-  }
-
-  selectOption(categoryid: number, label: string): void {
-    const selectedCategory : CategoryDTO = this.categoryStore.categories().find(({id}) => id === categoryid)!;
-    this.form.category().value.set(selectedCategory);
-    this.selectedLabel.set(label);
-    this.isOpen.set(false);
-  }
-
-  toggleAccountDropdown(): void {
-    this.isAccountOpen.update(b => !b);
-  }
-
-  selectAccountOption(accountId: number, label: string, logo: string): void {
-    const selectedAccount : AccountDTO = this.accountStore.accounts().find(({id}) => id === accountId)!;
-    this.form.account().value.set(selectedAccount);
-    this.selectedAccountLabel.set(label);
-    this.selectedAccountLogo.set(logo);
-    this.isAccountOpen.set(false);
-  }
-
-  onSubmit(event: Event): void {
+  protected async onSubmit(event: Event): Promise<void> {
     event.preventDefault();
-    submit(this.form, async () => {
-      const { category, account, amount, date, label } = this.expenseModel();
-      console.log({
-        category,
-        account,
-        amount,
-        date: new Date(date),
-        label,
-        isRecurring: this.isRecurring()
-      });
+
+    const success = await submit(this.form, async () => {
+      const { categoryId, accountId, amount, date, label } = this.model();
+      const category = this.categoryStore.categories().find(({ id }) => id === categoryId);
+      if (!category || accountId === null || amount === null) return;
 
       this.dispatch.createExpense({
         expense: {
-          category : category!,
-          accountId : account!.id,
+          category,
+          accountId,
           amount,
-          status : ExpenseStatus.PENDING,
+          status: ExpenseStatus.PENDING,
           date: new Date(date).toISOString(),
           label,
-          recurring: this.isRecurring()
-        }
-      })
+          recurring: this.isRecurring,
+        },
+      });
     });
-    this.dialogRef.close();
+
+    if (success) this.dialogRef.close();
   }
 }

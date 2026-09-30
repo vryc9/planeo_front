@@ -9,7 +9,6 @@ import { ExpenseDTO } from "../../../types/generated";
 
 interface DashboardState {
   currentView: DashboardViewEnum;
-  menu: Menu[],
 }
 
 const MENU_CONFIG: Omit<Menu, 'isActive'>[] = [
@@ -17,7 +16,7 @@ const MENU_CONFIG: Omit<Menu, 'isActive'>[] = [
   { view: DashboardViewEnum.CALENDAR, icon: 'calendar_today', },
   { view: DashboardViewEnum.EXPENSE, icon: 'euro' },
   {view : DashboardViewEnum.CATEGORY, icon : 'category' },
-  { view: DashboardViewEnum.INVESTMENT, icon: 'attach_money' },
+  //{ view: DashboardViewEnum.INVESTMENT, icon: 'attach_money' },
 ];
 
 export const DashboardStore = signalStore(

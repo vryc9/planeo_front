@@ -1,21 +1,21 @@
-<form (submit)="onSubmit($event)">
+<form (submit)="onSubmit($event)" novalidate>
 
   <div class="modal-header">
     <div class="modal-title-row">
-      <div class="modal-icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#4fd1c5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <div class="modal-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="5" width="20" height="14" rx="3"/>
           <path d="M2 10h20"/>
-          <circle cx="17" cy="15" r="1.5" fill="#4fd1c5" stroke="none"/>
+          <circle cx="17" cy="15" r="1.5" fill="currentColor" stroke="none"/>
         </svg>
       </div>
       <div>
-        <h2 class="modal-title">Nouvelle dépense</h2>
-        <p class="modal-subtitle">{{ isRecurring() ? 'Dépense récurrente' : 'Dépense ponctuelle' }}</p>
+        <h2 class="modal-title" mat-dialog-title>Nouvelle dépense</h2>
+        <p class="modal-subtitle">{{ isRecurring ? 'Dépense récurrente' : 'Dépense ponctuelle' }}</p>
       </div>
     </div>
     <button type="button" mat-dialog-close class="btn-close" aria-label="Fermer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18"/>
         <line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
@@ -26,67 +26,44 @@
     <div class="form-grid">
 
       <div class="input-group">
-        <label class="label">Catégories</label>
-        <div class="custom-select-wrapper">
-          <div class="select-trigger" [class.open]="isOpen()" (click)="toggleDropdown()">
-            <span>{{ selectedLabel() }}</span>
-            <svg class="arrow" width="12" height="12" viewBox="0 0 16 16">
-              <path fill="none" stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 5l6 6 6-6"/>
-            </svg>
-          </div>
-          @if (isOpen()) {
-            <div class="options-container">
-              @for (option of categoryOption(); track option.id) {
-                <div class="option-item" (click)="selectOption(option.id, option.name)">
-                  {{ option.name }}
-                </div>
-              }
-            </div>
-          }
-        </div>
+        <span class="label">Catégorie</span>
+        <app-dropdown
+          [formField]="form.categoryId"
+          [options]="categoryOptions()"
+          ariaLabel="Catégorie"
+          placeholder="Sélectionner une catégorie" />
+        <app-field-error-component [state]="form.categoryId()" />
       </div>
 
       <div class="input-group">
-        <label class="label">Compte</label>
-        <div class="custom-select-wrapper">
-          <div class="select-trigger" [class.open]="isAccountOpen()" (click)="toggleAccountDropdown()">
-            @if (selectedAccountLogo()) {
-              <img class="account-logo" [src]="'data:image/png;base64,' + selectedAccountLogo()" alt="" />
-            }
-            <span>{{ selectedAccountLabel() }}</span>
-            <svg class="arrow" width="12" height="12" viewBox="0 0 16 16">
-              <path fill="none" stroke="#9ca3af" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 5l6 6 6-6"/>
-            </svg>
-          </div>
-          @if (isAccountOpen()) {
-            <div class="options-container">
-              @for (option of accountOption(); track option.id) {
-                <div class="option-item" (click)="selectAccountOption(option.id, option.label, option.logo)">
-                  <img class="account-logo" [src]="'data:image/png;base64,' + option.logo" alt="" />
-                  {{ option.label }}
-                </div>
-              }
-            </div>
-          }
-        </div>
+        <span class="label">Compte</span>
+        <app-dropdown
+          [formField]="form.accountId"
+          [options]="accountOptions()"
+          ariaLabel="Compte"
+          placeholder="Sélectionner un compte" />
+        <app-field-error-component  [state]="form.accountId()" />
       </div>
 
       <div class="input-group">
-        <label class="label">Libellé</label>
-        <input [formField]="form.label" autocomplete="off" class="input" type="text" placeholder="Ex: Netflix">
+        <label class="label" for="expense-label">Libellé</label>
+        <input id="expense-label" [formField]="form.label" class="input" type="text" autocomplete="off" placeholder="Ex : Netflix">
+        <app-field-error-component  [state]="form.label()" />
       </div>
 
       <div class="input-group">
-        <label class="label">{{dateFormLabel()}}</label>
-        <input [formField]="form.date" autocomplete="off" [ngClass]="{'readonly': !isRecurring()}" class="input" type="text" placeholder="JJ/MM/AAAA">
+        <label class="label" for="expense-date">{{ dateLabel }}</label>
+        <input id="expense-date" [formField]="form.date" class="input" type="date">
+        <app-field-error-component  [state]="form.date()" />
       </div>
 
       <div class="input-group">
-        <label class="label">Montant</label>
+        <label class="label" for="expense-amount">Montant</label>
         <div class="amount-wrapper">
-          <span class="currency">€</span>
-          <input [formField]="form.amount" autocomplete="off" class="input amount-input" step="any" type="number" placeholder="0.00">
+          <span class="currency" aria-hidden="true">€</span>
+          <input id="expense-amount" [formField]="form.amount" class="input amount-input" type="number" step="0.01" inputmode="decimal" autocomplete="off" placeholder="0.00">
         </div>
+        <app-field-error-component  [state]="form.amount()" />
       </div>
 
     </div>
@@ -94,7 +71,7 @@
 
   <mat-dialog-actions class="modal-actions">
     <button type="button" mat-dialog-close class="btn btn-cancel">Annuler</button>
-    <button type="submit" class="btn btn-submit">Créer la dépense</button>
+    <button type="submit" class="btn btn-submit" [disabled]="form().submitting()">Créer la dépense</button>
   </mat-dialog-actions>
 
 </form>

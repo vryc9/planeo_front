@@ -70,7 +70,7 @@ export const BalanceStore = signalStore(
           )
         ),
         openIncomeModale$: events.on(IncomeModal.openIncomeModal).pipe(
-          tap(() => dialog.open(ModaleIncomeComponent, { width: '440px' }))
+          tap(() => dialog.open(ModaleIncomeComponent, { width: '480px', maxWidth: '95vw', panelClass: 'overflow-visible-dialog' }))
         ),
       };
     }

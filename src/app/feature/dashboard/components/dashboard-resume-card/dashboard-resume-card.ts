@@ -36,7 +36,7 @@ export class DashboardResumeCard {
     this.sortedAccounts().reduce((sum, account) => sum + Math.max(account.amount, 0), 0),
   );
 
-  private readonly breakdown: Signal<AccountBreakdownItem[]> = computed(() => {
+  protected readonly breakdown: Signal<AccountBreakdownItem[]> = computed(() => {
     const total = this.totalPositive();
     return this.sortedAccounts().map((account, index) => ({
       id: account.id,
