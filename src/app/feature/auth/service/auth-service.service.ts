@@ -28,6 +28,16 @@ export class AuthService {
     return this.http.post<void>(`${this.baseUrl}/auth/logout`, {});
   }
 
+  /** Re-confirms the password; stamps the session so sensitive actions are accepted for a short time. */
+  reauth(password: string): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/auth/reauth`, { password });
+  }
+
+  /** The gateway closes the session (and expires the cookie) itself once the deletion is accepted. */
+  deleteAccount(): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/me/account`);
+  }
+
   me(): Observable<UserConnected> {
     return this.http.get<UserConnected>(`${this.baseUrl}/auth/me`);
   }

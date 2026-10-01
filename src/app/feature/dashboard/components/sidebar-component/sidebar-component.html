@@ -38,6 +38,15 @@
     <div class="user-row">
       <div class="user-avatar">{{ userInitials() }}</div>
       <span class="user-name" [title]="authStore.userConnected()?.username">{{ authStore.userConnected()?.username }}</span>
+      <button (click)="deleteAccount()" class="btn-logout" title="Supprimer mon compte" aria-label="Supprimer mon compte">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+          <path d="M10 11v6M14 11v6" />
+          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+        </svg>
+      </button>
       <button (click)="logout()" class="btn-logout" title="Se déconnecter" aria-label="Se déconnecter">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">

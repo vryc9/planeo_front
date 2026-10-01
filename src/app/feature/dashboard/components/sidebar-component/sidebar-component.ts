@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
 import { injectDispatch } from '@ngrx/signals/events';
 import { AuthEvent } from '../../../auth/store/AuthEvent';
 import { AuthStore } from '../../../auth/store/AuthStore';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteAccountDialogComponent } from '../../../auth/components/delete-account-dialog/delete-account-dialog';
 @Component({
   selector: 'app-sidebar-component',
   imports: [MatIconModule, CommonModule],
@@ -18,6 +20,7 @@ export class SidebarComponent {
   readonly changeViewOuput: OutputEmitterRef<DashboardViewEnum> = output<DashboardViewEnum>();
   private readonly dispatch = injectDispatch(AuthEvent)
   private readonly router = inject(Router);
+  private readonly dialog = inject(MatDialog);
   protected readonly authStore = inject(AuthStore);
 
   protected readonly userInitials: Signal<string> = computed(() => {
@@ -33,5 +36,9 @@ export class SidebarComponent {
 
   protected logout() : void {
     this.dispatch.logout()
+  }
+
+  protected deleteAccount(): void {
+    this.dialog.open(DeleteAccountDialogComponent, { width: '440px', autoFocus: 'input' });
   }
 }
