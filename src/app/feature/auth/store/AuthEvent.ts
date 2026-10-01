@@ -9,6 +9,7 @@ export const AuthEvent = eventGroup({
     authentificationSuccess: type<{ userConnected: UserConnected }>(),
     authentificationFailure: type<{ error: unknown }>(),
     logout: type<void>(),
+    accountDeleted: type<void>(),
     restoreSession: type<void>(),
     restoreSessionSuccess : type<{userConnected : UserConnected}>(),
     restoreSessionFailure : type<void>()

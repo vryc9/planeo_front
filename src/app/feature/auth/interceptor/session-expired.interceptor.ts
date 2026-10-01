@@ -3,8 +3,8 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 
-// Calls where a 401 is an expected, non-fatal outcome (bad credentials, no active session yet).
-const AUTH_PATHS = ['/auth/login', '/auth/me'];
+// Calls where a 401 is an expected, non-fatal outcome (bad credentials, wrong password on re-authentication, no active session yet).
+const AUTH_PATHS = ['/auth/login', '/auth/me', '/auth/reauth'];
 
 /**
  * A 401 on any other call means the gateway couldn't resolve or silently refresh the session

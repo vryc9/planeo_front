@@ -32,7 +32,7 @@ export const AuthStore = signalStore(
   withReducer(
     on(AuthEvent.authentification, (_) => ({ isLoading: true })),
     on(AuthEvent.authentificationSuccess, ({ payload: { userConnected } }) => ({ isLoading: false, userConnected })),
-    on(AuthEvent.logout, () => ({ userConnected: null, isLoading: false })),
+    on(AuthEvent.logout, AuthEvent.accountDeleted, () => ({ userConnected: null, isLoading: false })),
     on(AuthEvent.restoreSessionSuccess, ({ payload: { userConnected } }) => ({ userConnected })),
     on(AuthEvent.restoreSessionFailure, () => ({ userConnected: null })),
   ),
@@ -46,6 +46,7 @@ export const AuthStore = signalStore(
       const events = inject(Events);
       const service = inject(AuthService);
       const router = inject(Router)
+      const toast = injectDispatch(ToastEvents)
       return {
         // Login/session-restore never touch a token: the gateway sets an HttpOnly session
         // cookie and returns the connected user's identity directly in the response body.
@@ -86,6 +87,18 @@ export const AuthStore = signalStore(
         logout$: events.on(AuthEvent.logout).pipe(
           switchMap(() => service.logout().pipe(catchError(() => of(null)))),
           tap(() => router.navigate(['/'], { replaceUrl: true })),
+          ignoreElements(),
+        ),
+        // The gateway already closed the session: no /auth/logout call, just leave the app.
+        accountDeleted$: events.on(AuthEvent.accountDeleted).pipe(
+          tap(() => {
+            router.navigate(['/'], { replaceUrl: true });
+            toast.show({
+              title: 'Compte supprimé',
+              description: 'Votre compte et vos données sont en cours de suppression.',
+              variant: 'success',
+            });
+          }),
           ignoreElements(),
         ),
       };

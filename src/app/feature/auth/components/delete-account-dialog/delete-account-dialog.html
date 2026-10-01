@@ -1,0 +1,44 @@
+<form (ngSubmit)="submit()">
+  <div class="modal-header">
+    <div class="modal-title-row">
+      <div class="modal-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="none"
+             stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </div>
+      <h2 class="modal-title">Supprimer mon compte</h2>
+    </div>
+  </div>
+
+  <mat-dialog-content>
+    <p class="confirm-message">
+      Cette action est <strong>définitive</strong> : votre compte, vos comptes bancaires, vos dépenses
+      et vos catégories seront supprimés. Pour confirmer, saisissez votre mot de passe.
+    </p>
+    <div class="input-group">
+      <label class="label" for="delete-account-password">Mot de passe</label>
+      <input
+        id="delete-account-password"
+        class="input"
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        [ngModel]="password()"
+        (ngModelChange)="password.set($event)"
+      />
+      @if (errorMessage()) {
+        <p class="error-message" role="alert">{{ errorMessage() }}</p>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="modal-actions">
+    <button type="button" class="btn btn-cancel" (click)="cancel()" [disabled]="isSubmitting()">Annuler</button>
+    <button type="submit" class="btn btn-confirm-danger" [disabled]="!password() || isSubmitting()">
+      {{ isSubmitting() ? 'Suppression…' : 'Supprimer définitivement' }}
+    </button>
+  </mat-dialog-actions>
+</form>
